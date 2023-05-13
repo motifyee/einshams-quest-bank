@@ -1,0 +1,44 @@
+/* ############### items ############### */
+
+.sidebar h2.item {
+    @apply text-3xl font-bold mt-4;
+}
+.sidebar .subjects {
+    @apply flex-1 flex flex-col overflow-x-auto;
+}
+
+.sidebar .item {
+    @apply cursor-pointer p-4 text-center text-white;
+}
+
+.sidebar .item:hover {
+    @apply bg-red-500;
+}
+.sidebar .item.active {
+    @apply bg-red-500;
+}
+.sidebar .item.active:hover {
+    @apply bg-red-600;
+}
+
+/* ############### container ############### */
+.sidebar .sep {
+    @apply w-full h-px bg-[rgba(255,255,255,0.2)] mb-4;
+}
+
+.sidebar {
+    @apply absolute transition-all duration-500 w-2/3 h-[calc(100%-50px)]
+    bg-slate-700 z-10
+    flex flex-col left-[33.33334%] bottom-0;
+}
+.sidebar.off {
+    @apply left-full;
+}
+
+.sidebar-overlay {
+    @apply left-0 absolute top-0 z-[9]
+        w-screen h-full bg-[rgba(0,0,0,.8)];
+}
+.sidebar-overlay.off {
+    @apply left-full;
+}

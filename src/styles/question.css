@@ -1,0 +1,62 @@
+.quest-container {
+    @apply bg-slate-700 border border-slate-500 shadow-quest rounded-md w-full font-ibm;
+}
+.quest-text {
+    @apply text-gray-300 m-4 font-semibold text-xl text-justify leading-10;
+}
+.quest-span {
+    @apply text-sm font-semibold
+    inline-block aspect-square
+    border rounded-full border-slate-500
+    bg-number text-center 
+    ml-3 p-2 my-auto;
+}
+.quest-answers {
+    @apply relative flex flex-wrap p-4 gap-4 justify-center content-center items-center;
+}
+
+.quest-answers .blur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    z-index: 1;
+    border-radius: 0 0 0.5em 0.5em;
+}
+
+.quest-answer {
+    @apply min-w-answers shadow-ans rounded
+    text-gray-300
+    flex cursor-pointer items-center;
+}
+.quest-answerlable {
+    @apply cursor-pointer w-full text-center;
+}
+.quest-answerselected {
+    @apply bg-amber-700;
+}
+.quest-answernotselectected {
+    @apply bg-slate-800;
+}
+
+.scroll-top {
+    @apply fixed bottom-16 right-8 p-4 w-12 aspect-square rounded-full bg-slate-800 shadow-quest
+    transition-all duration-300 cursor-pointer;
+    z-index: 10;
+}
+.scroll-top.raise {
+    @apply bottom-24;
+}
+.scroll-top.none {
+    @apply -bottom-full;
+}
+.scroll-top::after {
+    @apply absolute top-0 h-full left-0 w-full flex place-content-center items-center text-gray-300 text-2xl;
+    content: '↑';
+}
+.scroll-top:hover {
+    @apply bg-amber-700;
+}
