@@ -60,9 +60,7 @@ function Question({ question, index }: { question: Question; index: number }) {
     return (
         <div className={`quest-container`}>
             <h2
-                className={`quest-text ${
-                    (isCaptured && 'bg-slate-700') || 'text-xl'
-                }`}
+                className={`quest-text ${(isCaptured && 'bg-slate-600') || ''}`}
             >
                 <span className="quest-span">{index}</span>
                 {question.questionText}

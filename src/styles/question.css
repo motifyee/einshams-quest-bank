@@ -2,7 +2,7 @@
     @apply bg-slate-700 border border-slate-500 shadow-quest rounded-md w-full font-ibm;
 }
 .quest-text {
-    @apply text-gray-300 m-4 font-semibold text-xl text-justify leading-10;
+    @apply text-gray-300 p-4 font-semibold text-xl text-justify leading-10;
 }
 .quest-span {
     @apply text-sm font-semibold
