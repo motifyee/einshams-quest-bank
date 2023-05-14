@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import {
     SubjectsContext,
     SettingsContext,
@@ -22,6 +22,8 @@ function Questions() {
 
     const raise = settings.testModeOn && settings.correctAnswers ? 'raise' : '',
         show = !settings.sidebarOn ? '' : 'none';
+
+    const [hover, setHover] = useState('');
 
     const panel = useRef<HTMLDivElement>(null);
 
@@ -50,13 +52,18 @@ function Questions() {
             ))}
 
             <div
-                className={`scroll-top ${raise} ${show}`}
+                className={`scroll-top ${raise} ${show} ${hover}`}
                 onClick={() =>
                     panel.current?.scrollTo({
                         top: 0,
                         behavior: 'smooth',
                     })
                 }
+                onPointerMoveCapture={() => setHover('hover')}
+                onPointerDownCapture={() => setHover('hover')}
+                onPointerLeaveCapture={() => setHover('')}
+                onPointerOutCapture={() => setHover('')}
+                onPointerUp={() => setHover('')}
             />
         </div>
     );

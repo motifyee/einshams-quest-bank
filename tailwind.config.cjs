@@ -25,7 +25,7 @@ module.exports = {
             answers: 'calc(50% - 1rem)', // 1rem is for gap-4
         },
         boxShadow: {
-            // DEFAULT: '0 0 0 0.2rem rgba(0, 0, 0, 0.05)',
+            DEFAULT: '0 0 0 0.2rem rgba(0, 0, 0, 0.05)',
             ans: '0px 5px 10px 0px rgba(0, 0, 0, 0.5)',
             quest: '0px 5px 10px 0px rgba(0, 0, 0, 0.5)',
         },

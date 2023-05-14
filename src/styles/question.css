@@ -43,8 +43,8 @@
 }
 
 .scroll-top {
-    @apply fixed bottom-16 right-8 p-4 w-12 aspect-square rounded-full bg-slate-800 shadow-quest
-    transition-all duration-300 cursor-pointer;
+    @apply fixed bottom-16 left-10 p-4 w-12 aspect-square rounded-full bg-slate-800 shadow-quest
+    transition-all duration-300;
     z-index: 10;
 }
 .scroll-top.raise {
@@ -57,6 +57,6 @@
     @apply absolute top-0 h-full left-0 w-full flex place-content-center items-center text-gray-300 text-2xl;
     content: '↑';
 }
-.scroll-top:hover {
+.scroll-top.hover {
     @apply bg-amber-700;
 }
