@@ -19,7 +19,7 @@ function Topbar() {
                     alt="Menu"
                 />
             </div>
-            <div className="text-slate-200 text-xl">--{settings.subject}</div>
+            <div className="text-slate-200 text-xl"> --{settings.subject}</div>
             <div className="">{/* <img src={burger} alt="Menu" /> */}</div>
         </div>
     );
