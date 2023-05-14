@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import burger from '../assets/burger.svg';
 import { SettingsActionsContext, SettingsContext } from '../lib/context';
 
+console.log(burger);
 function Topbar() {
     const settings = useContext(SettingsContext);
     const setSettings = useContext(SettingsActionsContext);
@@ -14,7 +15,7 @@ function Topbar() {
                 <img
                     className="cursor-pointer"
                     onClick={toggleMenu}
-                    src={burger}
+                    src={'.' + burger}
                     alt="Menu"
                 />
             </div>
