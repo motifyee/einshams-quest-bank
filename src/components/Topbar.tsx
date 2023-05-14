@@ -15,7 +15,7 @@ function Topbar() {
                 <img
                     className="cursor-pointer"
                     onClick={toggleMenu}
-                    src={'.' + burger}
+                    src={burger}
                     alt="Menu"
                 />
             </div>
