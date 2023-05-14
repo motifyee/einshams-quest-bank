@@ -1,7 +1,7 @@
 npm run build
 
-rm -rf deploy/public
-mv dist deploy/public
+rm -rf firebase/public
+mv dist firebase/public
 
-cd deploy
+cd firebase
 firebase deploy --only hosting:ein-shams

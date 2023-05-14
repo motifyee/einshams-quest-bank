@@ -5,7 +5,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite --host",
-        "build": "tsc && vite build",
+        "build": "tsc && vite build; rm -r docs; cp -r dist docs",
         "preview": "vite preview",
         "build:css": "postcss src/assets/tailwind.css -o src/assets/index.css",
         "watch:css": "postcss src/assets/tailwind.css -o src/assets/index.css",
