@@ -101,6 +101,7 @@ export default function Sidebar() {
                     ))}
                 </div>
                 <div className="settings">
+                    <div className="sep" />
                     — الاعدادات
                     <div className="sep" />
                     <SettingsItem
@@ -114,7 +115,7 @@ export default function Sidebar() {
                         defaultValue={settings.correctAnswers}
                         action={(v) => onClick('correctAnswers', v)}
                     />
-                    <br />
+                    <p />
                     <SettingsItem
                         title="تغشية الإجابات"
                         enabled={!settings.testModeOn}
@@ -133,9 +134,11 @@ export default function Sidebar() {
                     /> */}
                 </div>
                 <div className="credits">
+                    <div className="sep" />
                     — الحقوق
                     <div className="sep" />
                     <div className="item">motifyee@gmail.com</div>
+                    <div className="item">م/ مليك روماني</div>
                 </div>
             </nav>
             <div

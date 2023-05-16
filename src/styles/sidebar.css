@@ -8,7 +8,11 @@
 }
 
 .sidebar .item {
-    @apply cursor-pointer p-4 text-center text-white;
+    @apply cursor-pointer px-4 py-2 text-center text-white;
+}
+
+.sidebar p {
+    @apply h-2;
 }
 
 .sidebar .item:hover {
@@ -23,7 +27,7 @@
 
 /* ############### container ############### */
 .sidebar .sep {
-    @apply w-full h-px bg-[rgba(255,255,255,0.2)] mb-4;
+    @apply w-full h-px bg-[rgba(255,255,255,0.2)] my-2;
 }
 
 .sidebar {
