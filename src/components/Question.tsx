@@ -67,7 +67,7 @@ function Question({ question, index }: { question: Question; index: number }) {
                 {/* Image */}
                 {question.image && (
                     <img
-                        src={'/assets/' + question.image}
+                        src={'./assets/' + question.image}
                         alt={question.imageAlt}
                         className="quest-image w-full h-auto my-2 "
                     />
