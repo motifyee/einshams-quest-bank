@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import burger from '../assets/burger.svg';
+import burger from '/assets/burger.svg';
 import { SettingsActionsContext, SettingsContext } from '../lib/context';
 import {
     TableClient,
@@ -42,9 +42,7 @@ async function azureTable() {
     // const connStr = 'https://icsltn2qastore.table.core.windows.net/';
     const resourceId =
         '/subscriptions/37534353-84f4-4580-b3dd-177a85715a6e/resourceGroups/storage-resources/providers/Microsoft.Storage/storageAccounts/icsltn2qastore/tableServices/default';
-    const tableService = TableServiceClient.fromConnectionString(connStr, {
-        allowInsecureConnection: true,
-    });
+    const tableService = TableServiceClient.fromConnectionString(connStr, {});
 
     await tableService.createTable('test');
     const tableClient = new TableClient(sasURL, 'test');

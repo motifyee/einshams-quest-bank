@@ -29,7 +29,7 @@ function Questions() {
 
     useEffect(() => {
         if (!questions.length) {
-            let initSub = 'تجارة دولية 1';
+            let initSub = 'جودة 1';
             setSettings({
                 ...settings,
                 sidebarOn: false,

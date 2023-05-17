@@ -674,13 +674,13 @@ const ITQuestions1 = q.split('#').map((q, i): Question => {
             .trim()
             .split('\n')
             .filter((a) => a.trim().length > 0),
-        text = _answers.shift();
+        questionText = _answers.shift() || 'failed to parse question';
 
     const answers: Answer[] = _answers.map(
         (a, ai): Answer => ({ id: uuid(), text: a, correct: ai + 1 === ans[i] })
     );
 
-    return question(uuid(), text ?? 'error extracting questions', answers);
+    return question({ questionText, answers });
     // return {
     //     id: uuid(),
     //     questionText: text ?? 'error extracting questions',

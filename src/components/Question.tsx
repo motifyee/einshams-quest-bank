@@ -64,9 +64,18 @@ function Question({ question, index }: { question: Question; index: number }) {
             >
                 <span className="quest-span">{index}</span>
                 {question.questionText}
+                {/* Image */}
+                {question.image && (
+                    <img
+                        src={'/assets/' + question.image}
+                        alt={question.imageAlt}
+                        className="quest-image w-full h-auto my-2 "
+                    />
+                )}
             </h2>
             <br />
             <div className="quest-answers">
+                {/* Answers blur */}
                 {!(settings.unbluredQuestion === question.id) &&
                     settings.blurAnswers &&
                     !settings.testModeOn && (
@@ -75,6 +84,8 @@ function Question({ question, index }: { question: Question; index: number }) {
                             onDoubleClick={() => unblur(question.id)}
                         />
                     )}
+
+                {/* Answers */}
                 {question.answers.map((answer, index) => (
                     <div
                         key={answer.id}

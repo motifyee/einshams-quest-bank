@@ -6,6 +6,9 @@ type Question = {
     answers: Answer[];
     correct?: boolean;
     selectedId?: string;
+    correctAnswers?: number;
+    image?: string;
+    imageAlt?: string;
 };
 
 type Questions = {
@@ -18,6 +21,8 @@ type Answer = {
     text: string;
     correct?: boolean;
     selected?: boolean;
+    image?: string;
+    imageAlt?: string;
 };
 
 type SavedAnswer = {

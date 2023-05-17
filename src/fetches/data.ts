@@ -1,14 +1,28 @@
 import { v4 as uuid } from 'uuid';
-
-export function question(id: string, qeustionText: string, answers: Answer[]) {
+type qp = {
+    id?: string;
+    questionText: string;
+    answers: Answer[];
+    image?: string;
+    imageAlt?: string;
+};
+export function question({
+    id,
+    questionText,
+    answers,
+    image,
+    imageAlt,
+}: qp): Question {
     return {
         id: id || uuid(),
-        questionText: qeustionText ?? 'error extracting questions',
-        answers: answers,
+        questionText,
+        answers,
         get correctAnswers() {
             return this.answers.filter(
                 (answer) => answer.correct && answer.selected
             ).length;
         },
+        image,
+        imageAlt,
     };
 }

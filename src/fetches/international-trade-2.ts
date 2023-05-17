@@ -1226,7 +1226,7 @@ const ITQuestions2 = q.split('#').map((q, i): Question => {
             .trim()
             .split('\n')
             .filter((a) => a.trim().length > 0),
-        text = _answers.shift();
+        questionText = _answers.shift() || 'failed to parse question';
     if (_answers.length > 4) {
         console.log(i + 1, ans[i], `{question: "${q}", answer: ${ans[i]}},`);
     }
@@ -1239,7 +1239,7 @@ const ITQuestions2 = q.split('#').map((q, i): Question => {
         })
     );
 
-    return question(uuid(), text ?? 'error extracting questions', answers);
+    return question({ questionText, answers });
 
     // return {
     //     id: uuid(),
