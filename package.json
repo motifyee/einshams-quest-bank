@@ -13,6 +13,8 @@
         "loader": "file-loader?name=assets/[name].[ext]"
     },
     "dependencies": {
+        "@azure/data-tables": "^13.2.2",
+        "@azure/identity": "^3.2.2",
         "@reduxjs/toolkit": "^1.9.5",
         "@tanstack/react-query": "^4.29.3",
         "react": "^18.2.0",

@@ -61,7 +61,7 @@ function Questions() {
                 }
                 onPointerMoveCapture={() => setHover('hover')}
                 onPointerDownCapture={() => setHover('hover')}
-                onPointerLeaveCapture={() => setHover('')}
+                // onPointerLeaveCapture={() => setHover('')}
                 onPointerOutCapture={() => setHover('')}
                 onPointerUp={() => setHover('')}
             />
