@@ -102,7 +102,7 @@ export default function Sidebar() {
                 </div>
                 <div className="settings">
                     <div className="sep" />
-                    — الاعدادات
+                    <div className="text-white">— الاعدادات</div>
                     <div className="sep" />
                     <SettingsItem
                         title="وضع الإختبار"
@@ -135,7 +135,7 @@ export default function Sidebar() {
                 </div>
                 <div className="credits">
                     <div className="sep" />
-                    — الحقوق
+                    <div className="text-white">— الحقوق</div>
                     <div className="sep" />
                     <div className="item">motifyee@gmail.com</div>
                     <div className="item">م/ مليك روماني</div>
