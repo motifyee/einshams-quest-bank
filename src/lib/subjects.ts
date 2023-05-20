@@ -1,3 +1,4 @@
+import AgriGuiding1 from '../fetches/agri-guiding-1';
 import AgriPolicy from '../fetches/agri-policies-1';
 import ITQuestions1 from '../fetches/international-trade-1';
 import ITQuestions2 from '../fetches/international-trade-2';
@@ -10,4 +11,5 @@ export const subjects: Subjects = {
     'سياسة رزاعية 1': AgriPolicy,
     'جودة 1': Qualtiy1,
     'جودة 2': Qualtiy2,
+    'إرشاد زراعي': AgriGuiding1,
 };

@@ -6,7 +6,8 @@
     "scripts": {
         "dev": "vite --host",
         "build": "tsc && vite build",
-        "push": "npm run build && git add . && git commit -m 'push' && git push",
+        "pushall": "npm run build && git add . && git commit -m 'push' && git push",
+        "push": "git add . && git commit -m 'push' && git push",
         "preview": "vite preview",
         "build:css": "postcss src/assets/tailwind.css -o src/assets/index.css",
         "watch:css": "postcss src/assets/tailwind.css -o src/assets/index.css",

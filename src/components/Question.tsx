@@ -20,6 +20,7 @@ function Question({ question, index }: { question: Question; index: number }) {
 
     const unblur = (questionId: string) => {
         setSettings({ ...settings, unbluredQuestion: questionId });
+        vibrate();
     };
 
     const select = (answerId: string) => {

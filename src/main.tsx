@@ -6,19 +6,26 @@ import Header from './components/Header';
 import Bottombar from './components/Bottombar';
 import Questions from './components/Questions';
 import Sidebar from './components/Sidebar';
+import { useRef } from 'react';
 
 const root = document.getElementById('root') as HTMLElement;
 
+function App() {
+    const questPanelRef = useRef(null);
+    return (
+        <QuestionsProvider>
+            <Header />
+            <Sidebar questPanel={questPanelRef} />
+
+            <Questions questPanel={questPanelRef} />
+
+            <Bottombar />
+        </QuestionsProvider>
+    );
+}
 ReactDOM.createRoot(root).render(
     // <React.StrictMode>
-    <QuestionsProvider>
-        <Header />
-        <Sidebar />
-
-        <Questions />
-
-        <Bottombar />
-    </QuestionsProvider>
+    <App />
     // </React.StrictMode>,
 );
 

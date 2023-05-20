@@ -9,7 +9,11 @@ import { SettingsActionsContext } from '../lib/context';
 import Checkbox from './Checkbox';
 import { selectAnswer, setQuestions, shuffleQuestions } from '../lib/reducer';
 
-export default function Sidebar() {
+export default function Sidebar({
+    questPanel,
+}: {
+    questPanel: React.RefObject<HTMLDivElement>;
+}) {
     const settings = useContext(SettingsContext),
         setSettings = useContext(SettingsActionsContext),
         subjects = useContext(SubjectsContext),
@@ -19,6 +23,7 @@ export default function Sidebar() {
     const onClick = (action: string, value: string | boolean) => {
         switch (action) {
             case 'selectedSubject':
+                questPanel.current?.scrollTo({ top: 0, behavior: 'smooth' });
                 setSettings({
                     ...settings,
                     sidebarOn: false,

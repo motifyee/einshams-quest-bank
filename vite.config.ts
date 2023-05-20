@@ -15,6 +15,22 @@ export default defineConfig({
             workbox: {
                 // workbox options for generateSW
                 skipWaiting: true,
+                globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+                runtimeCaching: [
+                    {
+                        urlPattern: new RegExp(
+                            '^https://fonts.(?:googleapis|gstatic).com/(.*)'
+                        ),
+                        handler: 'CacheFirst',
+                        options: {
+                            cacheName: 'google-fonts',
+                            expiration: {
+                                maxEntries: 30,
+                                maxAgeSeconds: 60 * 60 * 24 * 365, // 365 days
+                            },
+                        },
+                    },
+                ],
             },
             manifest: {
                 name: 'Einshams',

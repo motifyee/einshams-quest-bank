@@ -13,7 +13,11 @@ import { setQuestions } from '../lib/reducer';
 //     children: ReactNode;{ children }: QuestionsProps
 // }
 
-function Questions() {
+function Questions({
+    questPanel,
+}: {
+    questPanel: React.RefObject<HTMLDivElement>;
+}) {
     const questions = useContext(QuestionsContext),
         settings = useContext(SettingsContext),
         setSettings = useContext(SettingsActionsContext),
@@ -25,11 +29,9 @@ function Questions() {
 
     const [hover, setHover] = useState('');
 
-    const panel = useRef<HTMLDivElement>(null);
-
     useEffect(() => {
         if (!questions.length) {
-            let initSub = 'جودة 1';
+            let initSub = 'إرشاد زراعي';
             setSettings({
                 ...settings,
                 sidebarOn: false,
@@ -43,7 +45,7 @@ function Questions() {
     }, []);
 
     return (
-        <div ref={panel} className="p-4 flex-1 overflow-y-auto">
+        <div ref={questPanel} className="p-4 flex-1 overflow-y-auto">
             {questions?.map((q, i) => (
                 <div key={q.id}>
                     <Question question={q} index={i + 1} />
@@ -54,7 +56,7 @@ function Questions() {
             <div
                 className={`scroll-top ${raise} ${show} ${hover}`}
                 onClick={() =>
-                    panel.current?.scrollTo({
+                    questPanel.current?.scrollTo({
                         top: 0,
                         behavior: 'smooth',
                     })
