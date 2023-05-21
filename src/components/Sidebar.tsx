@@ -87,9 +87,9 @@ export default function Sidebar({
                 onClick={(e) => e.stopPropagation()}
                 className={`${sidebarOn ? '' : 'off'} sidebar`}
             >
-                <h2 className="item">البنك</h2>
-
                 <div className="subjects">
+                    {/* <div className="sep" /> */}
+                    <h2 className="title">البنك</h2>
                     <div className="sep" />
                     {Object.keys(subjects).map((subjectName) => (
                         <div
@@ -107,7 +107,7 @@ export default function Sidebar({
                 </div>
                 <div className="settings">
                     <div className="sep" />
-                    <div className="text-white">— الاعدادات</div>
+                    <div className="title">الاعدادات</div>
                     <div className="sep" />
                     <SettingsItem
                         title="وضع الإختبار"
@@ -140,7 +140,7 @@ export default function Sidebar({
                 </div>
                 <div className="credits">
                     <div className="sep" />
-                    <div className="text-white">— الحقوق</div>
+                    <div className="title">الحقوق</div>
                     <div className="sep" />
                     <div className="item">motifyee@gmail.com</div>
                     <div className="item">م/ مليك روماني</div>
@@ -168,19 +168,21 @@ function SettingsItem({
     enabled?: boolean;
     action: (v: boolean) => void;
 }) {
+    let toggle: Function;
+    const setToggle = (e: Function) => (toggle = e);
     return (
-        <div className="flex justify-between items-center item">
-            <div
-                className={`${
-                    enabled ? 'text-gray-200' : 'text-red-600 line-through'
-                }`}
-            >
+        <div
+            onClick={(v) => toggle()}
+            className="flex justify-between items-center item"
+        >
+            <div className={`${enabled ? '' : 'text-gray-500 xline-through'}`}>
                 {title}
             </div>
             <Checkbox
                 defaultValue={defaultValue}
                 enabled={enabled}
                 onChange={action}
+                setToggle={setToggle}
             ></Checkbox>
         </div>
     );

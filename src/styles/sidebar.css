@@ -1,14 +1,17 @@
 /* ############### items ############### */
 
-.sidebar h2.item {
-    @apply text-3xl font-bold mt-4;
+.sidebar h2.title {
+    @apply text-2xl;
+}
+.sidebar .title {
+    @apply font-bold text-center bg-slate-800 py-2;
 }
 .sidebar .subjects {
     @apply flex-1 flex flex-col overflow-x-auto;
 }
 
 .sidebar .item {
-    @apply cursor-pointer px-4 py-2 text-center text-white;
+    @apply cursor-pointer px-4 py-2;
 }
 
 .sidebar p {
@@ -27,11 +30,11 @@
 
 /* ############### container ############### */
 .sidebar .sep {
-    @apply w-full h-px bg-[rgba(255,255,255,0.2)] my-2;
+    @apply w-full h-px bg-[rgba(255,255,255,0.2)];
 }
 
 .sidebar {
-    @apply absolute transition-all duration-500 w-2/3 h-[calc(100%-50px)]
+    @apply absolute transition-all duration-500 w-2/3 h-full
     bg-slate-700 z-10
     flex flex-col left-[33.33334%] bottom-0;
 }

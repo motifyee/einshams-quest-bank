@@ -25,7 +25,7 @@
     overflow: hidden;
     /* position: relative; */
     /* @apply border mx-8; */
-    @apply font-ibm flex flex-col;
+    @apply font-ibm flex flex-col text-white font-normal;
 }
 
 @media (prefers-reduced-motion: no-preference) {

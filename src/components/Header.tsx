@@ -77,7 +77,7 @@ function Header() {
         setSettings({ ...settings, sidebarOn: !settings.sidebarOn });
     }
     return (
-        <div className="burger-btn sticky z-10 top-0 min-h-[50px] px-4 flex items-center justify-between bg-green-700 ">
+        <div className="burger-btn sticky top-0 min-h-[50px] px-4 flex items-center justify-between bg-green-700 ">
             <div>
                 <img
                     className="cursor-pointer"
