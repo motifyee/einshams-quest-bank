@@ -64,6 +64,7 @@ function Question({ question, index }: { question: Question; index: number }) {
                 className={`quest-text ${(isCaptured && 'bg-slate-600') || ''}`}
             >
                 <span className="quest-span">{index}</span>
+                {/* <span className="quest-span" /> */}
                 {question.questionText}
                 {/* Image */}
                 {question.image && (
@@ -74,7 +75,6 @@ function Question({ question, index }: { question: Question; index: number }) {
                     />
                 )}
             </h2>
-            <br />
             <div className="quest-answers">
                 {/* Answers blur */}
                 {!(settings.unbluredQuestion === question.id) &&

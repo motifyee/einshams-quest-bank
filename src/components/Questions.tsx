@@ -45,7 +45,7 @@ function Questions({
     }, []);
 
     return (
-        <div ref={questPanel} className="p-4 flex-1 overflow-y-auto">
+        <div ref={questPanel} className="questions p-4 flex-1 overflow-y-auto">
             {questions?.map((q, i) => (
                 <div key={q.id}>
                     <Question question={q} index={i + 1} />

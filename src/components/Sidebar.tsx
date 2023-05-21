@@ -168,11 +168,14 @@ function SettingsItem({
     enabled?: boolean;
     action: (v: boolean) => void;
 }) {
-    let toggle: Function;
+    let toggle: Function = () => {};
     const setToggle = (e: Function) => (toggle = e);
     return (
         <div
-            onClick={(v) => toggle()}
+            onClick={(e) => {
+                e.preventDefault();
+                toggle();
+            }}
             className="flex justify-between items-center item"
         >
             <div className={`${enabled ? '' : 'text-gray-500 xline-through'}`}>

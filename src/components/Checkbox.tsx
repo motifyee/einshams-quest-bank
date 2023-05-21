@@ -3,7 +3,7 @@ import { useState, useId, ChangeEvent, useRef } from 'react';
 interface CheckboxProps {
     defaultValue?: boolean;
     enabled?: boolean;
-    onChange: (value: boolean) => void;
+    onChange?: (value: boolean) => void;
     setToggle?: (e: Function) => void;
 }
 export default function Checkbox({
@@ -32,6 +32,7 @@ export default function Checkbox({
                 type="checkbox"
                 onChange={onchange}
                 disabled={!enabled}
+                onClick={(e) => e.stopPropagation()}
                 defaultChecked={defaultValue}
                 {...props}
             />

@@ -1,15 +1,27 @@
 .quest-container {
     @apply bg-slate-700 border border-slate-500 shadow-quest rounded-md w-full font-ibm;
 }
+
 .quest-text {
     @apply text-gray-300 p-4 text-xl text-justify leading-10;
+}
+
+.questions {
+    counter-reset: qindex;
 }
 .quest-span {
     @apply text-sm
     inline-block aspect-square
-    border rounded-full border-slate-500
-    bg-number text-center 
-    ml-3 p-2 my-auto;
+    relative min-w-[2em] text-center ml-3 p-2 my-auto;
+}
+.quest-span::after {
+    @apply text-gray-300 
+    absolute left-0 w-full flex place-content-center items-center
+    bg-number aspect-square border rounded-full border-slate-500
+    m-auto top-0 bottom-0;
+    counter-increment: qindex;
+    content: counter(qindex);
+    /* ° */
 }
 .quest-answers {
     @apply relative flex flex-wrap p-4 gap-4 justify-center content-center items-center;
