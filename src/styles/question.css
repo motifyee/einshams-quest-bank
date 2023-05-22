@@ -24,6 +24,7 @@
     /* ° */
 }
 .quest-answers {
+    width: 100%;
     @apply relative flex flex-wrap p-4 gap-4 justify-center content-center items-center;
 }
 

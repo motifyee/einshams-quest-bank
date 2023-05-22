@@ -53,21 +53,34 @@ function Questions({
                 </div>
             ))}
 
-            <div
-                className={`scroll-top ${raise} ${show} ${hover}`}
-                onClick={() =>
-                    questPanel.current?.scrollTo({
-                        top: 0,
-                        behavior: 'smooth',
-                    })
-                }
-                onPointerMoveCapture={() => setHover('hover')}
-                onPointerDownCapture={() => setHover('hover')}
-                // onPointerLeaveCapture={() => setHover('')}
-                onPointerOutCapture={() => setHover('')}
-                onPointerUp={() => setHover('')}
-            />
+            <ScrollTopButton questPanel={questPanel} />
         </div>
     );
 }
+
+function ScrollTopButton({
+    questPanel,
+}: {
+    questPanel: React.RefObject<HTMLDivElement>;
+}) {
+    const [hover, setHover] = useState('');
+
+    return (
+        <div
+            className={`scroll-top ${hover}`}
+            onClick={() =>
+                questPanel.current?.scrollTo({
+                    top: 0,
+                    behavior: 'smooth',
+                })
+            }
+            onPointerMoveCapture={() => setHover('hover')}
+            onPointerDownCapture={() => setHover('hover')}
+            // onPointerLeaveCapture={() => setHover('')}
+            onPointerOutCapture={() => setHover('')}
+            onPointerUp={() => setHover('')}
+        />
+    );
+}
+
 export default Questions;

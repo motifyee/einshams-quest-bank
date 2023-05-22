@@ -15,7 +15,7 @@ function App() {
     const questPanelRef = useRef(null);
     useEffect(() => {
         (async () => {
-            await delMyIdLogs();
+            // await delMyIdLogs();
             await saveAction();
         })();
     }, []);

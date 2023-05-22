@@ -54,7 +54,7 @@ export default function Answers({
         : [question.answer];
 
     return (
-        <div className="quest-answers">
+        <>
             {/* Answers */}
             {answers.map((answer, index) =>
                 !!answer ? ( // might be undefined for matching questions
@@ -80,6 +80,6 @@ export default function Answers({
                     ''
                 )
             )}
-        </div>
+        </>
     );
 }
