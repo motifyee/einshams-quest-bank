@@ -16,7 +16,8 @@ function App() {
     useEffect(() => {
         (async () => {
             // await delMyIdLogs();
-            await saveAction();
+            if (!window.location.href.includes('http://localhost'))
+                await saveAction();
         })();
     }, []);
 
