@@ -9,10 +9,6 @@ import {
 import MultiSelectQuestion from './MultiSelectQuestion';
 import { setQuestions } from '../lib/reducer';
 
-// interface QuestionsProps {
-//     children: ReactNode;{ children }: QuestionsProps
-// }
-
 function Questions({
     questPanel,
 }: {
@@ -23,11 +19,6 @@ function Questions({
         setSettings = useContext(SettingsActionsContext),
         subjects = useContext(SubjectsContext),
         dispatchQuestions = useContext(QuestionsActionsContext);
-
-    const raise = settings.testModeOn && settings.correctAnswers ? 'raise' : '',
-        show = !settings.sidebarOn ? '' : 'none';
-
-    const [hover, setHover] = useState('');
 
     useEffect(() => {
         if (!questions.length) {
