@@ -17,7 +17,7 @@ function Bottombar() {
 
     const score = useMemo(() => {
         if (!settings.testModeOn) return 0;
-        console.log('calculating ...');
+        console.log('calculating...');
         return questions.reduce((p, c) => p + (c.correct ? 1 : 0), 0);
     }, [questions]);
 

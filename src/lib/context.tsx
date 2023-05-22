@@ -16,7 +16,7 @@ const defaultAction: Dispatch<SetStateAction<Settings>> = () => {};
 export const SubjectsContext = createContext(subjects);
 // export const SubjectsActionsContext = createContext(defaultAction);
 
-export const QuestionsContext = createContext([] as Question[]);
+export const QuestionsContext = createContext([] as MultiSelectQuestion[]);
 export const QuestionsActionsContext = createContext(
     (() => {}) as Dispatch<Action>
 );

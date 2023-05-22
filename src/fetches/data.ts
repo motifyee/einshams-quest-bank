@@ -12,7 +12,7 @@ export function question({
     answers,
     image,
     imageAlt,
-}: qp): Question {
+}: qp): MultiSelectQuestion {
     return {
         id: id || uuid(),
         questionText,

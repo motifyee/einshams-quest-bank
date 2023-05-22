@@ -6,7 +6,7 @@ import {
     SettingsActionsContext,
     QuestionsActionsContext,
 } from '../lib/context';
-import Question from './Question';
+import MultiSelectQuestion from './MultiSelectQuestion';
 import { setQuestions } from '../lib/reducer';
 
 // interface QuestionsProps {
@@ -48,7 +48,7 @@ function Questions({
         <div ref={questPanel} className="questions p-4 flex-1 overflow-y-auto">
             {questions?.map((q, i) => (
                 <div key={q.id}>
-                    <Question question={q} index={i + 1} />
+                    <MultiSelectQuestion question={q} index={i + 1} />
                     <br />
                 </div>
             ))}

@@ -304,7 +304,7 @@ export const q = `
 
 #
 
-……… من الدوافع التي تجعل مجموعة من الدول تهتم بتكوين تكتل اقتصادي فيما بينها هو
+ . . . . من الدوافع التي تجعل مجموعة من الدول تهتم بتكوين تكتل اقتصادي فيما بينها هو
 1
 التمتع بوفورات الإنتاج الكبير
 التمتع بالانفراد بالإنتاج
@@ -719,7 +719,7 @@ const getImage = (text: string): [boolean, string, string] => {
     let [, a, b] = /^!\[(.*)\]\((.*)\)$/.exec(text) || [];
     return [!!b, a, b];
 };
-const ITQuestions1 = q.split('#').map((q, i): Question => {
+const ITQuestions1 = q.split('#').map((q, i): MultiSelectQuestion => {
     let _answers = q
             .trim()
             .split('\n')

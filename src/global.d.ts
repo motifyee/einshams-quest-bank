@@ -1,6 +1,6 @@
 type ReturnTypes<U> = U extends () => any ? ReturnType<U> : never;
 
-type Question = {
+type MultiSelectQuestion = {
     id: string;
     questionText: string;
     answers: Answer[];
@@ -10,6 +10,30 @@ type Question = {
     image?: string;
     imageAlt?: string;
 };
+
+type MatchingQuestion = {
+    id: string;
+    questionText?: string;
+    answer?: Answer;
+    answers?: Answer[];
+    image?: string;
+    imageAlt?: string;
+
+    selectedId?: string;
+    countsAsCorrect?: boolean;
+    correct?: boolean;
+};
+
+type MatchingQuestions = {
+    id: string;
+    items: MatchingQuestion[];
+    itemsCount?: number;
+    correctAnswers?: number;
+    image?: string;
+    imageAlt?: string;
+};
+
+type Question = MultiSelectQuestion | MatchingQuestions;
 
 type Questions = {
     questions: Question[];
@@ -39,15 +63,16 @@ type Score = {
     totalQuestions: number;
     percentage: number;
 };
+
 type Subjects = {
-    [name: string]: Question[];
+    [name: string]: MultiSelectQuestion[];
     // questions: Question[];
     // scores?: Score[];
 };
 
 type Settings = {
     subject: string;
-    questions?: Question[];
+    questions?: MultiSelectQuestion[];
 
     unbluredQuestion: string;
 

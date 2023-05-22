@@ -27,36 +27,36 @@ type Skip = () => boolean;
  * ```
  */
 function useCaptureUpdate(
-	id: string,
-	onceAction: () => void,
-	actionSkippable = true,
-	releaseTimeout = 100
+    id: string,
+    onceAction: () => void,
+    actionSkippable = true,
+    releaseTimeout = 100
 ): [boolean, Skip] {
-	useDebugValue(ids);
+    useDebugValue(ids);
 
-	const [isCaptured, setCaptured] = useState(false);
+    const [isCaptured, setCaptured] = useState(false);
 
-	const capturedInCache = (value?: boolean): boolean =>
-		(ids[id] = {
-			...ids[id],
-			captured: value ?? ids[id]?.captured ?? false,
-		}).captured;
+    const capturedInCache = (value?: boolean): boolean =>
+        (ids[id] = {
+            ...ids[id],
+            captured: value ?? ids[id]?.captured ?? false,
+        }).captured;
 
-	(() => {
-		if (isCaptured || capturedInCache()) return;
-		if (onceAction && !actionSkippable) onceAction();
-		if (ids[id].skip) return;
-		if (onceAction && actionSkippable) onceAction();
+    (() => {
+        if (isCaptured || capturedInCache()) return;
+        if (onceAction && !actionSkippable) onceAction();
+        if (ids[id].skip) return;
+        if (onceAction && actionSkippable) onceAction();
 
-		setCaptured(() => capturedInCache(true));
-		setTimeout(() => setCaptured(false), releaseTimeout);
-	})();
+        setCaptured(() => capturedInCache(true));
+        setTimeout(() => setCaptured(false), releaseTimeout);
+    })();
 
-	if (!isCaptured && capturedInCache()) capturedInCache(false);
+    if (!isCaptured && capturedInCache()) capturedInCache(false);
 
-	const skip = () => (id in ids ? (ids[id].skip = true) : false);
+    const skip = () => (id in ids ? (ids[id].skip = true) : false);
 
-	return [isCaptured, skip];
+    return [isCaptured, skip];
 }
 
 export default useCaptureUpdate;

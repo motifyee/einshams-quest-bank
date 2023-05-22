@@ -1027,7 +1027,7 @@ const getImage = (text: string): [boolean, string, string] => {
     let [, a, b] = /^!\[(.*)\]\((.*)\)$/.exec(text) || [];
     return [!!b, a, b];
 };
-const ITQuestions2 = q.split('#').map((q, i): Question => {
+const ITQuestions2 = q.split('#').map((q, i): MultiSelectQuestion => {
     let _answers = q
             .trim()
             .split('\n')
