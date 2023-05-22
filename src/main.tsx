@@ -9,16 +9,10 @@ import Sidebar from './components/Sidebar';
 import { useEffect, useRef } from 'react';
 import { delMyIdLogs, saveAction } from './actions-reg';
 
-const root = document.getElementById('root') as HTMLElement;
-
 function App() {
     const questPanelRef = useRef(null);
     useEffect(() => {
-        (async () => {
-            // await delMyIdLogs();
-            if (!window.location.href.includes('http://localhost'))
-                await saveAction();
-        })();
+        if (!window.location.href.includes('http://localhost')) saveAction();
     }, []);
 
     return (
@@ -33,6 +27,7 @@ function App() {
     );
 }
 
+const root = document.getElementById('root') as HTMLElement;
 ReactDOM.createRoot(root).render(
     // <React.StrictMode>
     <App />

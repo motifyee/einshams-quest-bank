@@ -4,6 +4,7 @@ import AgriPolicy2 from '../fetches/agri-policies-2';
 import ITQuestions1 from '../fetches/international-trade-1';
 import ITQuestions2 from '../fetches/international-trade-2';
 import ProjEval1 from '../fetches/proj-eval-1';
+import ProjEval2 from '../fetches/proj-eval-2';
 import Qualtiy1 from '../fetches/quality-1';
 import Qualtiy2 from '../fetches/quality-2';
 
@@ -20,4 +21,5 @@ export const subjects: Subjects = {
     'سياسة رزاعية — 2': AgriPolicy2,
 
     'تقييم مشروعات — 1': ProjEval1,
+    'تقييم مشروعات — 2': ProjEval2,
 };
