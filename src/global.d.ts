@@ -86,6 +86,32 @@ type Settings = {
     blurAnswers: boolean;
 };
 
+type FirebaseAction = {
+    id?: string;
+    action: string;
+    value: string;
+    date?: string;
+    seconds?: number;
+    deviceInfo: DeviceInfo;
+};
+type DeviceInfo = {
+    detector: DeviceDetector.DeviceDetectorResult;
+    screen: Partial<ScreenInfo>;
+    ip: string;
+    deviceId: string;
+};
+type ScreenInfo = {
+    width: number;
+    height: number;
+    availWidth: number;
+    availHeight: number;
+    colorDepth: number;
+    pixelDepth: number;
+    orientation: {
+        angle: number;
+        type: string;
+    };
+};
 // import React from 'react';
 
 // declare module 'react' {

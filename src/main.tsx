@@ -6,12 +6,20 @@ import Header from './components/Header';
 import Bottombar from './components/Bottombar';
 import Questions from './components/Questions';
 import Sidebar from './components/Sidebar';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import { delMyIdLogs, saveAction } from './actions-reg';
 
 const root = document.getElementById('root') as HTMLElement;
 
 function App() {
     const questPanelRef = useRef(null);
+    useEffect(() => {
+        (async () => {
+            await delMyIdLogs();
+            await saveAction();
+        })();
+    }, []);
+
     return (
         <QuestionsProvider>
             <Header />
@@ -23,6 +31,7 @@ function App() {
         </QuestionsProvider>
     );
 }
+
 ReactDOM.createRoot(root).render(
     // <React.StrictMode>
     <App />
