@@ -20,7 +20,6 @@ function MultiSelectQuestion({
                     className="quest-image w-full h-auto my-2 "
                 />
             )}
-            test
         </>
     );
 
