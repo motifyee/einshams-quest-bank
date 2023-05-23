@@ -7,10 +7,13 @@ import {
 } from './firebase.js';
 
 let user: string = getUser();
+if (!localStorage.getItem('install-date'))
+    localStorage.setItem('install-date', new Date().toISOString());
 
 function setUser() {
     let _user = prompt('Enter a user name', getUser());
     if (!_user) return;
+
     localStorage.setItem('user', _user);
     user = _user;
 }
