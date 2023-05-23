@@ -33,9 +33,9 @@ export default defineConfig({
                 ],
             },
             manifest: {
-                name: 'Einshams',
-                short_name: 'Einshams',
-                description: 'بنوك أسئلة كلية زراعة عين شمس',
+                name: 'كلية الزراعة — جامعة عين شمس',
+                short_name: 'زراعة عين شمس',
+                description: 'بنوك أسئلة كلية الزراعة — عين شمس',
                 theme_color: '#15803d',
                 start_url: '/',
                 icons: [

@@ -10,7 +10,7 @@ const vibrate = (pattern = 35): boolean => {
 export default function Answers({
     question,
 }: {
-    question: MultiSelectQuestion | MatchingQuestion;
+    question: SelectionQuestion | MatchingQuestion;
 }) {
     const settings = useContext(SettingsContext);
     const dispatchQuestions = useContext(QuestionsActionsContext);
@@ -44,8 +44,8 @@ export default function Answers({
     }
 
     function isMultiSelectQuestion(
-        question: MultiSelectQuestion | MatchingQuestion | MatchingQuestions
-    ): question is MultiSelectQuestion {
+        question: SelectionQuestion | MatchingQuestion | MatchingQuestions
+    ): question is SelectionQuestion {
         return 'answers' in question;
     }
 

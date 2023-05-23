@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { question } from './data';
+import { selectionQuestion } from './data';
 
 export const q = `
 بصفه عامة يمكن القول أن الاقتصاد هو
@@ -433,7 +433,7 @@ export const q = `
 
 `;
 
-const AgriPolicy1 = q.split('#').map((q, i): MultiSelectQuestion => {
+const AgriPolicy1 = q.split('#').map((q, i): SelectionQuestion => {
     let _answers = q
             .trim()
             .split('\n')
@@ -449,7 +449,7 @@ const AgriPolicy1 = q.split('#').map((q, i): MultiSelectQuestion => {
         })
     );
 
-    return question({ questionText, answers });
+    return selectionQuestion({ questionText, answers });
 });
 
 export default AgriPolicy1;

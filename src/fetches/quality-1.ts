@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { question } from './data';
+import { selectionQuestion } from './data';
 
 export const q = `
 
@@ -376,7 +376,7 @@ const getImage = (text: string): [boolean, string, string] => {
     let [, a, b] = /^!\[(.*)\]\((.*)\)$/.exec(text) || [];
     return [!!b, a, b];
 };
-const Qualtiy1 = q.split('#').map((q, i): MultiSelectQuestion => {
+const Qualtiy1 = q.split('#').map((q, i): SelectionQuestion => {
     let _answers = q
             .trim()
             .split('\n')
@@ -394,7 +394,7 @@ const Qualtiy1 = q.split('#').map((q, i): MultiSelectQuestion => {
         })
     );
 
-    return question({ questionText, answers, image, imageAlt });
+    return selectionQuestion({ questionText, answers, image, imageAlt });
 });
 
 export default Qualtiy1;

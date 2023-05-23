@@ -6,7 +6,7 @@ import { ReducerWithoutAction } from 'react';
 
 export const addQuestion = createAction(
     'questions/add',
-    (question: MultiSelectQuestion) => ({ payload: { question } })
+    (question: SelectionQuestion) => ({ payload: { question } })
 );
 // export const removeQuestion = createAction<string>('remove');
 export const removeQuestion = createAction(
@@ -17,20 +17,20 @@ export const removeQuestion = createAction(
 );
 export const updateQuestion = createAction(
     'questions/update',
-    (questionId: string, properties: Partial<MultiSelectQuestion>) => ({
+    (questionId: string, properties: Partial<SelectionQuestion>) => ({
         payload: { questionId, ...properties },
     })
 );
 export const setQuestions = createAction(
     'questions/set',
-    (questions: MultiSelectQuestion[], shuffle: boolean) => ({
+    (questions: SelectionQuestion[], shuffle: boolean) => ({
         payload: { questions, shuffle },
     })
 );
 
 export const shuffleQuestions = createAction(
     'questions/shuffle',
-    (questions: MultiSelectQuestion[], shuffle: boolean) => ({
+    (questions: SelectionQuestion[], shuffle: boolean) => ({
         payload: { questions, shuffle },
     })
 );
@@ -91,14 +91,14 @@ export const unselectAllQuestionsAnswers = createAction(
 
 export const shuffleAnswers = createAction(
     'questions/answers/shuffleOne',
-    (questionId: string, question: MultiSelectQuestion, shuffle: boolean) => ({
+    (questionId: string, question: SelectionQuestion, shuffle: boolean) => ({
         payload: { questionId, question, shuffle },
     })
 );
 
 export const shuffleAllQuestionsAnswers = createAction(
     'questions/answers/shuffleAll',
-    (questions: MultiSelectQuestion[], shuffle: boolean) => ({
+    (questions: SelectionQuestion[], shuffle: boolean) => ({
         payload: { questions, shuffle },
     })
 );
@@ -119,9 +119,9 @@ export type Action =
 // ############################### Reducer ###############################
 
 export const reducer = (
-    state: MultiSelectQuestion[],
+    state: SelectionQuestion[],
     action: Action
-): MultiSelectQuestion[] => {
+): SelectionQuestion[] => {
     if (action.type === addQuestion.type)
         return [...state, action.payload.question];
 
@@ -236,5 +236,5 @@ export const reducer = (
         });
     }
 
-    return [] as MultiSelectQuestion[];
+    return [] as SelectionQuestion[];
 };

@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { question } from './data';
+import { selectionQuestion } from './data';
 
 export const q = `
 
@@ -640,7 +640,7 @@ A, B العباره
 
 `;
 
-const AgriPolicy2 = q.split('#').map((q, i): MultiSelectQuestion => {
+const AgriPolicy2 = q.split('#').map((q, i): SelectionQuestion => {
     let _answers = q
             .trim()
             .split('\n')
@@ -656,7 +656,7 @@ const AgriPolicy2 = q.split('#').map((q, i): MultiSelectQuestion => {
         })
     );
 
-    return question({ questionText, answers });
+    return selectionQuestion({ questionText, answers });
 });
 
 export default AgriPolicy2;

@@ -5,7 +5,7 @@ function MultiSelectQuestion({
     question,
     index,
 }: {
-    question: MultiSelectQuestion;
+    question: SelectionQuestion;
     index: number;
 }) {
     const answers = Answers({ question });

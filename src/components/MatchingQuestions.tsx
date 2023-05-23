@@ -35,18 +35,18 @@ export default function MatchingQuestions({
 }) {
     let testMode = false;
 
-    const allAnswers: Answer[] = questions.items
+    const allAnswers: Answer[] = questions.questions
         .map((q) => q.answer)
         .filter((e): e is Answer => !!e); //.flat();
 
-    let allQuestions: MatchingQuestion[] = questions.items.map((q) => ({
+    let allQuestions: MatchingQuestion[] = questions.questions.map((q) => ({
         ...q,
         answers: allAnswers,
     }));
 
     return (
         <div className="questions p-4 flex-1 overflow-y-auto">
-            {(testMode ? allQuestions : questions.items).map((q, i) => (
+            {(testMode ? allQuestions : questions.questions).map((q, i) => (
                 <div key={q.id}>
                     <MatchingQuestion question={q} />
                     <br />

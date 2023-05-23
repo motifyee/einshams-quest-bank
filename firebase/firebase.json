@@ -1,10 +1,10 @@
 {
-	"database": {
-		"rules": "database.rules.json"
-	},
-	"hosting": {
-		"public": "public",
-		"ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-		"site": "ein-shams"
-	}
+    "database": {
+        "rules": "database.rules.json"
+    },
+    "hosting": {
+        "public": "public",
+        "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+        "site": "agri-asu"
+    }
 }

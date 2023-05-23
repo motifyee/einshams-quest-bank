@@ -22,7 +22,7 @@ export const firebaseApp = initializeApp({
 
 const db = getFirestore(firebaseApp);
 
-const collectionName = 'ein-shams.web.app';
+const collectionName = 'agri-asu.web.app';
 export const einshamsCollection = collection(db, collectionName);
 
 export const getAllFirebaseActions = async () => {

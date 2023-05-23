@@ -11,4 +11,4 @@ xcopy ..\dist public /E/H/I/C
 @REM npm i -g firebase-tools
 @REM firebase init
 @REM firebase use fir-computers-ip
-firebase deploy --only hosting:ein-shams
+firebase deploy --only hosting:einshams

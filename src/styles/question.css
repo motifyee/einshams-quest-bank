@@ -56,7 +56,7 @@
 
 .scroll-top {
     @apply fixed bottom-16 left-10 p-4 w-12 aspect-square rounded-full bg-green-700 shadow-quest
-    transition-all duration-300;
+    transition-all duration-500;
     z-index: 10;
 }
 .scroll-top.raise {
