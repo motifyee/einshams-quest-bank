@@ -28,10 +28,10 @@ function MatchingQuestion({ question }: { question: MatchingQuestion }) {
     return <Question {...props} />;
 }
 
-export default function MatchingQuestions({
+export default function MatchingQuestionGroup({
     questions,
 }: {
-    questions: MatchingQuestions;
+    questions: MatchingQuestionGroup;
 }) {
     let testMode = false;
 

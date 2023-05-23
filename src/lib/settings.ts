@@ -1,6 +1,7 @@
 export const defaultSettings: Settings = {
     subject: '',
-    questions: [],
+    testIdx: NaN,
+    test: undefined,
     unbluredQuestion: '',
 
     sidebarOn: false,

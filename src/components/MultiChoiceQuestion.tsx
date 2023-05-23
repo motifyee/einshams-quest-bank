@@ -1,11 +1,11 @@
 import Question from './Question';
 import Answers from './Answers';
 
-function MultiSelectQuestion({
+export function MultiSelectQuestion({
     question,
     index,
 }: {
-    question: SelectionQuestion;
+    question: MultiChoiceQuestion;
     index: number;
 }) {
     const answers = Answers({ question });
@@ -33,4 +33,23 @@ function MultiSelectQuestion({
     return <Question {...props} />;
 }
 
-export default MultiSelectQuestion;
+export default function MultiSelectQuestionGroup({
+    questionGroup,
+    index,
+}: {
+    questionGroup: MultiChoiceQuestionGroup;
+    index: number;
+}) {
+    return (
+        <div className="question-group">
+            <div className="question-group-title">{questionGroup.title}</div>
+            {questionGroup.questions.map((q, i) => (
+                <MultiSelectQuestion
+                    key={q.id}
+                    question={q}
+                    index={index + i + 1}
+                />
+            ))}
+        </div>
+    );
+}

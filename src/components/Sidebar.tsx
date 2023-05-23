@@ -1,13 +1,12 @@
 import { Component, useContext } from 'react';
 import {
-    QuestionsActionsContext,
+    TestsActionsContext,
     SettingsContext,
-    SubjectsContext,
+    testsContext,
 } from '../lib/context';
-import { push as Menu } from 'react-burger-menu';
 import { SettingsActionsContext } from '../lib/context';
 import Checkbox from './Checkbox';
-import { selectAnswer, setQuestions, shuffleQuestions } from '../lib/reducer';
+import { setTest, shuffleTest } from '../lib/reducer';
 
 export default function Sidebar({
     questPanel,
@@ -16,11 +15,11 @@ export default function Sidebar({
 }) {
     const settings = useContext(SettingsContext),
         setSettings = useContext(SettingsActionsContext),
-        subjects = useContext(SubjectsContext),
-        dispatchQuestions = useContext(QuestionsActionsContext);
+        tests = useContext(testsContext),
+        dispatchQuestions = useContext(TestsActionsContext);
     const { sidebarOn } = settings;
 
-    const onClick = (action: string, value: string | boolean) => {
+    const onClick = (action: string, value: string | boolean | number) => {
         switch (action) {
             case 'selectedSubject':
                 questPanel.current?.scrollTo({ top: 0, behavior: 'smooth' });
@@ -28,14 +27,11 @@ export default function Sidebar({
                     ...settings,
                     sidebarOn: false,
                     subject: value as string,
-                    questions: subjects[value as string],
+                    test: tests[value as number],
                 });
 
                 return dispatchQuestions(
-                    setQuestions(
-                        subjects[value as string],
-                        settings.shuffleQuestions
-                    )
+                    setTest(tests[value as number], settings.shuffleQuestions)
                 );
             case 'testModeOn':
                 return setSettings({
@@ -57,12 +53,7 @@ export default function Sidebar({
                     ...settings,
                     shuffleQuestions: value as boolean,
                 });
-                return dispatchQuestions(
-                    shuffleQuestions(
-                        [...subjects[settings.subject]],
-                        value as boolean
-                    )
-                );
+                return dispatchQuestions(shuffleTest(value as boolean));
 
             case 'shuffleAnswers':
                 return setSettings({
@@ -91,7 +82,7 @@ export default function Sidebar({
                     {/* <div className="sep" /> */}
                     <h2 className="title">البنك</h2>
                     <div className="sep" />
-                    {Object.keys(subjects).map((subjectName) => (
+                    {Object.keys(tests).map((subjectName) => (
                         <div
                             key={subjectName}
                             className={`item ${

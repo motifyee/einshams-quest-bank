@@ -8,6 +8,7 @@ import Questions from './components/Questions';
 import Sidebar from './components/Sidebar';
 import { useEffect, useRef } from 'react';
 import { delMyIdLogs, saveAction } from './actions-reg';
+import ScrollTopButton from './components/ScrollTopButton';
 
 function App() {
     const questPanelRef = useRef(null);
@@ -21,6 +22,7 @@ function App() {
             <Sidebar questPanel={questPanelRef} />
 
             <Questions questPanel={questPanelRef} />
+            <ScrollTopButton questPanel={questPanelRef} />
 
             <Bottombar />
         </QuestionsProvider>

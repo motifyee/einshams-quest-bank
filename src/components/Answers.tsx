@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { QuestionsActionsContext, SettingsContext } from '../lib/context';
+import { TestsActionsContext, SettingsContext } from '../lib/context';
 import { selectAnswer } from '../lib/reducer';
 
 const vibrate = (pattern = 35): boolean => {
@@ -10,10 +10,10 @@ const vibrate = (pattern = 35): boolean => {
 export default function Answers({
     question,
 }: {
-    question: SelectionQuestion | MatchingQuestion;
+    question: MultiChoiceQuestion | MatchingQuestion;
 }) {
     const settings = useContext(SettingsContext);
-    const dispatchQuestions = useContext(QuestionsActionsContext);
+    const dispatchQuestions = useContext(TestsActionsContext);
 
     const select = (answerId: string) => {
         if (!settings.testModeOn) return console.log('testMode is off');
@@ -30,7 +30,7 @@ export default function Answers({
 
     function answerStyle(answer: Answer) {
         if (!settings.testModeOn)
-            return answer.correct ? correctColor : defaultColor;
+            return answer.isCorrect ? correctColor : defaultColor;
 
         if (!settings.correctAnswers)
             return answer.selected ? selectColor : defaultColor;
@@ -38,14 +38,14 @@ export default function Answers({
         if (!question.selectedId) return defaultColor;
 
         if (!answer.selected)
-            return answer.correct ? correctColor : defaultColor;
+            return answer.isCorrect ? correctColor : defaultColor;
 
-        return answer.correct ? correctColor : wrongColor;
+        return answer.isCorrect ? correctColor : wrongColor;
     }
 
     function isMultiSelectQuestion(
-        question: SelectionQuestion | MatchingQuestion | MatchingQuestions
-    ): question is SelectionQuestion {
+        question: MultiChoiceQuestion | MatchingQuestion | MatchingQuestionGroup
+    ): question is MultiChoiceQuestion {
         return 'answers' in question;
     }
 

@@ -1,4 +1,4 @@
-import {
+import React, {
     Dispatch,
     SetStateAction,
     createContext,
@@ -6,18 +6,17 @@ import {
     useState,
 } from 'react';
 import { Action, reducer } from './reducer';
-import ITQuestions1 from '../fetches/international-trade-1';
 import { defaultSettings } from './settings';
-import { subjects } from './subjects';
+import tests from './tests';
 // import ITQuestions2 from '../fetches/ITQuestions2';
 const defaultAction: Dispatch<SetStateAction<Settings>> = () => {};
 // | Dispatch<SetStateAction<Question[]>>
 
-export const SubjectsContext = createContext(subjects);
+export const testsContext = createContext(tests);
 // export const SubjectsActionsContext = createContext(defaultAction);
 
-export const QuestionsContext = createContext([] as SelectionQuestion[]);
-export const QuestionsActionsContext = createContext(
+export const TestContext = createContext(tests[0]);
+export const TestsActionsContext = createContext(
     (() => {}) as Dispatch<Action>
 );
 
@@ -26,20 +25,20 @@ export const SettingsActionsContext = createContext(defaultAction);
 
 const QuestionsProvider = ({ children }: any) => {
     const [settings, setSettings] = useState(defaultSettings);
-    const [questions, dispatch] = useReducer(reducer, []);
+    const [test, dispatch] = useReducer(reducer, tests[0]);
 
     return (
         // <SubjectsActionsContext.Provider value={defaultAction}>
         <SettingsActionsContext.Provider value={setSettings}>
-            <QuestionsActionsContext.Provider value={dispatch}>
-                <SubjectsContext.Provider value={subjects}>
+            <TestsActionsContext.Provider value={dispatch}>
+                <testsContext.Provider value={tests}>
                     <SettingsContext.Provider value={settings}>
-                        <QuestionsContext.Provider value={questions}>
+                        <TestContext.Provider value={test}>
                             {children}
-                        </QuestionsContext.Provider>
+                        </TestContext.Provider>
                     </SettingsContext.Provider>
-                </SubjectsContext.Provider>
-            </QuestionsActionsContext.Provider>
+                </testsContext.Provider>
+            </TestsActionsContext.Provider>
         </SettingsActionsContext.Provider>
         // </SubjectsActionsContext.Provider>
     );
