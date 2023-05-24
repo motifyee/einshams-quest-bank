@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useDebugValue } from 'react';
 import { TestsActionsContext, SettingsContext } from '../lib/context';
 import { selectAnswer } from '../lib/reducer';
 
@@ -9,8 +9,10 @@ const vibrate = (pattern = 35): boolean => {
 
 export default function Answers({
     question,
+    qgId,
 }: {
-    question: MultiChoiceQuestion | MatchingQuestion;
+    question: Question;
+    qgId: string;
 }) {
     const settings = useContext(SettingsContext);
     const dispatchQuestions = useContext(TestsActionsContext);
@@ -19,7 +21,7 @@ export default function Answers({
         if (!settings.testModeOn) return console.log('testMode is off');
         if (settings.correctAnswers && question.selectedId)
             return vibrate(60) || console.log('already selected');
-        dispatchQuestions(selectAnswer(question.id, answerId));
+        dispatchQuestions(selectAnswer(qgId, question.id, answerId));
         vibrate();
     };
 
@@ -43,15 +45,8 @@ export default function Answers({
         return answer.isCorrect ? correctColor : wrongColor;
     }
 
-    function isMultiSelectQuestion(
-        question: MultiChoiceQuestion | MatchingQuestion | MatchingQuestionGroup
-    ): question is MultiChoiceQuestion {
-        return 'answers' in question;
-    }
-
-    const answers = isMultiSelectQuestion(question)
-        ? question.answers
-        : [question.answer];
+    const answers = question.answers ?? [question.answer];
+    const dbg = useDebugValue(answers);
 
     return (
         <>
@@ -73,7 +68,7 @@ export default function Answers({
                             htmlFor={`answer${question.id}${index}`}
                             className="quest-answerlable p-2"
                         >
-                            {answer.text}
+                            {answer.value}
                         </label>
                     </div>
                 ) : (

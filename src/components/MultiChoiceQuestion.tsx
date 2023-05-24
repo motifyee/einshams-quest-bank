@@ -2,13 +2,15 @@ import Question from './Question';
 import Answers from './Answers';
 
 export function MultiSelectQuestion({
+    qgId,
     question,
     index,
 }: {
+    qgId: string;
     question: MultiChoiceQuestion;
     index: number;
 }) {
-    const answers = Answers({ question });
+    const answers = Answers({ question, qgId });
     const questionElement = (
         <>
             <span>{question.questionText}</span>
@@ -44,11 +46,14 @@ export default function MultiSelectQuestionGroup({
         <div className="question-group">
             <div className="question-group-title">{questionGroup.title}</div>
             {questionGroup.questions.map((q, i) => (
-                <MultiSelectQuestion
-                    key={q.id}
-                    question={q}
-                    index={index + i + 1}
-                />
+                <div key={q.id}>
+                    <MultiSelectQuestion
+                        qgId={questionGroup.id}
+                        question={q}
+                        index={index + i + 1}
+                    />
+                    <br />
+                </div>
             ))}
         </div>
     );

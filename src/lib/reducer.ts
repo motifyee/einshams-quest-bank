@@ -3,7 +3,7 @@ import { ReducerWithoutAction } from 'react';
 // import Question from './components/Question';
 
 // ############################### Questions ###############################
-
+const l = console.log;
 export const addQuestion = createAction(
     'questions/add',
     (question: QuestionGroup) => ({ payload: { question } })
@@ -23,7 +23,7 @@ export const updateQuestion = createAction(
 );
 export const setTest = createAction(
     'questions/set',
-    (test: Test, shuffle: boolean) => ({
+    (test?: Test, shuffle?: boolean) => ({
         payload: { test, shuffle },
     })
 );
@@ -122,13 +122,13 @@ export const reducer = (state: Test, action: Action): Test => {
     if (action.type === addQuestion.type)
         return {
             ...state,
-            questions: [...state.questions, action.payload.question],
+            questionGroups: [...state.questionGroups, action.payload.question],
         };
 
     if (action.type === removeQuestion.type)
         return {
             ...state,
-            questions: state.questions.filter(
+            questionGroups: state.questionGroups.filter(
                 (question) => question.id !== action.payload.questionId
             ),
         };
@@ -136,7 +136,7 @@ export const reducer = (state: Test, action: Action): Test => {
     if (action.type === updateQuestion.type)
         return {
             ...state,
-            ...state.questions.map((question) =>
+            ...state.questionGroups.map((question) =>
                 question.id === action.payload.questionId
                     ? { ...question, ...action.payload }
                     : question
@@ -145,14 +145,15 @@ export const reducer = (state: Test, action: Action): Test => {
 
     if (action.type === setTest.type) {
         const { shuffle, test } = action.payload;
+        console.log('setTest', test);
         return {
             ...test,
             shuffle,
             shuffled: shuffle
-                ? test.questions.map((e) => ({ ...e, shuffle }))
+                ? test?.questionGroups.map((e) => ({ ...e, shuffle }))
                 : // ? [...test.questions].sort(() => Math.random() - 0.5)
                   undefined,
-        };
+        } as Test;
     }
 
     if (action.type === shuffleTest.type) {
@@ -161,7 +162,7 @@ export const reducer = (state: Test, action: Action): Test => {
             ...state,
             shuffle,
             shuffled: shuffle
-                ? state.questions.map((e) => ({ ...e, shuffle }))
+                ? state.questionGroups.map((e) => ({ ...e, shuffle }))
                 : undefined,
         };
         // if (!shuffle) {
@@ -189,7 +190,7 @@ export const reducer = (state: Test, action: Action): Test => {
     if (action.type === selectAnswer.type)
         return {
             ...state,
-            questions: state.questions.map((qg) =>
+            questionGroups: state.questionGroups.map((qg) =>
                 qg.id === action.payload.qgId
                     ? {
                           ...qg,
@@ -198,6 +199,16 @@ export const reducer = (state: Test, action: Action): Test => {
                                   ? {
                                         ...question,
                                         selectedId: action.payload.answerId,
+                                        answers: question.answers?.map(
+                                            (answer) => {
+                                                return {
+                                                    ...answer,
+                                                    selected:
+                                                        answer.id ===
+                                                        action.payload.answerId,
+                                                };
+                                            }
+                                        ),
                                     }
                                   : question
                           ),
@@ -205,46 +216,7 @@ export const reducer = (state: Test, action: Action): Test => {
                     : qg
             ),
         } as Test;
-    // return state.map((question) => {
-    //     if (question.id === action.payload.questionId) {
-    //         return {
-    //             ...question,
-    //             isCorrect: question.answers.some(
-    //                 (answer) =>
-    //                     answer.isCorrect &&
-    //                     answer.id === action.payload.answerId
-    //             ),
-    //             selectedId: action.payload.answerId,
-    //             answers: question.answers.map((answer, _) => {
-    //                 return {
-    //                     ...answer,
-    //                     selected: answer.id === action.payload.answerId,
-    //                 };
-    //             }),
-    //         };
-    //     }
-    //     return question;
-    // });
 
-    if (action.type === unselectAnswer.type)
-        return {
-            ...state,
-            questions: state.questions.map((qg) =>
-                qg.id === action.payload.qgId
-                    ? {
-                          ...qg,
-                          questions: qg.questions.map((question) =>
-                              question.id === action.payload.questionId
-                                  ? {
-                                        ...question,
-                                        selectedId: undefined,
-                                    }
-                                  : question
-                          ),
-                      }
-                    : qg
-            ),
-        } as Test;
     // return state.map((question) =>
     //     question.id === action?.payload?.questionId
     //         ? {
@@ -260,7 +232,7 @@ export const reducer = (state: Test, action: Action): Test => {
     if (action.type === unselectAllQuestionsAnswers.type)
         return {
             ...state,
-            questions: state.questions.map((qg) => ({
+            questionGroups: state.questionGroups.map((qg) => ({
                 ...qg,
                 questions: qg.questions.map((question) => ({
                     ...question,

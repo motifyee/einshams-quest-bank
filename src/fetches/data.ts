@@ -1,9 +1,10 @@
 import { v4 as uuid } from 'uuid';
 
-export function answer({ id, text, isCorrect }: Answer): Answer {
+const l = console.log;
+export function answer({ id, value, isCorrect }: Answer): Answer {
     return {
         id: id || uuid(),
-        text,
+        value,
         isCorrect,
     };
 }
@@ -21,18 +22,12 @@ export function multiChoiceQuestion({
     answers,
     image,
     imageAlt,
-}: {
-    id?: string;
-    questionText: string;
-    answers: Answer[];
-    image?: string;
-    imageAlt?: string;
-}): MultiChoiceQuestion {
+}: Partial<MultiChoiceQuestion>): MultiChoiceQuestion {
     return {
         id: id || uuid(),
         questionText,
         answers,
-
+        type: 'MULTICHOICEQUESTION',
         image,
         imageAlt,
         countable: true,
@@ -47,6 +42,7 @@ export function multiChoiceQuestionGroup({
 }: MultiChoiceQuestionGroup): MultiChoiceQuestionGroup {
     return {
         id: id || uuid(),
+        type: 'MULTICHOICEQUESTIONGROUP',
         image,
         imageAlt,
         questions,
@@ -68,18 +64,12 @@ export function trueOrFalseQuestion({
     answer,
     image,
     imageAlt,
-}: {
-    id?: string;
-    questionText: string;
-    answer: boolean;
-    image?: string;
-    imageAlt?: string;
-}): TrueOrFalseQuestion {
+}: Partial<TrueOrFalseQuestion>): TrueOrFalseQuestion {
     return {
         id: id || uuid(),
         questionText,
         answer,
-
+        type: 'TRUEORFALSEQUESTION',
         image,
         imageAlt,
         countable: true,
@@ -95,6 +85,7 @@ export function trueOrFalseQuestionGroup({
         id: id || uuid(),
         image,
         imageAlt,
+        type: 'TRUEORFALSEQUESTIONGROUP',
         questions,
         get countable() {
             return this.questions.length;
@@ -114,18 +105,12 @@ export function valueQuestion({
     answer,
     image,
     imageAlt,
-}: {
-    id?: string;
-    questionText: string;
-    answer: string;
-    image?: string;
-    imageAlt?: string;
-}): ValueQuestion {
+}: Partial<ValueQuestion>): ValueQuestion {
     return {
         id: id || uuid(),
         questionText,
         answer,
-
+        type: 'VALUEQUESTION',
         image,
         imageAlt,
         countable: true,
@@ -142,6 +127,7 @@ export function valueQuestionGroup({
         id: id || uuid(),
         image,
         imageAlt,
+        type: 'VALUEQUESTIONGROUP',
         questions,
         get countable() {
             return this.questions.length;
@@ -163,7 +149,7 @@ export function matchingQuestion({
     image,
     imageAlt,
     selectedId = '',
-}: MatchingQuestion): MatchingQuestion {
+}: Partial<MatchingQuestion>): MatchingQuestion {
     return {
         id: id || uuid(),
         questionText,
@@ -171,6 +157,7 @@ export function matchingQuestion({
         answers, // TODO wether to inherit from parent questions or keep it
         image,
         imageAlt,
+        type: 'MATCHINGQUESTION',
         selectedId,
         get isCorrect() {
             return !!questionText && this.answer?.id === this.selectedId;
@@ -192,6 +179,7 @@ export function matchingQuestionGroup({
         id: id || uuid(),
         image,
         imageAlt,
+        type: 'MATCHINGQUESTIONGROUP',
         questions: questions,
         get countable() {
             return this.questions.reduce(
@@ -218,13 +206,17 @@ export function matchingQuestionGroup({
  */
 
 export function parseMultiChoiceQuestion(text: string): MultiChoiceQuestion {
-    const [question, answerIndex, ...answers] = text.split('\n');
+    text = text.trim();
+    if (!text.length) return multiChoiceQuestion({});
+    const [question, answerIdx, ...answers] = text
+        .split('\n')
+        .filter((e) => e.trim().length);
     return multiChoiceQuestion({
         questionText: question,
         answers: answers.map((answer, i) => ({
             id: uuid(),
-            text: answer,
-            isCorrect: i + 1 === Number(answerIndex),
+            value: answer,
+            isCorrect: i + 1 === Number(answerIdx),
         })),
     });
 }
@@ -234,7 +226,10 @@ export function parseMultiChoichQuestionGroup(
 ): MultiChoiceQuestionGroup {
     const questions: MultiChoiceQuestion[] = text
         .split('#q#')
+        .map((e) => e.trim())
+        .filter((e) => e.length)
         .map(parseMultiChoiceQuestion);
+
     return multiChoiceQuestionGroup({
         id: uuid(),
         questions,
@@ -254,11 +249,13 @@ export function parseMultiChoichQuestionGroup(
 }
 
 export function parseMatchingQuestion(text: string): MatchingQuestion {
+    text = text.trim();
+    if (!text.length) return matchingQuestion({});
     const [question, answerText] = text.split('\n');
     return matchingQuestion({
         id: uuid(),
         questionText: question,
-        answer: answer({ id: uuid(), text: answerText }),
+        answer: answer({ id: uuid(), value: answerText }),
     } as MatchingQuestion);
 }
 
@@ -287,10 +284,12 @@ export function parseMatchingQuestionGroup(
 }
 
 function parseTrueOrFalseQuestion(text: string): TrueOrFalseQuestion {
-    const [question, answer] = text.split('\n');
+    text = text.trim();
+    if (!text.length) return trueOrFalseQuestion({});
+    const [question, _answer] = text.split('\n');
     return trueOrFalseQuestion({
         questionText: question,
-        answer: answer === '1',
+        answer: answer({ id: uuid(), value: _answer === '1' }),
     });
 }
 
@@ -319,10 +318,12 @@ export function parseTrueOrFalseQuestionGroup(
 }
 
 export function parseValueQuestion(text: string): ValueQuestion {
-    const [question, answer] = text.split('\n');
+    text = text.trim();
+    if (!text.length) return valueQuestion({});
+    const [question, answerValue] = text.split('\n');
     return valueQuestion({
         questionText: question,
-        answer,
+        answer: answer({ id: uuid(), value: answerValue }),
     });
 }
 
@@ -348,9 +349,10 @@ export function parseValueQuestionGroup(text: string): ValueQuestionGroup {
 export function parseTest(title: string, text: string): Test {
     const questions: QuestionGroup[] = [];
     const questionGroups = text.split('#qg#');
-
     questionGroups.forEach((questionText) => {
-        const [questionType, questionGroup] = questionText.split('#q#');
+        const [questionType, questionGroup] = questionText
+            .split('#qt#')
+            .map((e) => e.trim());
 
         // const answers = questionParts[2].split('\n');
         switch (questionType) {
@@ -373,15 +375,15 @@ export function parseTest(title: string, text: string): Test {
     return {
         id: uuid(),
         title: title,
-        questions: questions,
+        questionGroups: questions,
         get correctAnswers() {
-            return this.questions.reduce(
+            return this.questionGroups.reduce(
                 (acc, curr) => acc + curr.countable,
                 0
             );
         },
         get countable() {
-            return this.questions.reduce(
+            return this.questionGroups.reduce(
                 (acc, curr) => acc + curr.countable,
                 0
             );

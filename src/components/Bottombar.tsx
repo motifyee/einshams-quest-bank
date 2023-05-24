@@ -15,18 +15,20 @@ function Bottombar() {
 
     const show = settings.testModeOn && settings.correctAnswers;
 
-    const score = useMemo(() => {
-        if (!settings.testModeOn) return 0;
-        console.log('calculating...');
-        return questions.reduce((p, c) => p + (c.isCorrect ? 1 : 0), 0);
-    }, [questions]);
+    const score = questions.correctAnswers;
+
+    // useMemo(() => {
+    //     if (!settings.testModeOn) return 0;
+    //     console.log('calculating...');
+    //     return .reduce((p, c) => p + (c.isCorrect ? 1 : 0), 0);
+    // }, [questions]);
 
     return (
         <div className={`bottombar ${show ? '' : 'none'}`}>
             <div className="score">
                 <span className="score__label">Score: </span>
                 <span className="score__value">
-                    {score}/{questions.length}
+                    {score}/{questions.countable}
                 </span>
             </div>
             <div className="actions">

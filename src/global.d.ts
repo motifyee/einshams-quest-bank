@@ -19,7 +19,7 @@ type QT =
 
 type QuestionBase = {
     id: string;
-    questionText: string;
+    questionText?: string;
 
     type: QT;
 
@@ -27,6 +27,9 @@ type QuestionBase = {
     imageAlt?: string;
 
     countable: boolean;
+
+    answer?: Answer;
+    answers?: Answer[];
 
     // properties
     isCorrect?: boolean;
@@ -51,7 +54,7 @@ interface QuestionGroupBase extends Shuffleable {
 
 interface MultiChoiceQuestion extends QuestionBase {
     type: 'MULTICHOICEQUESTION';
-    answers: Answer[];
+    // answers: Answer[];
 }
 
 interface MultiChoiceQuestionGroup extends QuestionGroupBase {
@@ -61,7 +64,7 @@ interface MultiChoiceQuestionGroup extends QuestionGroupBase {
 
 interface TrueOrFalseQuestion extends QuestionBase {
     type: 'TRUEORFALSEQUESTION';
-    answer: boolean;
+    // answer: boolean;
 }
 
 interface TrueOrFalseQuestionGroup extends QuestionGroupBase {
@@ -72,7 +75,7 @@ interface TrueOrFalseQuestionGroup extends QuestionGroupBase {
 interface ValueQuestion extends QuestionBase {
     // for answers that are a number or a sm to md string
     type: 'VALUEQUESTION';
-    answer: string;
+    // answer: string;
 }
 
 interface ValueQuestionGroup extends QuestionGroupBase {
@@ -82,14 +85,20 @@ interface ValueQuestionGroup extends QuestionGroupBase {
 
 interface MatchingQuestion extends QuestionBase {
     type: 'MATCHINGQUESTION';
-    answer?: Answer;
-    answers?: Answer[];
+    // answer?: Answer;
+    // answers?: Answer[];
 }
 
 interface MatchingQuestionGroup extends QuestionGroupBase {
     type: 'MATCHINGQUESTIONGROUP';
     questions: MatchingQuestion[];
 }
+
+type Question =
+    | MultiChoiceQuestion
+    | MatchingQuestion
+    | TrueOrFalseQuestion
+    | ValueQuestion;
 
 type QuestionGroup =
     | MultiChoiceQuestionGroup
@@ -100,14 +109,14 @@ type QuestionGroup =
 interface Test extends Shuffleable {
     id: string;
     title: string;
-    questions: QuestionGroup[];
+    questionGroups: QuestionGroup[];
     get correctAnswers(): number;
     get countable(): number;
 }
 
 type Answer = {
     id: string;
-    text: string;
+    value: string | number | boolean;
     isCorrect?: boolean;
     selected?: boolean;
     image?: string;
@@ -145,7 +154,7 @@ type Subjects = Subject[];
 
 type Settings = {
     subject: string;
-    testIdx: number;
+    testId: string;
     test?: Test;
 
     unbluredQuestion: string;

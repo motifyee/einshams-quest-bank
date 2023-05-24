@@ -1,4 +1,4 @@
-import { memo, useContext } from 'react';
+import { memo, useContext, useDebugValue } from 'react';
 import { SettingsActionsContext, SettingsContext } from '../lib/context';
 import useCaptureUpdate from '../lib/CaptureComponentUpdateHook';
 
@@ -32,6 +32,7 @@ function Question({
         true,
         300
     );
+    const dbg = useDebugValue(answers);
 
     return (
         <div className={`quest-container`}>

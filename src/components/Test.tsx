@@ -7,14 +7,9 @@ import {
     TestsActionsContext,
 } from '../lib/context';
 import { setTest } from '../lib/reducer';
-import { QTT } from '../types';
-import MultiSelectQuestionGroup from './MultiChoiceQuestion';
+import MultiChoiceQuestion from './MultiChoiceQuestion';
 
-function Questions({
-    questPanel,
-}: {
-    questPanel: React.RefObject<HTMLDivElement>;
-}) {
+function Test({ questPanel }: { questPanel: React.RefObject<HTMLDivElement> }) {
     const test = useContext(TestContext),
         settings = useContext(SettingsContext),
         setSettings = useContext(SettingsActionsContext),
@@ -36,9 +31,7 @@ function Questions({
     function questionGroup(q: QuestionGroup, i: number) {
         switch (q.type) {
             case 'MULTICHOICEQUESTIONGROUP':
-                return (
-                    <MultiSelectQuestionGroup questionGroup={q} index={i + 1} />
-                );
+                return <MultiChoiceQuestion questionGroup={q} index={i + 1} />;
             default:
                 return null;
         }
@@ -46,9 +39,9 @@ function Questions({
 
     return (
         <div ref={questPanel} className="questions p-4 flex-1 overflow-y-auto">
-            {test?.questions.map((q, i) => (
+            {test?.questionGroups.map((q, i) => (
                 <div key={q.id}>
-                    questionGroup(q, i)
+                    {questionGroup(q, i)}
                     <br />
                 </div>
             ))}
@@ -56,4 +49,4 @@ function Questions({
     );
 }
 
-export default Questions;
+export default Test;

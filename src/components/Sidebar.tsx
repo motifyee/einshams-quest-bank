@@ -22,16 +22,16 @@ export default function Sidebar({
     const onClick = (action: string, value: string | boolean | number) => {
         switch (action) {
             case 'selectedSubject':
+                const test = tests.find((e) => e.id === (value as string));
                 questPanel.current?.scrollTo({ top: 0, behavior: 'smooth' });
                 setSettings({
                     ...settings,
                     sidebarOn: false,
-                    subject: value as string,
-                    test: tests[value as number],
+                    // subject: value as string,
+                    test,
                 });
-
                 return dispatchQuestions(
-                    setTest(tests[value as number], settings.shuffleQuestions)
+                    setTest(test, settings.shuffleQuestions)
                 );
             case 'testModeOn':
                 return setSettings({
@@ -78,21 +78,19 @@ export default function Sidebar({
                 onClick={(e) => e.stopPropagation()}
                 className={`${sidebarOn ? '' : 'off'} sidebar`}
             >
+                <h2 className="title">البنك</h2>
                 <div className="subjects">
                     {/* <div className="sep" /> */}
-                    <h2 className="title">البنك</h2>
                     <div className="sep" />
-                    {Object.keys(tests).map((subjectName) => (
+                    {tests.map((test) => (
                         <div
-                            key={subjectName}
+                            key={test.id}
                             className={`item ${
-                                settings.subject === subjectName ? 'active' : ''
+                                settings.testId === test.id ? 'active' : ''
                             }`}
-                            onClick={() =>
-                                onClick('selectedSubject', subjectName)
-                            }
+                            onClick={() => onClick('selectedSubject', test.id)}
                         >
-                            {subjectName}
+                            {test.title}
                         </div>
                     ))}
                 </div>

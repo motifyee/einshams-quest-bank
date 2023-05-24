@@ -1,13 +1,13 @@
 export const defaultSettings: Settings = {
     subject: '',
-    testIdx: NaN,
+    testId: '',
     test: undefined,
     unbluredQuestion: '',
 
     sidebarOn: false,
 
-    testModeOn: false,
-    correctAnswers: false,
+    testModeOn: true,
+    correctAnswers: true,
 
     shuffleQuestions: false,
     shuffleAnswers: false,

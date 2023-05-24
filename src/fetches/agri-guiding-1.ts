@@ -664,7 +664,7 @@ let o = q.split('#q#').map((q, i): MultiChoiceQuestion => {
     const answers: Answer[] = _answers.map(
         (a, ai): Answer => ({
             id: uuid(),
-            text: a,
+            value: a,
             isCorrect: ai + 1 === ans,
         })
     );

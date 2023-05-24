@@ -88,11 +88,11 @@ function Header() {
             </div>
             <div
                 onClick={() => {
-                    azureTable();
+                    // azureTable();
                 }}
                 className="text-slate-200 border-double border-b-4 text-xl cursor-pointer"
             >
-                {settings.subject}
+                {settings.test?.title}
             </div>
             <div />
         </div>
