@@ -41,7 +41,7 @@
 
 .quest-answer {
     @apply min-w-answers shadow-ans rounded
-    text-gray-300
+    text-gray-300 px-2
     flex cursor-pointer items-center;
 }
 .quest-answerlable {
