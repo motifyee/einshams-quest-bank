@@ -872,11 +872,16 @@ const a = q.split('#q#').map((q, i): MultiChoiceQuestion => {
         (a, ai): Answer => ({
             id: uuid(),
             value: a,
-            isCorrect: ai + 1 === ans,
+            correct: ai + 1 === ans,
         })
     );
 
-    return multiChoiceQuestion({ questionText, answers, image, imageAlt });
+    return multiChoiceQuestion({
+        questionText,
+        answerGroup: answers,
+        image,
+        imageAlt,
+    });
 });
 
 const ProjEval1 = parseTest('تقييم مشروعات — 1', q);

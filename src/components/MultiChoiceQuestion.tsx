@@ -13,7 +13,9 @@ export function MultiSelectQuestion({
     const answers = Answers({ question, qgId });
     const questionElement = (
         <>
-            <span>{question.questionText}</span>
+            <span onClick={() => console.log(question.answerGroup)}>
+                {question.questionText}
+            </span>
             {/* Image */}
             {question.image && (
                 <img

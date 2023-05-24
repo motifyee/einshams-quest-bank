@@ -199,16 +199,19 @@ export const reducer = (state: Test, action: Action): Test => {
                                   ? {
                                         ...question,
                                         selectedId: action.payload.answerId,
-                                        answers: question.answers?.map(
-                                            (answer) => {
-                                                return {
-                                                    ...answer,
-                                                    selected:
-                                                        answer.id ===
-                                                        action.payload.answerId,
-                                                };
-                                            }
-                                        ),
+                                        answerGroup: {
+                                            ...question.answerGroup,
+                                            answers:
+                                                question.answerGroup?.answers.map(
+                                                    (answer) => ({
+                                                        ...answer,
+                                                        selected:
+                                                            answer.id ===
+                                                            action.payload
+                                                                .answerId,
+                                                    })
+                                                ),
+                                        },
                                     }
                                   : question
                           ),
@@ -237,6 +240,14 @@ export const reducer = (state: Test, action: Action): Test => {
                 questions: qg.questions.map((question) => ({
                     ...question,
                     selectedId: undefined,
+                    answerGroup: {
+                        ...question.answerGroup,
+                        answers:
+                            question.answerGroup?.answers.map((answer) => ({
+                                ...answer,
+                                selected: false,
+                            })) ?? [],
+                    },
                 })),
             })),
         } as Test;
@@ -273,5 +284,5 @@ export const reducer = (state: Test, action: Action): Test => {
     //     });
     // }
 
-    return state;
+    return { ...state };
 };

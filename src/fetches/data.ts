@@ -1,36 +1,70 @@
 import { v4 as uuid } from 'uuid';
 
 const l = console.log;
-export function answer({ id, value, isCorrect }: Answer): Answer {
+export function answer({
+    id,
+    value,
+    correct,
+    selected,
+    image,
+    imageAlt,
+}: Answer): Answer {
     return {
         id: id || uuid(),
         value,
-        isCorrect,
+        correct,
+        selected,
+        image,
+        imageAlt,
     };
 }
 
-export function answerGroup({ id, answers }: AnswerGroup): AnswerGroup {
+export function answerGroup({
+    id,
+    answers = [],
+}: Partial<AnswerGroup>): AnswerGroup {
     return {
         id: id || uuid(),
         answers,
+        get isCorrect() {
+            let c =
+                // multichoice, trueorfalse and match questions
+                this.answers.some((e) => e.correct === e.selected) ||
+                // value questions
+                this.answers.find((e) => e.selected)?.value ===
+                    this.answers.find((e) => e.correct)?.value;
+            // debugger;
+            return c;
+        },
+        // ic: function () {
+        //     return (
+        //         this.answers.some((e) => e.correct === e.selected) ||
+        //         // value questions
+        //         this.answers.find((e) => e.selected)?.value ===
+        //             this.answers.find((e) => e.correct)?.value
+        //     );
+        // },
     };
 }
 
 export function multiChoiceQuestion({
     id,
     questionText,
-    answers,
+    answerGroup: answers,
     image,
     imageAlt,
 }: Partial<MultiChoiceQuestion>): MultiChoiceQuestion {
     return {
         id: id || uuid(),
         questionText,
-        answers,
+        answerGroup: answers,
         type: 'MULTICHOICEQUESTION',
         image,
         imageAlt,
         countable: true,
+        get isCorrect() {
+            return !!questionText && this.answerGroup?.isCorrect;
+        },
     };
 }
 
@@ -50,6 +84,7 @@ export function multiChoiceQuestionGroup({
             return questions.length;
         },
         get correctAnswersCount() {
+            // console.log('correctAnswersCount', this.questions);
             return this.questions.reduce(
                 (acc, curr) => acc + (curr.isCorrect ? 1 : 0),
                 0
@@ -145,7 +180,7 @@ export function matchingQuestion({
     id = '',
     questionText,
     answer,
-    answers = [],
+    answerGroup: answers,
     image,
     imageAlt,
     selectedId = '',
@@ -154,7 +189,7 @@ export function matchingQuestion({
         id: id || uuid(),
         questionText,
         answer,
-        answers, // TODO wether to inherit from parent questions or keep it
+        answerGroup: answers, // TODO wether to inherit from parent questions or keep it
         image,
         imageAlt,
         type: 'MATCHINGQUESTION',
@@ -208,16 +243,20 @@ export function matchingQuestionGroup({
 export function parseMultiChoiceQuestion(text: string): MultiChoiceQuestion {
     text = text.trim();
     if (!text.length) return multiChoiceQuestion({});
-    const [question, answerIdx, ...answers] = text
+    const [question, answerIdx, ...answersTxt] = text
         .split('\n')
         .filter((e) => e.trim().length);
     return multiChoiceQuestion({
         questionText: question,
-        answers: answers.map((answer, i) => ({
-            id: uuid(),
-            value: answer,
-            isCorrect: i + 1 === Number(answerIdx),
-        })),
+        answerGroup: answerGroup({
+            answers: answersTxt.map((answerTxt, i) =>
+                answer({
+                    id: uuid(),
+                    value: answerTxt,
+                    correct: i + 1 === Number(answerIdx),
+                })
+            ),
+        }),
     });
 }
 
@@ -372,13 +411,15 @@ export function parseTest(title: string, text: string): Test {
                 break;
         }
     });
+
     return {
         id: uuid(),
         title: title,
         questionGroups: questions,
-        get correctAnswers() {
+        get correctAnswersCount() {
+            l('correctAnswersCount', this.questionGroups);
             return this.questionGroups.reduce(
-                (acc, curr) => acc + curr.countable,
+                (acc, curr) => acc + curr.correctAnswersCount,
                 0
             );
         },

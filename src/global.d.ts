@@ -29,7 +29,7 @@ type QuestionBase = {
     countable: boolean;
 
     answer?: Answer;
-    answers?: Answer[];
+    answerGroup?: AnswerGroup;
 
     // properties
     isCorrect?: boolean;
@@ -110,22 +110,27 @@ interface Test extends Shuffleable {
     id: string;
     title: string;
     questionGroups: QuestionGroup[];
-    get correctAnswers(): number;
+    get correctAnswersCount(): number;
     get countable(): number;
 }
 
 type Answer = {
     id: string;
     value: string | number | boolean;
-    isCorrect?: boolean;
+    correct?: boolean; // this is the correct answer, should be selected
     selected?: boolean;
     image?: string;
     imageAlt?: string;
 };
-
+// mutli choice question
+// value
+// true or false
+// matching
 type AnswerGroup = {
     id: string;
     answers: Answer[];
+    // ic?: boolean; // is correctly answered by the user
+    isCorrect?: boolean; // is correct
 };
 
 type SavedAnswer = {

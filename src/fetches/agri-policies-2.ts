@@ -653,11 +653,11 @@ const a = q.split('#q#').map((q, i): MultiChoiceQuestion => {
         (a, ai): Answer => ({
             id: uuid(),
             value: a,
-            isCorrect: ai + 1 === ans,
+            correct: ai + 1 === ans,
         })
     );
 
-    return multiChoiceQuestion({ questionText, answers });
+    return multiChoiceQuestion({ questionText, answerGroup: answers });
 });
 const AgriPolicy2 = parseTest('سياسة رزاعية — 2', q);
 

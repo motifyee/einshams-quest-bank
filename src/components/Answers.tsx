@@ -32,7 +32,7 @@ export default function Answers({
 
     function answerStyle(answer: Answer) {
         if (!settings.testModeOn)
-            return answer.isCorrect ? correctColor : defaultColor;
+            return answer.correct ? correctColor : defaultColor;
 
         if (!settings.correctAnswers)
             return answer.selected ? selectColor : defaultColor;
@@ -40,12 +40,12 @@ export default function Answers({
         if (!question.selectedId) return defaultColor;
 
         if (!answer.selected)
-            return answer.isCorrect ? correctColor : defaultColor;
+            return answer.correct ? correctColor : defaultColor;
 
-        return answer.isCorrect ? correctColor : wrongColor;
+        return answer.correct ? correctColor : wrongColor;
     }
 
-    const answers = question.answers ?? [question.answer];
+    const answers = question.answerGroup?.answers ?? [question.answer];
     const dbg = useDebugValue(answers);
 
     return (
