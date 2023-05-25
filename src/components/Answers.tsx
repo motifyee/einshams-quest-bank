@@ -19,7 +19,7 @@ export default function Answers({
 
     const select = (answerId: string) => {
         if (!settings.testModeOn) return console.log('testMode is off');
-        if (settings.correctAnswers && question.selectedId(question))
+        if (settings.correctAnswers && question.selectedId())
             return vibrate(60) || console.log('already selected');
         dispatchQuestions(selectAnswer(qgId, question.id, answerId));
         vibrate();
@@ -37,7 +37,7 @@ export default function Answers({
         if (!settings.correctAnswers)
             return answer.selected ? selectColor : defaultColor;
 
-        if (!question.selectedId(question)) return defaultColor;
+        if (!question.selectedId()) return defaultColor;
 
         if (!answer.selected)
             return answer.correct ? correctColor : defaultColor;

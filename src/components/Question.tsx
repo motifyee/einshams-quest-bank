@@ -35,9 +35,9 @@ function Question({
         300
     );
 
-    const answered = question.selectedId(question),
+    const answered = question.selectedId(),
         correcting = settings.correctAnswers,
-        correct = question.isCorrect(question),
+        correct = question.isCorrect(),
         spbg =
             answered && correcting ? (correct ? 'correct' : 'incorrect') : '';
 

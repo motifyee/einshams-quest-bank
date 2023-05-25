@@ -19,10 +19,7 @@ function Bottombar() {
         if (!settings.testModeOn) return 0;
         console.log('calculating...');
 
-        return test.correctAnswersCount(test);
-
-        // return test.correctAnswersCount;
-        // return .reduce((p, c) => p + (c.isCorrect ? 1 : 0), 0);
+        return test.correctAnswersCount();
     }, [test]);
 
     return (
@@ -30,7 +27,7 @@ function Bottombar() {
             <div className="score">
                 <span className="score__label">Score: </span>
                 <span className="score__value">
-                    {score}/{test.countables(test)}
+                    {score}/{test.countables()}
                 </span>
             </div>
             <div className="actions">

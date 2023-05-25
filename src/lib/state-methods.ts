@@ -1,58 +1,53 @@
-export function questionSelecedAnswerId(question: Question): string {
+// ######################################## Question ########################################
+
+export function questionSelecedAnswerId(this: Question): string {
     return (
-        question.answerGroup?.answers?.find((answer) => answer.selected)?.id ??
-        ''
+        this.answerGroup?.answers?.find((answer) => answer.selected)?.id ?? ''
     );
 }
 
-export function questionIsCorrect(question: Question): boolean {
+export function questionIsCorrect(this: Question): boolean {
     return (
-        question.answerGroup?.answers?.some(
+        this.answerGroup?.answers?.some(
             (answer) => answer.correct && answer.selected
         ) ?? false
     );
 }
 
-export function questionIsAnswered(question: Question): boolean {
+export function questionIsAnswered(this: Question): boolean {
     return (
-        question.answerGroup?.answers?.some((answer) => answer.selected) ??
-        false
+        this.answerGroup?.answers?.some((answer) => answer.selected) ?? false
     );
 }
 
-export function questionIsCountable(question: Question): boolean {
+export function questionIsCountable(this: Question): boolean {
     return (
-        !!question.questionText &&
-        (!!question.answerGroup?.answers?.length || !!question.answer?.value)
+        !!this.questionText &&
+        (!!this.answerGroup?.answers?.length || !!this.answer?.value)
     );
 }
+// ######################################## QuestionGroup ########################################
 
-export function questionGroupCorrectAnswersCount(
-    questionGroup: QuestionGroup
-): number {
-    return (questionGroup.questions as Question[]).filter(questionIsCorrect)
-        .length;
+export function questionGroupCorrectAnswersCount(this: QuestionGroup): number {
+    return (this.questions as Question[]).filter((q) => q.isCorrect()).length;
 }
 
-export function questionGroupCountablesCount(
-    questionGroup: QuestionGroup
-): number {
-    return (questionGroup.questions as Question[]).filter(questionIsCountable)
-        .length;
+export function questionGroupCountablesCount(this: QuestionGroup): number {
+    return (this.questions as Question[]).filter((q) => q.countable()).length;
 }
 
-export function testCorrectAnswersCount(test: Test): number {
-    return test.questionGroups.reduce(
-        (acc, questionGroup) =>
-            acc + questionGroupCorrectAnswersCount(questionGroup),
+// ######################################## Test ########################################
+
+export function testCorrectAnswersCount(this: Test): number {
+    return this.questionGroups.reduce(
+        (acc, questionGroup) => acc + questionGroup.correctAnswersCount(),
         0
     );
 }
 
-export function testCountablesCount(test: Test): number {
-    return test.questionGroups.reduce(
-        (acc, questionGroup) =>
-            acc + questionGroupCountablesCount(questionGroup),
+export function testCountablesCount(this: Test): number {
+    return this.questionGroups.reduce(
+        (acc, questionGroup) => acc + questionGroup.countablesCount(),
         0
     );
 }
