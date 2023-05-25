@@ -33,6 +33,7 @@ export function questionSelectAnswer(
     this: Question,
     answerId: string
 ): Question {
+    console.log('questionSelectAnswer', answerId);
     return {
         ...this,
         answerGroup: {

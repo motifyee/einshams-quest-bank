@@ -30,13 +30,20 @@ function Question({
         true,
         300
     );
+    const settings = useContext(SettingsContext);
+
+    const answered = !!question.selectedId(),
+        correcting = settings.correctAnswers,
+        correct = question.isCorrect(),
+        spbg =
+            answered && correcting ? (correct ? 'correct' : 'incorrect') : '';
 
     return (
         <div className={`quest-container`}>
             <h2
                 className={`quest-text ${(isCaptured && 'bg-slate-600') || ''}`}
             >
-                <span className={`quest-span ${'spbg'}`}>{index}</span>
+                <span className={`quest-span ${spbg}`}>{index}</span>
                 {questionElement}
             </h2>
             <div className="quest-answers">
