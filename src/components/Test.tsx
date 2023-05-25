@@ -6,8 +6,8 @@ import {
     SettingsActionsContext,
     TestsActionsContext,
 } from '../lib/context';
-import { setTest } from '../lib/reducer';
 import MultiChoiceQuestion from './MultiChoiceQuestion';
+import { setTest } from '../lib/reducer';
 
 function Test({ questPanel }: { questPanel: React.RefObject<HTMLDivElement> }) {
     const test = useContext(TestContext),
@@ -17,15 +17,12 @@ function Test({ questPanel }: { questPanel: React.RefObject<HTMLDivElement> }) {
         dispatchQuestions = useContext(TestsActionsContext);
 
     useEffect(() => {
-        // if (!test) {
         setSettings({
             ...settings,
             sidebarOn: false,
-            // subject: initSub,
             test: tests[0],
         });
-        // dispatchQuestions(setTest(tests[0], settings.shuffleQuestions));
-        // }
+        dispatchQuestions(setTest(tests[0], settings.shuffleQuestions));
     }, []);
 
     function questionGroup(q: QuestionGroup, i: number) {

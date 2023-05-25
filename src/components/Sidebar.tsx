@@ -86,7 +86,7 @@ export default function Sidebar({
                         <div
                             key={test.id}
                             className={`item ${
-                                settings.testId === test.id ? 'active' : ''
+                                settings.test?.id === test.id ? 'active' : ''
                             }`}
                             onClick={() => onClick('selectedSubject', test.id)}
                         >
