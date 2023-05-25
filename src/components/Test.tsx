@@ -17,15 +17,15 @@ function Test({ questPanel }: { questPanel: React.RefObject<HTMLDivElement> }) {
         dispatchQuestions = useContext(TestsActionsContext);
 
     useEffect(() => {
-        if (!test) {
-            setSettings({
-                ...settings,
-                sidebarOn: false,
-                // subject: initSub,
-                test: tests[0],
-            });
-            dispatchQuestions(setTest(tests[0], settings.shuffleQuestions));
-        }
+        // if (!test) {
+        setSettings({
+            ...settings,
+            sidebarOn: false,
+            // subject: initSub,
+            test: tests[0],
+        });
+        // dispatchQuestions(setTest(tests[0], settings.shuffleQuestions));
+        // }
     }, []);
 
     function questionGroup(q: QuestionGroup, i: number) {

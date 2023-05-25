@@ -13,9 +13,7 @@ export function MultiSelectQuestion({
     const answers = Answers({ question, qgId });
     const questionElement = (
         <>
-            <span onClick={() => console.log(question.answerGroup)}>
-                {question.questionText}
-            </span>
+            <span>{question.questionText}</span>
             {/* Image */}
             {question.image && (
                 <img
@@ -39,19 +37,24 @@ export function MultiSelectQuestion({
 }
 
 export default function MultiSelectQuestionGroup({
-    questionGroup,
+    questionGroup: qg,
     index,
 }: {
     questionGroup: MultiChoiceQuestionGroup;
     index: number;
 }) {
+    const questions = qg.shuffle
+        ? (qg.shuffled(qg.shuffle).shuffledCache as MultiChoiceQuestionGroup)
+              .questions
+        : qg.questions;
+
     return (
         <div className="question-group">
-            <div className="question-group-title">{questionGroup.title}</div>
-            {questionGroup.questions.map((q, i) => (
+            <div className="question-group-title">{qg.title}</div>
+            {questions.map((q, i) => (
                 <div key={q.id}>
                     <MultiSelectQuestion
-                        qgId={questionGroup.id}
+                        qgId={qg.id}
                         question={q}
                         index={index + i + 1}
                     />

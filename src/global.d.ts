@@ -30,6 +30,7 @@ type QuestionBase = {
 
     answer?: Answer;
     answerGroup?: AnswerGroup;
+    selectAnswer: (string) => QuestionBase;
 
     // properties
     isCorrect: () => boolean; // is correct
@@ -39,7 +40,8 @@ type QuestionBase = {
 
 type Shuffleable = {
     shuffle?: boolean;
-    shuffled?: QuestionGroup[];
+    shuffled: (boolean) => Shuffleable;
+    shuffledCache?: Shuffleable;
 };
 
 interface QuestionGroupBase extends Shuffleable {
@@ -50,7 +52,8 @@ interface QuestionGroupBase extends Shuffleable {
     type: QT;
     countablesCount: () => number; // counts as correct
     correctAnswersCount: () => number; // which are answerd correctly
-    // questions: QuestionBase[];
+    selectAnswer: (string, string) => QuestionGroupBase;
+    unselectAll: () => QuestionGroupBase;
 }
 
 interface MultiChoiceQuestion extends QuestionBase {
@@ -113,6 +116,8 @@ interface Test extends Shuffleable {
     questionGroups: QuestionGroup[];
     correctAnswersCount: () => number;
     countables: () => number;
+    selectAnswer: (string, string, string) => Test;
+    unselectAll: () => Test;
 }
 
 type Answer = {

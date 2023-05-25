@@ -3,11 +3,17 @@ import {
     questionIsCountable,
     questionGroupCorrectAnswersCount,
     questionGroupCountablesCount,
-    questionIsAnswered,
     questionIsCorrect,
     questionSelecedAnswerId,
     testCorrectAnswersCount,
     testCountablesCount,
+    questionGroupShuffleQuestions,
+    testShuffleQuestions,
+    testSelectAnswer,
+    questionGroupSelectAnswer,
+    questionSelectAnswer,
+    questionGroupUnselectAll,
+    testUnselectAll,
 } from '../lib/state-methods';
 const l = console.log;
 export function answer({
@@ -54,6 +60,20 @@ export function answerGroup({
         // },
     };
 }
+const questionBase = {
+    countable: questionIsCountable,
+    isCorrect: questionIsCorrect,
+    selectedId: questionSelecedAnswerId,
+    selectAnswer: questionSelectAnswer,
+};
+
+const questionGroupBase = {
+    countablesCount: questionGroupCountablesCount,
+    correctAnswersCount: questionGroupCorrectAnswersCount,
+    shuffled: questionGroupShuffleQuestions,
+    selectAnswer: questionGroupSelectAnswer,
+    unselectAll: questionGroupUnselectAll,
+};
 
 export function multiChoiceQuestion({
     id,
@@ -69,9 +89,7 @@ export function multiChoiceQuestion({
         type: 'MULTICHOICEQUESTION',
         image,
         imageAlt,
-        countable: questionIsCountable,
-        isCorrect: questionIsCorrect,
-        selectedId: questionSelecedAnswerId,
+        ...questionBase,
     };
 }
 
@@ -87,8 +105,7 @@ export function multiChoiceQuestionGroup({
         image,
         imageAlt,
         questions,
-        countablesCount: questionGroupCountablesCount,
-        correctAnswersCount: questionGroupCorrectAnswersCount,
+        ...questionGroupBase,
     };
 }
 
@@ -106,9 +123,7 @@ export function trueOrFalseQuestion({
         type: 'TRUEORFALSEQUESTION',
         image,
         imageAlt,
-        countable: questionIsCountable,
-        isCorrect: questionIsCorrect,
-        selectedId: questionSelecedAnswerId,
+        ...questionBase,
     };
 }
 export function trueOrFalseQuestionGroup({
@@ -123,8 +138,7 @@ export function trueOrFalseQuestionGroup({
         imageAlt,
         type: 'TRUEORFALSEQUESTIONGROUP',
         questions,
-        countablesCount: questionGroupCountablesCount,
-        correctAnswersCount: questionGroupCorrectAnswersCount,
+        ...questionGroupBase,
     };
 }
 
@@ -142,9 +156,7 @@ export function valueQuestion({
         type: 'VALUEQUESTION',
         image,
         imageAlt,
-        countable: questionIsCountable,
-        isCorrect: questionIsCorrect,
-        selectedId: questionSelecedAnswerId,
+        ...questionBase,
     };
 }
 
@@ -160,8 +172,7 @@ export function valueQuestionGroup({
         imageAlt,
         type: 'VALUEQUESTIONGROUP',
         questions,
-        countablesCount: questionGroupCountablesCount,
-        correctAnswersCount: questionGroupCorrectAnswersCount,
+        ...questionGroupBase,
     };
 }
 
@@ -181,9 +192,7 @@ export function matchingQuestion({
         image,
         imageAlt,
         type: 'MATCHINGQUESTION',
-        countable: questionIsCountable,
-        isCorrect: questionIsCorrect,
-        selectedId: questionSelecedAnswerId,
+        ...questionBase,
     };
 }
 
@@ -199,8 +208,7 @@ export function matchingQuestionGroup({
         imageAlt,
         type: 'MATCHINGQUESTIONGROUP',
         questions: questions,
-        countablesCount: questionGroupCountablesCount,
-        correctAnswersCount: questionGroupCorrectAnswersCount,
+        ...questionGroupBase,
     };
 }
 
@@ -346,6 +354,9 @@ export function parseTest(title: string, text: string): Test {
         questionGroups: questions,
         correctAnswersCount: testCorrectAnswersCount,
         countables: testCountablesCount,
+        shuffled: testShuffleQuestions,
+        selectAnswer: testSelectAnswer,
+        unselectAll: testUnselectAll,
     };
 }
 

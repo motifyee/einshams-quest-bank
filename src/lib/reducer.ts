@@ -149,22 +149,13 @@ export const reducer = (state: Test, action: Action): Test => {
         return {
             ...test,
             shuffle,
-            shuffled: shuffle
-                ? test?.questionGroups.map((e) => ({ ...e, shuffle }))
-                : // ? [...test.questions].sort(() => Math.random() - 0.5)
-                  undefined,
         } as Test;
     }
 
     if (action.type === shuffleTest.type) {
         const { shuffle } = action.payload;
-        return {
-            ...state,
-            shuffle,
-            shuffled: shuffle
-                ? state.questionGroups.map((e) => ({ ...e, shuffle }))
-                : undefined,
-        };
+        // console.log('shuffleTest', shuffle);
+        return state.shuffled(shuffle) as Test;
         // if (!shuffle) {
         //     const mappedstate: { [id: string]: Answer[] } = state.reduce(
         //         (p, c) => ({ ...p, [c.id]: c.answers }),
@@ -188,37 +179,42 @@ export const reducer = (state: Test, action: Action): Test => {
     }
 
     if (action.type === selectAnswer.type)
-        return {
-            ...state,
-            questionGroups: state.questionGroups.map((qg) =>
-                qg.id === action.payload.qgId
-                    ? {
-                          ...qg,
-                          questions: qg.questions.map((question) => {
-                              if (question.id === action.payload.questionId) {
-                                  return {
-                                      ...question,
-                                      answerGroup: {
-                                          ...question.answerGroup,
-                                          answers:
-                                              question.answerGroup?.answers.map(
-                                                  (answer) => ({
-                                                      ...answer,
-                                                      selected:
-                                                          answer.id ===
-                                                          action.payload
-                                                              .answerId,
-                                                  })
-                                              ),
-                                      },
-                                  };
-                              }
-                              return question;
-                          }),
-                      }
-                    : qg
-            ),
-        } as Test;
+        return state.selectAnswer(
+            action.payload.qgId,
+            action.payload.questionId,
+            action.payload.answerId
+        ) as Test;
+    // return {
+    //     ...state,
+    //     questionGroups: state.questionGroups.map((qg) =>
+    //         qg.id === action.payload.qgId
+    //             ? {
+    //                   ...qg,
+    //                   questions: qg.questions.map((question) => {
+    //                       if (question.id === action.payload.questionId) {
+    //                           return {
+    //                               ...question,
+    //                               answerGroup: {
+    //                                   ...question.answerGroup,
+    //                                   answers:
+    //                                       question.answerGroup?.answers.map(
+    //                                           (answer) => ({
+    //                                               ...answer,
+    //                                               selected:
+    //                                                   answer.id ===
+    //                                                   action.payload
+    //                                                       .answerId,
+    //                                           })
+    //                                       ),
+    //                               },
+    //                           };
+    //                       }
+    //                       return question;
+    //                   }),
+    //               }
+    //             : qg
+    //     ),
+    // } as Test;
 
     // return state.map((question) =>
     //     question.id === action?.payload?.questionId
@@ -233,24 +229,30 @@ export const reducer = (state: Test, action: Action): Test => {
     // );
 
     if (action.type === unselectAllQuestionsAnswers.type)
-        return {
-            ...state,
-            questionGroups: state.questionGroups.map((qg) => ({
-                ...qg,
-                questions: qg.questions.map((question) => ({
-                    ...question,
-                    // selectedId: undefined,
-                    answerGroup: {
-                        ...question.answerGroup,
-                        answers:
-                            question.answerGroup?.answers.map((answer) => ({
-                                ...answer,
-                                selected: false,
-                            })) ?? [],
-                    },
-                })),
-            })),
-        } as Test;
+        return state.unselectAll() as Test;
+    // return state.selectAnswer(
+    //     action.payload.qgId,
+    //     action.payload.questionId,
+    //     ''
+    // ) as Test;
+    // return {
+    //     ...state,
+    //     questionGroups: state.questionGroups.map((qg) => ({
+    //         ...qg,
+    //         questions: qg.questions.map((question) => ({
+    //             ...question,
+    //             // selectedId: undefined,
+    //             answerGroup: {
+    //                 ...question.answerGroup,
+    //                 answers:
+    //                     question.answerGroup?.answers.map((answer) => ({
+    //                         ...answer,
+    //                         selected: false,
+    //                     })) ?? [],
+    //             },
+    //         })),
+    //     })),
+    // } as Test;
     // return state.map((question) => ({
     //     ...question,
     //     selectedId: undefined,

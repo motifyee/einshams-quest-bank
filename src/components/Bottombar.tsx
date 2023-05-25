@@ -1,4 +1,4 @@
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useMemo } from 'react';
 import {
     TestsActionsContext,
     TestContext,
@@ -17,7 +17,7 @@ function Bottombar() {
 
     const score = useMemo(() => {
         if (!settings.testModeOn) return 0;
-        console.log('calculating...');
+        // console.log('calculating...');
 
         return test.correctAnswersCount();
     }, [test]);
