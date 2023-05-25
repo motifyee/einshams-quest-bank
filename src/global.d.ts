@@ -41,7 +41,7 @@ type QuestionBase = {
 type Shuffleable = {
     shuffle?: boolean;
     shuffled: (boolean) => Shuffleable;
-    shuffledCache?: Shuffleable;
+    cache: Shuffleable;
 };
 
 interface QuestionGroupBase extends Shuffleable {

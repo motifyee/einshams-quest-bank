@@ -1,5 +1,7 @@
 // ######################################## Question ########################################
 
+import { useMemo } from 'react';
+
 export function questionSelecedAnswerId(this: Question): string {
     return (
         this.answerGroup?.answers?.find((answer) => answer.selected)?.id ?? ''
@@ -54,14 +56,19 @@ export function questionGroupCountablesCount(this: QuestionGroup): number {
 }
 
 export function questionGroupShuffleQuestions(
-    this: QuestionGroup
+    this: QuestionGroup,
+    shuffle: boolean
 ): QuestionGroup {
+    const questions = shuffle
+        ? [...(this.cache as QuestionGroup).questions].sort(
+              () => Math.random() - 0.5
+          )
+        : (this.cache as QuestionGroup)?.questions ?? [];
+
     return {
         ...this,
-        shuffle: true,
-        shuffledCache: {
-            questions: [...this.questions].sort(() => Math.random() - 0.5),
-        } as QuestionGroup,
+        shuffle: shuffle,
+        questions,
     } as QuestionGroup;
 }
 
@@ -70,6 +77,7 @@ export function questionGroupSelectAnswer(
     questionId: string,
     answerId: string
 ): QuestionGroup {
+    // console.log('questionGroupSelectAnswer', questionId, answerId, this.)
     return {
         ...this,
         questions: this.questions.map((question) =>
@@ -77,6 +85,13 @@ export function questionGroupSelectAnswer(
                 ? question.selectAnswer(answerId)
                 : question
         ),
+        // shuffledCache: {
+        //     questions: this.questions.map((question) =>
+        //         question.id === questionId
+        //             ? question.selectAnswer(answerId)
+        //             : question
+        //     ),
+        // } as QuestionGroup,
     } as QuestionGroup;
 }
 
@@ -108,10 +123,7 @@ export function testShuffleQuestions(this: Test, shuffle: boolean): Test {
     return {
         ...this,
         shuffle: shuffle,
-        questionGroups: this.questionGroups.map((qg) => ({
-            ...qg,
-            shuffle: shuffle,
-        })),
+        questionGroups: this.questionGroups.map((qg) => qg.shuffled(shuffle)),
     } as Test;
 }
 

@@ -1,6 +1,7 @@
 import Question from './Question';
 import Answers from './Answers';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
+import { SettingsContext } from '../lib/context';
 
 export function MultiSelectQuestion({
     qgId,
@@ -50,10 +51,9 @@ export default function MultiSelectQuestionGroup({
     questionGroup: MultiChoiceQuestionGroup;
     index: number;
 }) {
-    const questions = qg.shuffle
-        ? (qg.shuffled(qg.shuffle).shuffledCache as MultiChoiceQuestionGroup)
-              .questions
-        : qg.questions;
+    const settings = useContext(SettingsContext);
+    // qg.questions = settings.shuffleAnswers ? qg.shuffled(true) : qg.questions;
+    const { questions } = qg;
 
     return (
         <div className="question-group">

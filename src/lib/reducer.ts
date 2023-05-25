@@ -145,7 +145,7 @@ export const reducer = (state: Test, action: Action): Test => {
 
     if (action.type === setTest.type) {
         const { shuffle, test } = action.payload;
-        console.log('setTest', test);
+        // console.log('setTest', test);
         return {
             ...test,
             shuffle,

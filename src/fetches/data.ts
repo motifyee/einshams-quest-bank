@@ -106,6 +106,7 @@ export function multiChoiceQuestionGroup({
         image,
         imageAlt,
         questions,
+        cache: { questions } as MultiChoiceQuestionGroup,
         ...questionGroupBase,
     };
 }
@@ -139,6 +140,7 @@ export function trueOrFalseQuestionGroup({
         imageAlt,
         type: 'TRUEORFALSEQUESTIONGROUP',
         questions,
+        cache: { questions } as TrueOrFalseQuestionGroup,
         ...questionGroupBase,
     };
 }
@@ -173,6 +175,7 @@ export function valueQuestionGroup({
         imageAlt,
         type: 'VALUEQUESTIONGROUP',
         questions,
+        cache: { questions } as ValueQuestionGroup,
         ...questionGroupBase,
     };
 }
@@ -209,6 +212,7 @@ export function matchingQuestionGroup({
         imageAlt,
         type: 'MATCHINGQUESTIONGROUP',
         questions: questions,
+        cache: { questions } as MatchingQuestionGroup,
         ...questionGroupBase,
     };
 }
@@ -356,7 +360,7 @@ export function parseValueQuestionGroup(text: string): ValueQuestionGroup {
 }
 
 export function parseTest(title: string, text: string): Test {
-    const questions: QuestionGroup[] = [];
+    const groups: QuestionGroup[] = [];
     const questionGroups = text.split('#qg#');
     questionGroups.forEach((questionText) => {
         const [questionType, questionGroup] = questionText
@@ -366,16 +370,16 @@ export function parseTest(title: string, text: string): Test {
         // const answers = questionParts[2].split('\n');
         switch (questionType) {
             case '#multichoice#':
-                questions.push(parseMultiChoichQuestionGroup(questionGroup));
+                groups.push(parseMultiChoichQuestionGroup(questionGroup));
                 break;
             case '#matching#':
-                questions.push(parseMatchingQuestionGroup(questionGroup));
+                groups.push(parseMatchingQuestionGroup(questionGroup));
                 break;
             case '#trueorfalse#':
-                questions.push(parseTrueOrFalseQuestionGroup(questionGroup));
+                groups.push(parseTrueOrFalseQuestionGroup(questionGroup));
                 break;
             case '#value#':
-                questions.push(parseValueQuestionGroup(questionGroup));
+                groups.push(parseValueQuestionGroup(questionGroup));
                 break;
             default:
                 break;
@@ -385,12 +389,13 @@ export function parseTest(title: string, text: string): Test {
     return {
         id: uuid(),
         title: title,
-        questionGroups: questions,
+        questionGroups: groups,
         correctAnswersCount: testCorrectAnswersCount,
         countables: testCountablesCount,
         shuffled: testShuffleQuestions,
         selectAnswer: testSelectAnswer,
         unselectAll: testUnselectAll,
+        cache: { questionGroups: groups } as Test,
     };
 }
 
