@@ -60,6 +60,7 @@ export function answerGroup({
         // },
     };
 }
+
 const questionBase = {
     countable: questionIsCountable,
     isCorrect: questionIsCorrect,
@@ -220,15 +221,27 @@ export function matchingQuestionGroup({
  * answer splitter: \n
  *
  */
+function parseImageData(
+    this: any,
+    text: string
+): [boolean, string, string, string] {
+    let pattern = /!\[(.*)\]\((.*)\)/;
+    let clean = text.replace(pattern, '');
+    let [, imageAlt, image] = pattern.exec(text) || [];
+    return [!!image, imageAlt, image, clean];
+}
 
 export function parseMultiChoiceQuestion(text: string): MultiChoiceQuestion {
     text = text.trim();
     if (!text.length) return multiChoiceQuestion({});
-    const [question, answerIdx, ...answersTxt] = text
+    const [_, imageAlt, image, clean] = parseImageData(text);
+    const [question, answerIdx, ...answersTxt] = clean
         .split('\n')
         .filter((e) => e.trim().length);
     return multiChoiceQuestion({
         questionText: question,
+        image,
+        imageAlt,
         answerGroup: answerGroup({
             answers: answersTxt.map((answerTxt, i) =>
                 answer({
@@ -244,7 +257,8 @@ export function parseMultiChoiceQuestion(text: string): MultiChoiceQuestion {
 export function parseMultiChoichQuestionGroup(
     text: string
 ): MultiChoiceQuestionGroup {
-    const questions: MultiChoiceQuestion[] = text
+    const [_, image, imageAlt, clean] = parseImageData(text);
+    const questions: MultiChoiceQuestion[] = clean
         .split('#q#')
         .map((e) => e.trim())
         .filter((e) => e.length)
@@ -253,16 +267,21 @@ export function parseMultiChoichQuestionGroup(
     return multiChoiceQuestionGroup({
         id: uuid(),
         questions,
+        image,
+        imageAlt,
     } as MultiChoiceQuestionGroup);
 }
 
 export function parseMatchingQuestion(text: string): MatchingQuestion {
     text = text.trim();
     if (!text.length) return matchingQuestion({});
-    const [question, answerText] = text.split('\n');
+    const [_, image, imageAlt, clean] = parseImageData(text);
+    const [question, answerText] = clean.split('\n');
     return matchingQuestion({
         id: uuid(),
         questionText: question,
+        image,
+        imageAlt,
         answer: answer({ id: uuid(), value: answerText }),
     } as MatchingQuestion);
 }
@@ -270,21 +289,27 @@ export function parseMatchingQuestion(text: string): MatchingQuestion {
 export function parseMatchingQuestionGroup(
     text: string
 ): MatchingQuestionGroup {
-    const questions: MatchingQuestion[] = text
+    const [_, image, imageAlt, clean] = parseImageData(text);
+    const questions: MatchingQuestion[] = clean
         .split('#q#')
         .map(parseMatchingQuestion);
     return matchingQuestionGroup({
         id: uuid(),
         questions,
+        image,
+        imageAlt,
     } as MatchingQuestionGroup);
 }
 
-function parseTrueOrFalseQuestion(text: string): TrueOrFalseQuestion {
+export function parseTrueOrFalseQuestion(text: string): TrueOrFalseQuestion {
     text = text.trim();
     if (!text.length) return trueOrFalseQuestion({});
-    const [question, _answer] = text.split('\n');
+    const [_, image, imageAlt, clean] = parseImageData(text);
+    const [question, _answer] = clean.split('\n');
     return trueOrFalseQuestion({
         questionText: question,
+        image,
+        imageAlt,
         answer: answer({ id: uuid(), value: _answer === '1' }),
     });
 }
@@ -292,32 +317,41 @@ function parseTrueOrFalseQuestion(text: string): TrueOrFalseQuestion {
 export function parseTrueOrFalseQuestionGroup(
     text: string
 ): TrueOrFalseQuestionGroup {
-    const questions: TrueOrFalseQuestion[] = text
+    const [_, image, imageAlt, clean] = parseImageData(text);
+    const questions: TrueOrFalseQuestion[] = clean
         .split('#q#')
         .map(parseTrueOrFalseQuestion);
     return trueOrFalseQuestionGroup({
         id: uuid(),
         questions,
+        image,
+        imageAlt,
     } as TrueOrFalseQuestionGroup);
 }
 
 export function parseValueQuestion(text: string): ValueQuestion {
     text = text.trim();
     if (!text.length) return valueQuestion({});
-    const [question, answerValue] = text.split('\n');
+    const [_, image, imageAlt, clean] = parseImageData(text);
+    const [question, answerValue] = clean.split('\n');
     return valueQuestion({
         questionText: question,
+        image,
+        imageAlt,
         answer: answer({ id: uuid(), value: answerValue }),
     });
 }
 
 export function parseValueQuestionGroup(text: string): ValueQuestionGroup {
-    const questions: ValueQuestion[] = text
+    const [_, image, imageAlt, clean] = parseImageData(text);
+    const questions: ValueQuestion[] = clean
         .split('#q#')
         .map(parseValueQuestion);
     return valueQuestionGroup({
         id: uuid(),
         questions,
+        image,
+        imageAlt,
     } as ValueQuestionGroup);
 }
 

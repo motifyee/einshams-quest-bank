@@ -1,4 +1,4 @@
-import { useContext, useDebugValue } from 'react';
+import { memo, useContext, useDebugValue } from 'react';
 import { TestsActionsContext, SettingsContext } from '../lib/context';
 import { selectAnswer } from '../lib/reducer';
 
@@ -7,13 +7,7 @@ const vibrate = (pattern = 35): boolean => {
     return true;
 };
 
-export default function Answers({
-    question,
-    qgId,
-}: {
-    question: Question;
-    qgId: string;
-}) {
+function Answers({ question, qgId }: { question: Question; qgId: string }) {
     const settings = useContext(SettingsContext);
     const dispatchQuestions = useContext(TestsActionsContext);
 
@@ -78,3 +72,5 @@ export default function Answers({
         </>
     );
 }
+
+export default Answers;

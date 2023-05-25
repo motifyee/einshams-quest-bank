@@ -1,4 +1,4 @@
-import { memo, useContext, useDebugValue } from 'react';
+import { memo, useContext } from 'react';
 import { SettingsActionsContext, SettingsContext } from '../lib/context';
 import useCaptureUpdate from '../lib/CaptureComponentUpdateHook';
 

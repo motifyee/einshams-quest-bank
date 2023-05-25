@@ -7,7 +7,7 @@ export const defaultSettings: Settings = {
     sidebarOn: false,
 
     testModeOn: true,
-    correctAnswers: true,
+    correctAnswers: false,
 
     shuffleQuestions: false,
     shuffleAnswers: false,

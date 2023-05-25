@@ -441,24 +441,5 @@ export const q = `
 
 `;
 
-const a = q.split('#q#').map((q, i): MultiChoiceQuestion => {
-    let _answers = q
-            .trim()
-            .split('\n')
-            .filter((a) => a.trim().length > 0),
-        questionText = _answers.shift() || 'failed to parse question',
-        ans = Number(_answers.shift()?.trim());
-
-    const answers: Answer[] = _answers.map(
-        (a, ai): Answer => ({
-            id: uuid(),
-            value: a,
-            correct: ai + 1 === ans,
-        })
-    );
-
-    return multiChoiceQuestion({ questionText, answerGroup: answers });
-});
-
 const AgriPolicy1 = parseTest('سياسة رزاعية — 1', q);
 export default AgriPolicy1;

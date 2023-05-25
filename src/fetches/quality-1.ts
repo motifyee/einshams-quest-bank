@@ -227,7 +227,7 @@ A
 #q#
 يدل هذا الشكل على المعاملة الغذاء بواسطة 
 3
-![](c.png)
+![test alt](c.png)
 البسترة
 التعميم
 الإشعاع
@@ -373,36 +373,6 @@ Monitoring الرصيد:
 
 
 `;
-
-const getImage = (text: string): [boolean, string, string] => {
-    let [, a, b] = /^!\[(.*)\]\((.*)\)$/.exec(text) || [];
-    return [!!b, a, b];
-};
-const a = q.split('#q#').map((q, i): MultiChoiceQuestion => {
-    let _answers = q
-            .trim()
-            .split('\n')
-            .filter((a) => a.trim().length > 0),
-        questionText = _answers.shift() || 'failed to parse question',
-        ans = Number(_answers.shift()?.trim()),
-        [hasImage, imageAlt, image] = getImage(_answers[0]);
-    if (hasImage) _answers.shift();
-
-    const answers: Answer[] = _answers.map(
-        (a, ai): Answer => ({
-            id: uuid(),
-            value: a,
-            correct: ai + 1 === ans,
-        })
-    );
-
-    return multiChoiceQuestion({
-        questionText,
-        answerGroup: answers,
-        image,
-        imageAlt,
-    });
-});
 
 const Qualtiy1 = parseTest('إدارة جودة — 1', q);
 export default Qualtiy1;

@@ -1,5 +1,6 @@
 import Question from './Question';
 import Answers from './Answers';
+import { useMemo } from 'react';
 
 export function MultiSelectQuestion({
     qgId,
@@ -10,19 +11,25 @@ export function MultiSelectQuestion({
     question: MultiChoiceQuestion;
     index: number;
 }) {
-    const answers = Answers({ question, qgId });
-    const questionElement = (
-        <>
-            <span>{question.questionText}</span>
-            {/* Image */}
-            {question.image && (
-                <img
-                    src={'./assets/' + question.image}
-                    alt={question.imageAlt}
-                    className="quest-image w-full h-auto my-2 "
-                />
-            )}
-        </>
+    const answers = useMemo(
+        () => <Answers question={question} qgId={qgId} />,
+        [question, qgId]
+    );
+    const questionElement = useMemo(
+        () => (
+            <>
+                <span>{question.questionText}</span>
+                {/* Image */}
+                {question.image && (
+                    <img
+                        src={'./assets/' + question.image}
+                        alt={question.imageAlt}
+                        className="quest-image w-full h-auto my-2 "
+                    />
+                )}
+            </>
+        ),
+        [question.questionText, question.image, question.imageAlt]
     );
 
     const props = {
