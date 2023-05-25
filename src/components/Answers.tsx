@@ -14,7 +14,8 @@ function Answers({ question, qgId }: { question: Question; qgId: string }) {
     const select = (answerId: string) => {
         if (!settings.testModeOn) return console.log('testMode is off');
         if (settings.correctAnswers && question.selectedId())
-            return vibrate(60) || console.log('already selected');
+            return vibrate(60) && console.log('already selected');
+        console.log('selecting answer', answerId);
         dispatchQuestions(selectAnswer(qgId, question.id, answerId));
         vibrate();
     };

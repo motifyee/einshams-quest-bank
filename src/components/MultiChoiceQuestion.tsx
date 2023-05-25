@@ -1,21 +1,26 @@
 import Question from './Question';
 import Answers from './Answers';
-import { useContext, useMemo } from 'react';
-import { SettingsContext } from '../lib/context';
+import { useCallback, useContext, useMemo } from 'react';
+import { SettingsActionsContext, SettingsContext } from '../lib/context';
 
 export function MultiSelectQuestion({
     qgId,
     question,
     index,
+    blurred,
+    unblur,
 }: {
     qgId: string;
     question: MultiChoiceQuestion;
     index: number;
+    blurred: boolean;
+    unblur: (questionId: string) => void;
 }) {
     const answers = useMemo(
         () => <Answers question={question} qgId={qgId} />,
         [question, qgId]
     );
+
     const questionElement = useMemo(
         () => (
             <>
@@ -33,13 +38,18 @@ export function MultiSelectQuestion({
         [question.questionText, question.image, question.imageAlt]
     );
 
-    const props = {
-        id: question.id,
-        index,
-        questionElement,
-        question,
-        answers,
-    };
+    const props = useMemo(
+        () => ({
+            id: question.id,
+            index,
+            questionElement,
+            question,
+            answers,
+            blurred,
+            unblur,
+        }),
+        [blurred]
+    );
 
     return <Question {...props} />;
 }
@@ -52,7 +62,18 @@ export default function MultiSelectQuestionGroup({
     index: number;
 }) {
     const settings = useContext(SettingsContext);
-    // qg.questions = settings.shuffleAnswers ? qg.shuffled(true) : qg.questions;
+    const setSettings = useContext(SettingsActionsContext);
+    const unblur = (questionId: string) =>
+        setSettings((settings) => ({
+            ...settings,
+            unbluredQuestion: questionId,
+        }));
+
+    const blurred = (id: string) =>
+        !(settings.unbluredQuestion === id) &&
+        settings.blurAnswers &&
+        !settings.testModeOn;
+
     const { questions } = qg;
 
     return (
@@ -64,6 +85,8 @@ export default function MultiSelectQuestionGroup({
                         qgId={qg.id}
                         question={q}
                         index={index + i + 1}
+                        blurred={blurred(q.id)}
+                        unblur={unblur}
                     />
                     <br />
                 </div>

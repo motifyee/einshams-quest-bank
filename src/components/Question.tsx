@@ -1,4 +1,4 @@
-import { memo, useContext } from 'react';
+import { memo, useContext, useMemo } from 'react';
 import { SettingsActionsContext, SettingsContext } from '../lib/context';
 import useCaptureUpdate from '../lib/CaptureComponentUpdateHook';
 
@@ -13,21 +13,17 @@ function Question({
     questionElement,
     answers,
     question,
+    blurred,
+    unblur,
 }: {
     id: string;
     index: number;
     questionElement: JSX.Element;
     answers: JSX.Element;
     question: Question;
+    blurred: boolean;
+    unblur: (questionId: string) => void;
 }) {
-    const setSettings = useContext(SettingsActionsContext);
-    const settings = useContext(SettingsContext);
-
-    const unblur = (questionId: string) => {
-        setSettings({ ...settings, unbluredQuestion: questionId });
-        vibrate();
-    };
-
     const [isCaptured] = useCaptureUpdate(
         id,
         () => '', //console.log('rendering ...', question.selectedId),
@@ -35,30 +31,19 @@ function Question({
         300
     );
 
-    const answered = question.selectedId(),
-        correcting = settings.correctAnswers,
-        correct = question.isCorrect(),
-        spbg =
-            answered && correcting ? (correct ? 'correct' : 'incorrect') : '';
-
     return (
         <div className={`quest-container`}>
             <h2
                 className={`quest-text ${(isCaptured && 'bg-slate-600') || ''}`}
             >
-                <span className={`quest-span ${spbg}`}>{index}</span>
+                <span className={`quest-span ${'spbg'}`}>{index}</span>
                 {questionElement}
             </h2>
             <div className="quest-answers">
                 {/* Answers blur */}
-                {!(settings.unbluredQuestion === id) &&
-                    settings.blurAnswers &&
-                    !settings.testModeOn && (
-                        <div
-                            className="blur"
-                            onDoubleClick={() => unblur(id)}
-                        />
-                    )}
+                {blurred && (
+                    <div className="blur" onDoubleClick={() => unblur(id)} />
+                )}
 
                 {/* Answers */}
                 {answers}
