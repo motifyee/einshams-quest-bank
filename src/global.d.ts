@@ -1,53 +1,142 @@
 type ReturnTypes<U> = U extends () => any ? ReturnType<U> : never;
 
-type SelectionQuestion = {
-    id: string;
-    questionText: string;
-    answers: Answer[];
-    correct?: boolean;
-    selectedId?: string;
-    correctAnswers?: number;
-    image?: string;
-    imageAlt?: string;
-};
+type QT =
+    | 'MULTICHOICEQUESTION'
+    | 'TRUEORFALSEQUESTION'
+    | 'VALUEQUESTION'
+    | 'MATCHINGQUESTION'
+    | 'MULTICHOICEQUESTIONGROUP'
+    | 'TRUEORFALSEQUESTIONGROUP'
+    | 'VALUEQUESTIONGROUP'
+    | 'MATCHINGQUESTIONGROUP'
+    | 'TEST'
+    | 'ANSWER'
+    | 'ANSWERGROUP'
+    | 'SAVEDANSWER'
+    | 'SCORE'
+    | 'SUBJECT'
+    | 'SUBJECTS';
 
-type MatchingQuestion = {
+type QuestionBase = {
     id: string;
     questionText?: string;
-    answer?: Answer;
-    answers?: Answer[];
+
+    type: QT;
+
     image?: string;
     imageAlt?: string;
 
-    selectedId?: string;
-    countsAsCorrect: boolean;
-    correct?: boolean;
+    countable: () => boolean;
+
+    answer?: Answer;
+    answerGroup?: AnswerGroup;
+    selectAnswer: (string) => QuestionBase;
+
+    // properties
+    isCorrect: () => boolean; // is correct
+    selectedId: () => string;
+    providedAnswer?: string;
 };
 
-type MatchingQuestions = {
+type Shuffleable = {
+    shuffle?: boolean;
+    shuffled: (boolean) => Shuffleable;
+    shuffledCache?: Shuffleable;
+};
+
+interface QuestionGroupBase extends Shuffleable {
     id: string;
     image?: string;
     imageAlt?: string;
+    title?: string;
+    type: QT;
+    countablesCount: () => number; // counts as correct
+    correctAnswersCount: () => number; // which are answerd correctly
+    selectAnswer: (string, string) => QuestionGroupBase;
+    unselectAll: () => QuestionGroupBase;
+}
+
+interface MultiChoiceQuestion extends QuestionBase {
+    type: 'MULTICHOICEQUESTION';
+    // answers: Answer[];
+}
+
+interface MultiChoiceQuestionGroup extends QuestionGroupBase {
+    type: 'MULTICHOICEQUESTIONGROUP';
+    questions: MultiChoiceQuestion[];
+}
+
+interface TrueOrFalseQuestion extends QuestionBase {
+    type: 'TRUEORFALSEQUESTION';
+    // answer: boolean;
+}
+
+interface TrueOrFalseQuestionGroup extends QuestionGroupBase {
+    type: 'TRUEORFALSEQUESTIONGROUP';
+    questions: TrueOrFalseQuestion[];
+}
+
+interface ValueQuestion extends QuestionBase {
+    // for answers that are a number or a sm to md string
+    type: 'VALUEQUESTION';
+    // answer: string;
+}
+
+interface ValueQuestionGroup extends QuestionGroupBase {
+    type: 'VALUEQUESTIONGROUP';
+    questions: ValueQuestion[];
+}
+
+interface MatchingQuestion extends QuestionBase {
+    type: 'MATCHINGQUESTION';
+    // answer?: Answer;
+    // answers?: Answer[];
+}
+
+interface MatchingQuestionGroup extends QuestionGroupBase {
+    type: 'MATCHINGQUESTIONGROUP';
     questions: MatchingQuestion[];
+}
 
-    questionsCount?: number;
-    correctAnswersCount?: number;
-};
+type Question =
+    | MultiChoiceQuestion
+    | MatchingQuestion
+    | TrueOrFalseQuestion
+    | ValueQuestion;
 
-type Question = SelectionQuestion | MatchingQuestions;
+type QuestionGroup =
+    | MultiChoiceQuestionGroup
+    | MatchingQuestionGroup
+    | TrueOrFalseQuestionGroup
+    | ValueQuestionGroup;
 
-type Questions = {
-    questions: Question[];
-    get correctAnswers(): number;
-};
+interface Test extends Shuffleable {
+    id: string;
+    title: string;
+    questionGroups: QuestionGroup[];
+    correctAnswersCount: () => number;
+    countables: () => number;
+    selectAnswer: (string, string, string) => Test;
+    unselectAll: () => Test;
+}
 
 type Answer = {
     id: string;
-    text: string;
-    correct?: boolean;
+    value: string | number | boolean;
+    correct?: boolean; // this is the correct answer, should be selected
     selected?: boolean;
     image?: string;
     imageAlt?: string;
+};
+// mutli choice question
+// value
+// true or false
+// matching
+type AnswerGroup = {
+    id: string;
+    answers: Answer[];
+    // ic?: boolean; // is correctly answered by the user
+    get isCorrect(): boolean; // is correct
 };
 
 type SavedAnswer = {
@@ -65,15 +154,19 @@ type Score = {
     percentage: number;
 };
 
-type Subjects = {
-    [name: string]: SelectionQuestion[];
-    // questions: Question[];
-    // scores?: Score[];
+type Subject = {
+    id: string;
+    name: string;
+    teacher: string;
+    tests: Test[];
+    scores?: Score[];
 };
+type Subjects = Subject[];
 
 type Settings = {
     subject: string;
-    questions?: SelectionQuestion[];
+    testId: string;
+    test?: Test;
 
     unbluredQuestion: string;
 

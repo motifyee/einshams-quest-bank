@@ -1,13 +1,12 @@
 import { Component, useContext } from 'react';
 import {
-    QuestionsActionsContext,
+    TestsActionsContext,
     SettingsContext,
-    SubjectsContext,
+    testsContext,
 } from '../lib/context';
-import { push as Menu } from 'react-burger-menu';
 import { SettingsActionsContext } from '../lib/context';
 import Checkbox from './Checkbox';
-import { selectAnswer, setQuestions, shuffleQuestions } from '../lib/reducer';
+import { setTest, shuffleTest } from '../lib/reducer';
 
 export default function Sidebar({
     questPanel,
@@ -16,26 +15,23 @@ export default function Sidebar({
 }) {
     const settings = useContext(SettingsContext),
         setSettings = useContext(SettingsActionsContext),
-        subjects = useContext(SubjectsContext),
-        dispatchQuestions = useContext(QuestionsActionsContext);
+        tests = useContext(testsContext),
+        dispatchQuestions = useContext(TestsActionsContext);
     const { sidebarOn } = settings;
 
-    const onClick = (action: string, value: string | boolean) => {
+    const onClick = (action: string, value: string | boolean | number) => {
         switch (action) {
             case 'selectedSubject':
+                const test = tests.find((e) => e.id === (value as string));
                 questPanel.current?.scrollTo({ top: 0, behavior: 'smooth' });
                 setSettings({
                     ...settings,
                     sidebarOn: false,
-                    subject: value as string,
-                    questions: subjects[value as string],
+                    // subject: value as string,
+                    test,
                 });
-
                 return dispatchQuestions(
-                    setQuestions(
-                        subjects[value as string],
-                        settings.shuffleQuestions
-                    )
+                    setTest(test, settings.shuffleQuestions)
                 );
             case 'testModeOn':
                 return setSettings({
@@ -57,12 +53,7 @@ export default function Sidebar({
                     ...settings,
                     shuffleQuestions: value as boolean,
                 });
-                return dispatchQuestions(
-                    shuffleQuestions(
-                        [...subjects[settings.subject]],
-                        value as boolean
-                    )
-                );
+                return dispatchQuestions(shuffleTest(value as boolean));
 
             case 'shuffleAnswers':
                 return setSettings({
@@ -87,21 +78,19 @@ export default function Sidebar({
                 onClick={(e) => e.stopPropagation()}
                 className={`${sidebarOn ? '' : 'off'} sidebar`}
             >
+                <h2 className="title">البنك</h2>
                 <div className="subjects">
                     {/* <div className="sep" /> */}
-                    <h2 className="title">البنك</h2>
                     <div className="sep" />
-                    {Object.keys(subjects).map((subjectName) => (
+                    {tests.map((test) => (
                         <div
-                            key={subjectName}
+                            key={test.id}
                             className={`item ${
-                                settings.subject === subjectName ? 'active' : ''
+                                settings.testId === test.id ? 'active' : ''
                             }`}
-                            onClick={() =>
-                                onClick('selectedSubject', subjectName)
-                            }
+                            onClick={() => onClick('selectedSubject', test.id)}
                         >
-                            {subjectName}
+                            {test.title}
                         </div>
                     ))}
                 </div>

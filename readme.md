@@ -31,3 +31,18 @@ setting git authentication commands
             HostName github.com
             IdentityFile ~/.ssh/mrt-web-github
             IdentitiesOnly yes
+
+https://help.blackboard.com/ar-sa/Learn/Instructor/Ultra/Tests_Pools_Surveys/Question_Types
+
+    -   أسئلة المقال
+    -   أسئلة ملء الفراغات المتعددة
+    -   أسئلة ملء الفراغات
+
+    -   أسئلة المعادلات الحسابية
+    -   الأسئلة التي تستلزم إجابة رقمية محددة أو في مدي رقمي
+
+    -   أسئلة التوصيل
+    -   أسئلة الاختيار من متعدد
+    -   أسئلة الصواب/الخطأ
+
+    -   الأسئلة متعددة الإجابات

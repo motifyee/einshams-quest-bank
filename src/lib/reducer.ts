@@ -3,10 +3,10 @@ import { ReducerWithoutAction } from 'react';
 // import Question from './components/Question';
 
 // ############################### Questions ###############################
-
+const l = console.log;
 export const addQuestion = createAction(
     'questions/add',
-    (question: SelectionQuestion) => ({ payload: { question } })
+    (question: QuestionGroup) => ({ payload: { question } })
 );
 // export const removeQuestion = createAction<string>('remove');
 export const removeQuestion = createAction(
@@ -17,21 +17,21 @@ export const removeQuestion = createAction(
 );
 export const updateQuestion = createAction(
     'questions/update',
-    (questionId: string, properties: Partial<SelectionQuestion>) => ({
+    (questionId: string, properties: Partial<QuestionGroup>) => ({
         payload: { questionId, ...properties },
     })
 );
-export const setQuestions = createAction(
+export const setTest = createAction(
     'questions/set',
-    (questions: SelectionQuestion[], shuffle: boolean) => ({
-        payload: { questions, shuffle },
+    (test?: Test, shuffle?: boolean) => ({
+        payload: { test, shuffle },
     })
 );
 
-export const shuffleQuestions = createAction(
+export const shuffleTest = createAction(
     'questions/shuffle',
-    (questions: SelectionQuestion[], shuffle: boolean) => ({
-        payload: { questions, shuffle },
+    (shuffle: boolean) => ({
+        payload: { shuffle },
     })
 );
 
@@ -73,15 +73,15 @@ export const shuffleQuestions = createAction(
 
 export const selectAnswer = createAction(
     'questions/answers/selectOne',
-    (questionId: string, answerId: string) => ({
-        payload: { questionId, answerId },
+    (qgId: string, questionId: string, answerId: string) => ({
+        payload: { qgId, questionId, answerId },
     })
 );
 
 export const unselectAnswer = createAction(
     'questions/answers/unselectOne',
-    (questionId: string) => ({
-        payload: { questionId },
+    (qgId: string, questionId: string) => ({
+        payload: { qgId, questionId },
     })
 );
 
@@ -91,14 +91,14 @@ export const unselectAllQuestionsAnswers = createAction(
 
 export const shuffleAnswers = createAction(
     'questions/answers/shuffleOne',
-    (questionId: string, question: SelectionQuestion, shuffle: boolean) => ({
+    (questionId: string, question: MultiChoiceQuestion, shuffle: boolean) => ({
         payload: { questionId, question, shuffle },
     })
 );
 
 export const shuffleAllQuestionsAnswers = createAction(
     'questions/answers/shuffleAll',
-    (questions: SelectionQuestion[], shuffle: boolean) => ({
+    (questions: MultiChoiceQuestion[], shuffle: boolean) => ({
         payload: { questions, shuffle },
     })
 );
@@ -109,51 +109,62 @@ export type Action =
     | ReturnType<typeof addQuestion>
     | ReturnType<typeof removeQuestion>
     | ReturnType<typeof updateQuestion>
-    | ReturnType<typeof setQuestions>
-    | ReturnType<typeof shuffleQuestions>
+    | ReturnType<typeof setTest>
+    | ReturnType<typeof shuffleTest>
     | ReturnType<typeof selectAnswer>
     | ReturnType<typeof unselectAnswer>
-    | ReturnType<typeof unselectAllQuestionsAnswers>
-    | ReturnType<typeof shuffleAnswers>;
+    | ReturnType<typeof unselectAllQuestionsAnswers>;
+// | ReturnType<typeof shuffleAnswers>;
 
 // ############################### Reducer ###############################
 
-export const reducer = (
-    state: SelectionQuestion[],
-    action: Action
-): SelectionQuestion[] => {
+export const reducer = (state: Test, action: Action): Test => {
     if (action.type === addQuestion.type)
-        return [...state, action.payload.question];
+        return {
+            ...state,
+            questionGroups: [...state.questionGroups, action.payload.question],
+        };
 
     if (action.type === removeQuestion.type)
-        return state.filter(
-            (question) => question.id !== action.payload.questionId
-        );
+        return {
+            ...state,
+            questionGroups: state.questionGroups.filter(
+                (question) => question.id !== action.payload.questionId
+            ),
+        };
 
     if (action.type === updateQuestion.type)
-        return state.map((question) => {
-            if (question.id === action.payload.questionId) {
-                return { ...question, ...action.payload };
-            }
-            return question;
-        });
+        return {
+            ...state,
+            ...state.questionGroups.map((question) =>
+                question.id === action.payload.questionId
+                    ? { ...question, ...action.payload }
+                    : question
+            ),
+        };
 
-    if (action.type === setQuestions.type) {
-        const { shuffle, questions } = action.payload;
-        if (!shuffle) return [...questions];
-        return [...questions].sort(() => Math.random() - 0.5);
+    if (action.type === setTest.type) {
+        const { shuffle, test } = action.payload;
+        console.log('setTest', test);
+        return {
+            ...test,
+            shuffle,
+        } as Test;
     }
 
-    if (action.type === shuffleQuestions.type) {
-        const { shuffle, questions } = action.payload;
-        if (!shuffle) {
-            const mappedstate: { [id: string]: Answer[] } = state.reduce(
-                (p, c) => ({ ...p, [c.id]: c.answers }),
-                {}
-            );
-            return questions.map((e) => ({ ...e, answers: mappedstate[e.id] }));
-        }
-        return [...state].sort(() => Math.random() - 0.5);
+    if (action.type === shuffleTest.type) {
+        const { shuffle } = action.payload;
+        // console.log('shuffleTest', shuffle);
+        return state.shuffled(shuffle) as Test;
+        // if (!shuffle) {
+        //     const mappedstate: { [id: string]: Answer[] } = state.reduce(
+        //         (p, c) => ({ ...p, [c.id]: c.answers }),
+        //         {}
+        //     );
+        //     return questions.map((e) => ({ ...e, answers: mappedstate[e.id] }));
+        // }
+        // return [...state].sort(() => Math.random() - 0.5);
+
         // const shuffledQuestions = [...state];
         // for (let i = shuffledQuestions.length - 1; i > 0; i--) {
         //     const j = Math.floor(Math.random() * (i + 1));
@@ -168,73 +179,112 @@ export const reducer = (
     }
 
     if (action.type === selectAnswer.type)
-        return state.map((question) => {
-            if (question.id === action.payload.questionId) {
-                return {
-                    ...question,
-                    correct: question.answers.some(
-                        (answer) =>
-                            answer.correct &&
-                            answer.id === action.payload.answerId
-                    ),
-                    selectedId: action.payload.answerId,
-                    answers: question.answers.map((answer, _) => {
-                        return {
-                            ...answer,
-                            selected: answer.id === action.payload.answerId,
-                        };
-                    }),
-                };
-            }
-            return question;
-        });
+        return state.selectAnswer(
+            action.payload.qgId,
+            action.payload.questionId,
+            action.payload.answerId
+        ) as Test;
+    // return {
+    //     ...state,
+    //     questionGroups: state.questionGroups.map((qg) =>
+    //         qg.id === action.payload.qgId
+    //             ? {
+    //                   ...qg,
+    //                   questions: qg.questions.map((question) => {
+    //                       if (question.id === action.payload.questionId) {
+    //                           return {
+    //                               ...question,
+    //                               answerGroup: {
+    //                                   ...question.answerGroup,
+    //                                   answers:
+    //                                       question.answerGroup?.answers.map(
+    //                                           (answer) => ({
+    //                                               ...answer,
+    //                                               selected:
+    //                                                   answer.id ===
+    //                                                   action.payload
+    //                                                       .answerId,
+    //                                           })
+    //                                       ),
+    //                               },
+    //                           };
+    //                       }
+    //                       return question;
+    //                   }),
+    //               }
+    //             : qg
+    //     ),
+    // } as Test;
 
-    if (action.type === unselectAnswer.type)
-        return state.map((question) =>
-            question.id === action?.payload?.questionId
-                ? {
-                      ...question,
-                      answers: question.answers.map((answer, index) => ({
-                          ...answer,
-                          selected: false,
-                      })),
-                  }
-                : question
-        );
+    // return state.map((question) =>
+    //     question.id === action?.payload?.questionId
+    //         ? {
+    //               ...question,
+    //               answers: question.answers.map((answer, index) => ({
+    //                   ...answer,
+    //                   selected: false,
+    //               })),
+    //           }
+    //         : question
+    // );
 
     if (action.type === unselectAllQuestionsAnswers.type)
-        return state.map((question) => ({
-            ...question,
-            selectedId: undefined,
-            correct: undefined,
-            answers: question.answers.map((answer) => ({
-                ...answer,
-                selected: false,
-            })),
-        }));
+        return state.unselectAll() as Test;
+    // return state.selectAnswer(
+    //     action.payload.qgId,
+    //     action.payload.questionId,
+    //     ''
+    // ) as Test;
+    // return {
+    //     ...state,
+    //     questionGroups: state.questionGroups.map((qg) => ({
+    //         ...qg,
+    //         questions: qg.questions.map((question) => ({
+    //             ...question,
+    //             // selectedId: undefined,
+    //             answerGroup: {
+    //                 ...question.answerGroup,
+    //                 answers:
+    //                     question.answerGroup?.answers.map((answer) => ({
+    //                         ...answer,
+    //                         selected: false,
+    //                     })) ?? [],
+    //             },
+    //         })),
+    //     })),
+    // } as Test;
+    // return state.map((question) => ({
+    //     ...question,
+    //     selectedId: undefined,
+    //     correct: undefined,
+    //     answers: question.answers.map((answer) => ({
+    //         ...answer,
+    //         selected: false,
+    //     })),
+    // }));
 
-    if (action.type === shuffleAnswers.type) {
-        let { questionId, question, shuffle } = action.payload;
-        if (!shuffle)
-            return state.map((q) => (q.id === questionId ? question : q));
-        return state.map((q) => {
-            if (q.id === questionId) {
-                const shuffledAnswers = [...q.answers];
-                for (let i = shuffledAnswers.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [shuffledAnswers[i], shuffledAnswers[j]] = [
-                        shuffledAnswers[j],
-                        shuffledAnswers[i],
-                    ];
-                }
-                return {
-                    ...q,
-                    answers: shuffledAnswers,
-                };
-            }
-            return q;
-        });
-    }
+    // if (action.type === shuffleAnswers.type) {
+    //     let { questionId, question, shuffle } = action.payload;
+    //     if (!shuffle)
+    //         return state.map((q) => (q.id === questionId ? question : q));
+    //     return state.map((q) => {
+    //         if (q.id === questionId) {
+    //             const shuffledAnswers = [...q.answers];
+    //             for (let i = shuffledAnswers.length - 1; i > 0; i--) {
+    //                 const j = Math.floor(Math.random() * (i + 1));
+    //                 [shuffledAnswers[i], shuffledAnswers[j]] = [
+    //                     shuffledAnswers[j],
+    //                     shuffledAnswers[i],
+    //                 ];
+    //             }
+    //             return {
+    //                 ...q,
+    //                 answers: shuffledAnswers,
+    //             };
+    //         }
+    //         return q;
+    //     });
+    // }
 
-    return [] as SelectionQuestion[];
+    return { ...state };
 };

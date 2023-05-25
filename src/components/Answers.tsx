@@ -1,5 +1,5 @@
-import { useContext } from 'react';
-import { QuestionsActionsContext, SettingsContext } from '../lib/context';
+import { memo, useContext, useDebugValue } from 'react';
+import { TestsActionsContext, SettingsContext } from '../lib/context';
 import { selectAnswer } from '../lib/reducer';
 
 const vibrate = (pattern = 35): boolean => {
@@ -7,19 +7,15 @@ const vibrate = (pattern = 35): boolean => {
     return true;
 };
 
-export default function Answers({
-    question,
-}: {
-    question: SelectionQuestion | MatchingQuestion;
-}) {
+function Answers({ question, qgId }: { question: Question; qgId: string }) {
     const settings = useContext(SettingsContext);
-    const dispatchQuestions = useContext(QuestionsActionsContext);
+    const dispatchQuestions = useContext(TestsActionsContext);
 
     const select = (answerId: string) => {
         if (!settings.testModeOn) return console.log('testMode is off');
-        if (settings.correctAnswers && question.selectedId)
+        if (settings.correctAnswers && question.selectedId())
             return vibrate(60) || console.log('already selected');
-        dispatchQuestions(selectAnswer(question.id, answerId));
+        dispatchQuestions(selectAnswer(qgId, question.id, answerId));
         vibrate();
     };
 
@@ -35,7 +31,7 @@ export default function Answers({
         if (!settings.correctAnswers)
             return answer.selected ? selectColor : defaultColor;
 
-        if (!question.selectedId) return defaultColor;
+        if (!question.selectedId()) return defaultColor;
 
         if (!answer.selected)
             return answer.correct ? correctColor : defaultColor;
@@ -43,15 +39,8 @@ export default function Answers({
         return answer.correct ? correctColor : wrongColor;
     }
 
-    function isMultiSelectQuestion(
-        question: SelectionQuestion | MatchingQuestion | MatchingQuestions
-    ): question is SelectionQuestion {
-        return 'answers' in question;
-    }
-
-    const answers = isMultiSelectQuestion(question)
-        ? question.answers
-        : [question.answer];
+    const answers = question.answerGroup?.answers ?? [question.answer];
+    const dbg = useDebugValue(answers);
 
     return (
         <>
@@ -73,7 +62,7 @@ export default function Answers({
                             htmlFor={`answer${question.id}${index}`}
                             className="quest-answerlable p-2"
                         >
-                            {answer.text}
+                            {answer.value}
                         </label>
                     </div>
                 ) : (
@@ -83,3 +72,5 @@ export default function Answers({
         </>
     );
 }
+
+export default Answers;

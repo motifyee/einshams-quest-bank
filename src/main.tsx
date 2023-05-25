@@ -4,10 +4,13 @@ import './styles/App.css';
 import QuestionsProvider from './lib/context';
 import Header from './components/Header';
 import Bottombar from './components/Bottombar';
-import Questions from './components/Questions';
+import Test from './components/Test';
 import Sidebar from './components/Sidebar';
 import { useEffect, useRef } from 'react';
-import { delMyIdLogs, saveAction } from './actions-reg';
+import { saveAction } from './actions-reg';
+import ScrollTopButton from './components/ScrollTopButton';
+
+// (window||globalThis||this)['l'] = console.log;
 
 function App() {
     const questPanelRef = useRef(null);
@@ -20,7 +23,8 @@ function App() {
             <Header />
             <Sidebar questPanel={questPanelRef} />
 
-            <Questions questPanel={questPanelRef} />
+            <Test questPanel={questPanelRef} />
+            <ScrollTopButton questPanel={questPanelRef} />
 
             <Bottombar />
         </QuestionsProvider>

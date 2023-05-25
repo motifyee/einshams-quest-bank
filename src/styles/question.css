@@ -23,6 +23,13 @@
     content: counter(qindex);
     /* ° */
 }
+.quest-span.correct::after {
+    @apply bg-green-700;
+}
+.quest-span.incorrect::after {
+    @apply bg-red-700;
+}
+
 .quest-answers {
     @apply relative flex flex-wrap p-4 gap-4 justify-center content-center items-center;
 }
