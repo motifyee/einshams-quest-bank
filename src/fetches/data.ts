@@ -1,5 +1,14 @@
 import { v4 as uuid } from 'uuid';
-
+import {
+    questionIsCountable,
+    questionGroupCorrectAnswersCount,
+    questionGroupCountablesCount,
+    questionIsAnswered,
+    questionIsCorrect,
+    questionSelecedAnswerId,
+    testCorrectAnswersCount,
+    testCountablesCount,
+} from '../lib/state-methods';
 const l = console.log;
 export function answer({
     id,
@@ -27,13 +36,12 @@ export function answerGroup({
         id: id || uuid(),
         answers,
         get isCorrect() {
-            let c =
-                // multichoice, trueorfalse and match questions
-                this.answers.some((e) => e.correct === e.selected) ||
-                // value questions
-                this.answers.find((e) => e.selected)?.value ===
-                    this.answers.find((e) => e.correct)?.value;
-            // debugger;
+            let c = this.answers.some((e) => e.selected);
+            // // multichoice, trueorfalse and match questions
+            // this.answers.some((e) => e.correct && e.selected) ||
+            // // value questions
+            // this.answers.find((e) => e.selected)?.value ===
+            //     this.answers.find((e) => e.correct)?.value;
             return c;
         },
         // ic: function () {
@@ -61,10 +69,9 @@ export function multiChoiceQuestion({
         type: 'MULTICHOICEQUESTION',
         image,
         imageAlt,
-        countable: true,
-        get isCorrect() {
-            return !!questionText && this.answerGroup?.isCorrect;
-        },
+        countable: questionIsCountable,
+        isCorrect: questionIsCorrect,
+        selectedId: questionSelecedAnswerId,
     };
 }
 
@@ -80,16 +87,8 @@ export function multiChoiceQuestionGroup({
         image,
         imageAlt,
         questions,
-        get countable() {
-            return questions.length;
-        },
-        get correctAnswersCount() {
-            // console.log('correctAnswersCount', this.questions);
-            return this.questions.reduce(
-                (acc, curr) => acc + (curr.isCorrect ? 1 : 0),
-                0
-            );
-        },
+        countablesCount: questionGroupCountablesCount,
+        correctAnswersCount: questionGroupCorrectAnswersCount,
     };
 }
 
@@ -107,7 +106,9 @@ export function trueOrFalseQuestion({
         type: 'TRUEORFALSEQUESTION',
         image,
         imageAlt,
-        countable: true,
+        countable: questionIsCountable,
+        isCorrect: questionIsCorrect,
+        selectedId: questionSelecedAnswerId,
     };
 }
 export function trueOrFalseQuestionGroup({
@@ -122,15 +123,8 @@ export function trueOrFalseQuestionGroup({
         imageAlt,
         type: 'TRUEORFALSEQUESTIONGROUP',
         questions,
-        get countable() {
-            return this.questions.length;
-        },
-        get correctAnswersCount() {
-            return this.questions.reduce(
-                (acc, curr) => acc + (curr.isCorrect ? 1 : 0),
-                0
-            );
-        },
+        countablesCount: questionGroupCountablesCount,
+        correctAnswersCount: questionGroupCorrectAnswersCount,
     };
 }
 
@@ -148,7 +142,9 @@ export function valueQuestion({
         type: 'VALUEQUESTION',
         image,
         imageAlt,
-        countable: true,
+        countable: questionIsCountable,
+        isCorrect: questionIsCorrect,
+        selectedId: questionSelecedAnswerId,
     };
 }
 
@@ -164,15 +160,8 @@ export function valueQuestionGroup({
         imageAlt,
         type: 'VALUEQUESTIONGROUP',
         questions,
-        get countable() {
-            return this.questions.length;
-        },
-        get correctAnswersCount() {
-            return this.questions.reduce(
-                (acc, curr) => acc + (curr.isCorrect ? 1 : 0),
-                0
-            );
-        },
+        countablesCount: questionGroupCountablesCount,
+        correctAnswersCount: questionGroupCorrectAnswersCount,
     };
 }
 
@@ -183,7 +172,6 @@ export function matchingQuestion({
     answerGroup: answers,
     image,
     imageAlt,
-    selectedId = '',
 }: Partial<MatchingQuestion>): MatchingQuestion {
     return {
         id: id || uuid(),
@@ -193,14 +181,9 @@ export function matchingQuestion({
         image,
         imageAlt,
         type: 'MATCHINGQUESTION',
-        selectedId,
-        get isCorrect() {
-            return !!questionText && this.answer?.id === this.selectedId;
-        },
-        get countable() {
-            // if has a specific answer and a question
-            return !!this.questionText && !!this.answer;
-        },
+        countable: questionIsCountable,
+        isCorrect: questionIsCorrect,
+        selectedId: questionSelecedAnswerId,
     };
 }
 
@@ -216,18 +199,8 @@ export function matchingQuestionGroup({
         imageAlt,
         type: 'MATCHINGQUESTIONGROUP',
         questions: questions,
-        get countable() {
-            return this.questions.reduce(
-                (acc, curr) => acc + (curr.countable ? 1 : 0),
-                0
-            );
-        },
-        get correctAnswersCount() {
-            return this.questions.reduce(
-                (acc, curr) => acc + (curr.isCorrect ? 1 : 0),
-                0
-            );
-        },
+        countablesCount: questionGroupCountablesCount,
+        correctAnswersCount: questionGroupCorrectAnswersCount,
     };
 }
 
@@ -272,18 +245,6 @@ export function parseMultiChoichQuestionGroup(
     return multiChoiceQuestionGroup({
         id: uuid(),
         questions,
-        get countable() {
-            return this.questions.reduce(
-                (acc, curr) => acc + (+curr.countable && 1),
-                0
-            );
-        },
-        get correctAnswersCount() {
-            return this.questions.reduce(
-                (acc, curr) => acc + (curr.countable && curr.isCorrect ? 1 : 0),
-                0
-            );
-        },
     } as MultiChoiceQuestionGroup);
 }
 
@@ -307,18 +268,6 @@ export function parseMatchingQuestionGroup(
     return matchingQuestionGroup({
         id: uuid(),
         questions,
-        get countable() {
-            return this.questions.reduce(
-                (acc, curr) => acc + (+curr.countable && 1),
-                0
-            );
-        },
-        get correctAnswersCount() {
-            return this.questions.reduce(
-                (acc, curr) => acc + (curr.countable && curr.isCorrect ? 1 : 0),
-                0
-            );
-        },
     } as MatchingQuestionGroup);
 }
 
@@ -341,18 +290,6 @@ export function parseTrueOrFalseQuestionGroup(
     return trueOrFalseQuestionGroup({
         id: uuid(),
         questions,
-        get countable() {
-            return this.questions.reduce(
-                (acc, curr) => acc + (+curr.countable && 1),
-                0
-            );
-        },
-        get correctAnswersCount() {
-            return this.questions.reduce(
-                (acc, curr) => acc + (curr.countable && curr.isCorrect ? 1 : 0),
-                0
-            );
-        },
     } as TrueOrFalseQuestionGroup);
 }
 
@@ -373,15 +310,6 @@ export function parseValueQuestionGroup(text: string): ValueQuestionGroup {
     return valueQuestionGroup({
         id: uuid(),
         questions,
-        get countable() {
-            return this.questions.length;
-        },
-        get correctAnswersCount() {
-            return this.questions.reduce(
-                (acc, curr) => acc + (curr.countable && curr.isCorrect ? 1 : 0),
-                0
-            );
-        },
     } as ValueQuestionGroup);
 }
 
@@ -416,19 +344,8 @@ export function parseTest(title: string, text: string): Test {
         id: uuid(),
         title: title,
         questionGroups: questions,
-        get correctAnswersCount() {
-            l('correctAnswersCount', this.questionGroups);
-            return this.questionGroups.reduce(
-                (acc, curr) => acc + curr.correctAnswersCount,
-                0
-            );
-        },
-        get countable() {
-            return this.questionGroups.reduce(
-                (acc, curr) => acc + curr.countable,
-                0
-            );
-        },
+        correctAnswersCount: testCorrectAnswersCount,
+        countables: testCountablesCount,
     };
 }
 

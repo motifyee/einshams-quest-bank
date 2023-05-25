@@ -18,8 +18,10 @@ function Bottombar() {
     const score = useMemo(() => {
         if (!settings.testModeOn) return 0;
         console.log('calculating...');
-        debugger;
-        return test.correctAnswersCount;
+
+        return test.correctAnswersCount(test);
+
+        // return test.correctAnswersCount;
         // return .reduce((p, c) => p + (c.isCorrect ? 1 : 0), 0);
     }, [test]);
 
@@ -28,7 +30,7 @@ function Bottombar() {
             <div className="score">
                 <span className="score__label">Score: </span>
                 <span className="score__value">
-                    {score}/{test.countable}
+                    {score}/{test.countables(test)}
                 </span>
             </div>
             <div className="actions">

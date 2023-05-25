@@ -10,13 +10,15 @@ const vibrate = (pattern = 35): boolean => {
 function Question({
     id,
     index,
-    question,
+    questionElement,
     answers,
+    question,
 }: {
     id: string;
     index: number;
-    question: JSX.Element;
+    questionElement: JSX.Element;
     answers: JSX.Element;
+    question: Question;
 }) {
     const setSettings = useContext(SettingsActionsContext);
     const settings = useContext(SettingsContext);
@@ -32,15 +34,20 @@ function Question({
         true,
         300
     );
-    const dbg = useDebugValue(answers);
+
+    const answered = question.selectedId(question),
+        correcting = settings.correctAnswers,
+        correct = question.isCorrect(question),
+        spbg =
+            answered && correcting ? (correct ? 'correct' : 'incorrect') : '';
 
     return (
         <div className={`quest-container`}>
             <h2
                 className={`quest-text ${(isCaptured && 'bg-slate-600') || ''}`}
             >
-                <span className="quest-span">{index}</span>
-                {question}
+                <span className={`quest-span ${spbg}`}>{index}</span>
+                {questionElement}
             </h2>
             <div className="quest-answers">
                 {/* Answers blur */}

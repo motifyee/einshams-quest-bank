@@ -194,27 +194,27 @@ export const reducer = (state: Test, action: Action): Test => {
                 qg.id === action.payload.qgId
                     ? {
                           ...qg,
-                          questions: qg.questions.map((question) =>
-                              question.id === action.payload.questionId
-                                  ? {
-                                        ...question,
-                                        selectedId: action.payload.answerId,
-                                        answerGroup: {
-                                            ...question.answerGroup,
-                                            answers:
-                                                question.answerGroup?.answers.map(
-                                                    (answer) => ({
-                                                        ...answer,
-                                                        selected:
-                                                            answer.id ===
-                                                            action.payload
-                                                                .answerId,
-                                                    })
-                                                ),
-                                        },
-                                    }
-                                  : question
-                          ),
+                          questions: qg.questions.map((question) => {
+                              if (question.id === action.payload.questionId) {
+                                  return {
+                                      ...question,
+                                      answerGroup: {
+                                          ...question.answerGroup,
+                                          answers:
+                                              question.answerGroup?.answers.map(
+                                                  (answer) => ({
+                                                      ...answer,
+                                                      selected:
+                                                          answer.id ===
+                                                          action.payload
+                                                              .answerId,
+                                                  })
+                                              ),
+                                      },
+                                  };
+                              }
+                              return question;
+                          }),
                       }
                     : qg
             ),
@@ -239,7 +239,7 @@ export const reducer = (state: Test, action: Action): Test => {
                 ...qg,
                 questions: qg.questions.map((question) => ({
                     ...question,
-                    selectedId: undefined,
+                    // selectedId: undefined,
                     answerGroup: {
                         ...question.answerGroup,
                         answers:

@@ -30,7 +30,8 @@ export function MultiSelectQuestion({
     const props = {
         id: question.id,
         index,
-        question: questionElement,
+        questionElement,
+        question,
         answers,
     };
 

@@ -26,14 +26,14 @@ type QuestionBase = {
     image?: string;
     imageAlt?: string;
 
-    countable: boolean;
+    countable: (Question) => boolean;
 
     answer?: Answer;
     answerGroup?: AnswerGroup;
 
     // properties
-    isCorrect?: boolean;
-    selectedId?: string;
+    isCorrect: (Question) => boolean; // is correct
+    selectedId: (Question) => string;
     providedAnswer?: string;
 };
 
@@ -48,8 +48,9 @@ interface QuestionGroupBase extends Shuffleable {
     imageAlt?: string;
     title?: string;
     type: QT;
-    countable: number; // counts as correct
-    correctAnswersCount: number; // which are answerd correctly
+    countablesCount: (QuestionGroup) => number; // counts as correct
+    correctAnswersCount: (QuestionGroup) => number; // which are answerd correctly
+    // questions: QuestionBase[];
 }
 
 interface MultiChoiceQuestion extends QuestionBase {
@@ -110,8 +111,8 @@ interface Test extends Shuffleable {
     id: string;
     title: string;
     questionGroups: QuestionGroup[];
-    get correctAnswersCount(): number;
-    get countable(): number;
+    correctAnswersCount: (Test) => number;
+    countables: (Test) => number;
 }
 
 type Answer = {
@@ -130,7 +131,7 @@ type AnswerGroup = {
     id: string;
     answers: Answer[];
     // ic?: boolean; // is correctly answered by the user
-    isCorrect?: boolean; // is correct
+    get isCorrect(): boolean; // is correct
 };
 
 type SavedAnswer = {
