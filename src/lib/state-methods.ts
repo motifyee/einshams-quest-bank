@@ -59,15 +59,19 @@ export function questionGroupShuffleQuestions(
     this: QuestionGroup,
     shuffle: boolean
 ): QuestionGroup {
-    const questions = shuffle
-        ? [...(this.cache as QuestionGroup).questions].sort(
-              () => Math.random() - 0.5
-          )
-        : (this.cache as QuestionGroup)?.questions ?? [];
+    const answers: any = {};
+    this.questions.forEach(
+        (question) => (answers[question.id] = question.selectedId())
+    );
+    const ans = (q: Question) => q.selectAnswer(answers[q.id]);
+    const rand = () => Math.random() - 0.5;
+
+    let questions = [...(this.cache as QuestionGroup).questions].map(ans);
+    if (shuffle) questions = questions.sort(rand);
 
     return {
         ...this,
-        shuffle: shuffle,
+        shuffle,
         questions,
     } as QuestionGroup;
 }

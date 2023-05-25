@@ -146,10 +146,7 @@ export const reducer = (state: Test, action: Action): Test => {
     if (action.type === setTest.type) {
         const { shuffle, test } = action.payload;
         // console.log('setTest', test);
-        return {
-            ...test,
-            shuffle,
-        } as Test;
+        return test?.shuffled(shuffle) as Test;
     }
 
     if (action.type === shuffleTest.type) {
