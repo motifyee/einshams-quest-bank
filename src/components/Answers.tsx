@@ -41,7 +41,6 @@ function Answers({ question, qgId }: { question: Question; qgId: string }) {
     }
 
     const answers = question.answerGroup?.answers ?? [question.answer];
-    const dbg = useDebugValue(answers);
 
     return (
         <>
@@ -50,17 +49,19 @@ function Answers({ question, qgId }: { question: Question; qgId: string }) {
                 !!answer ? ( // might be undefined for matching questions
                     <div
                         key={answer.id}
-                        className={`quest-answer ${answerStyle(answer)}`}
+                        className={`quest-answer ${question.selectedId()} ${answerStyle(
+                            answer
+                        )}`}
                     >
                         <input
                             type="radio"
                             onClick={(e) => select(answer.id)}
                             name="answer"
-                            id={`answer${question.id}${index}`}
+                            id={`answer-${question.id}${index}`}
                             className="hidden"
                         />
                         <label
-                            htmlFor={`answer${question.id}${index}`}
+                            htmlFor={`answer-${question.id}${index}`}
                             className="quest-answerlable p-2"
                         >
                             {answer.value}

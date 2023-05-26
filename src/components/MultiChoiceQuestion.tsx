@@ -1,28 +1,27 @@
 import Question from './Question';
 import Answers from './Answers';
-import { useCallback, useContext, useMemo } from 'react';
+import { memo, useCallback, useContext, useMemo } from 'react';
 import { SettingsActionsContext, SettingsContext } from '../lib/context';
 
-export function MultiSelectQuestion({
-    qgId,
-    question,
-    index,
-    blurred,
-    unblur,
-}: {
-    qgId: string;
-    question: MultiChoiceQuestion;
-    index: number;
-    blurred: boolean;
-    unblur: (questionId: string) => void;
-}) {
-    const answers = useMemo(
-        () => <Answers question={question} qgId={qgId} />,
-        [question, qgId]
-    );
+const MultiSelectQuestion = memo(
+    ({
+        qgId,
+        question,
+        index,
+        blurred,
+        unblur,
+        correctAnswers,
+    }: {
+        qgId: string;
+        question: MultiChoiceQuestion;
+        index: number;
+        blurred: boolean;
+        unblur: (questionId: string) => void;
+        correctAnswers: boolean;
+    }) => {
+        const answersEl = <Answers question={question} qgId={qgId} />;
 
-    const questionElement = useMemo(
-        () => (
+        const questionEl = (
             <>
                 <span>{question.questionText}</span>
                 {/* Image */}
@@ -34,25 +33,27 @@ export function MultiSelectQuestion({
                     />
                 )}
             </>
-        ),
-        [question.questionText, question.image, question.imageAlt]
-    );
+        );
 
-    const props = useMemo(
-        () => ({
+        const props = {
             id: question.id,
             index,
-            questionElement,
+            questionEl,
+            answersEl,
             question,
-            answers,
+            correctAnswers,
             blurred,
             unblur,
-        }),
-        [blurred]
-    );
+        };
+        // const blur = useMemo(
+        //     () => ({
+        //     }),
+        //     [blurred, unblur]
+        // );
 
-    return <Question {...props} />;
-}
+        return <Question {...blur} {...props} />;
+    }
+);
 
 export default function MultiSelectQuestionGroup({
     questionGroup: qg,
@@ -63,17 +64,20 @@ export default function MultiSelectQuestionGroup({
 }) {
     const settings = useContext(SettingsContext);
     const setSettings = useContext(SettingsActionsContext);
-    const unblur = (questionId: string) =>
-        setSettings((settings) => ({
-            ...settings,
-            unbluredQuestion: questionId,
-        }));
 
     const blurred = (id: string) =>
-        !(settings.unbluredQuestion === id) &&
+        !(settings.unblurredQuestion === id) &&
         settings.blurAnswers &&
         !settings.testModeOn;
 
+    const unblur = useCallback(
+        (questionId: string) =>
+            setSettings((settings) => ({
+                ...settings,
+                unblurredQuestion: questionId,
+            })),
+        []
+    );
     const { questions } = qg;
 
     return (
@@ -87,6 +91,7 @@ export default function MultiSelectQuestionGroup({
                         index={index + i + 1}
                         blurred={blurred(q.id)}
                         unblur={unblur}
+                        correctAnswers={settings.correctAnswers}
                     />
                     <br />
                 </div>

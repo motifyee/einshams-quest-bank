@@ -168,7 +168,7 @@ type Settings = {
     testId: string;
     test?: Test;
 
-    unbluredQuestion: string;
+    unblurredQuestion: string;
 
     sidebarOn: boolean;
 

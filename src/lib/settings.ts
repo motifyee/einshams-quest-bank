@@ -2,14 +2,14 @@ export const defaultSettings: Settings = {
     subject: '',
     testId: '',
     test: undefined,
-    unbluredQuestion: '',
+    unblurredQuestion: '',
 
     sidebarOn: false,
 
-    testModeOn: true,
+    testModeOn: false,
     correctAnswers: false,
 
     shuffleQuestions: false,
     shuffleAnswers: false,
-    blurAnswers: false,
+    blurAnswers: true,
 };

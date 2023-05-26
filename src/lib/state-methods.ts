@@ -33,7 +33,6 @@ export function questionSelectAnswer(
     this: Question,
     answerId: string
 ): Question {
-    console.log('questionSelectAnswer', answerId);
     return {
         ...this,
         answerGroup: {
@@ -90,13 +89,6 @@ export function questionGroupSelectAnswer(
                 ? question.selectAnswer(answerId)
                 : question
         ),
-        // shuffledCache: {
-        //     questions: this.questions.map((question) =>
-        //         question.id === questionId
-        //             ? question.selectAnswer(answerId)
-        //             : question
-        //     ),
-        // } as QuestionGroup,
     } as QuestionGroup;
 }
 
