@@ -1,5 +1,11 @@
-import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee953f5b.js";import{c as h}from"./@reduxjs-4d3d6157.js";import{v as m}from"./uuid-a960c1f4.js";import{T as D,a as k}from"./@azure-6e10cfef.js";import{d as B}from"./device-detector-js-8f92b5ad.js";import"./firebase-86d04f59.js";import{i as F,P as R,_ as S,p as _,G as L}from"./@firebase-3a88a537.js";import"./scheduler-04ce0582.js";import"./tslib-87ab7759.js";import"./idb-81bdbf9b.js";(function(){const s=document.createElement("link").relList;if(s&&s.supports&&s.supports("modulepreload"))return;for(const i of document.querySelectorAll('link[rel="modulepreload"]'))r(i);new MutationObserver(i=>{for(const n of i)if(n.type==="childList")for(const a of n.addedNodes)a.tagName==="LINK"&&a.rel==="modulepreload"&&r(a)}).observe(document,{childList:!0,subtree:!0});function e(i){const n={};return i.integrity&&(n.integrity=i.integrity),i.referrerPolicy&&(n.referrerPolicy=i.referrerPolicy),i.crossOrigin==="use-credentials"?n.credentials="include":i.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function r(i){if(i.ep)return;i.ep=!0;const n=e(i);fetch(i.href,n)}})();const U=h("questions/add",t=>({payload:{question:t}})),H=h("questions/remove",t=>({payload:{questionId:t}})),Z=h("questions/update",(t,s)=>({payload:{questionId:t,...s}})),y=h("questions/set",(t,s)=>({payload:{questions:t,shuffle:s}})),P=h("questions/shuffle",(t,s)=>({payload:{questions:t,shuffle:s}})),q=h("questions/answers/selectOne",(t,s)=>({payload:{questionId:t,answerId:s}})),G=h("questions/answers/unselectOne",t=>({payload:{questionId:t}})),O=h("questions/answers/unselectAll"),K=h("questions/answers/shuffleOne",(t,s,e)=>({payload:{questionId:t,question:s,shuffle:e}}));h("questions/answers/shuffleAll",(t,s)=>({payload:{questions:t,shuffle:s}}));const V=(t,s)=>{if(s.type===U.type)return[...t,s.payload.question];if(s.type===H.type)return t.filter(e=>e.id!==s.payload.questionId);if(s.type===Z.type)return t.map(e=>e.id===s.payload.questionId?{...e,...s.payload}:e);if(s.type===y.type){const{shuffle:e,questions:r}=s.payload;return e?[...r].sort(()=>Math.random()-.5):[...r]}if(s.type===P.type){const{shuffle:e,questions:r}=s.payload;if(!e){const i=t.reduce((n,a)=>({...n,[a.id]:a.answers}),{});return r.map(n=>({...n,answers:i[n.id]}))}return[...t].sort(()=>Math.random()-.5)}if(s.type===q.type)return t.map(e=>e.id===s.payload.questionId?{...e,correct:e.answers.some(r=>r.correct&&r.id===s.payload.answerId),selectedId:s.payload.answerId,answers:e.answers.map((r,i)=>({...r,selected:r.id===s.payload.answerId}))}:e);if(s.type===G.type)return t.map(e=>{var r;return e.id===((r=s==null?void 0:s.payload)==null?void 0:r.questionId)?{...e,answers:e.answers.map((i,n)=>({...i,selected:!1}))}:e});if(s.type===O.type)return t.map(e=>({...e,selectedId:void 0,correct:void 0,answers:e.answers.map(r=>({...r,selected:!1}))}));if(s.type===K.type){let{questionId:e,question:r,shuffle:i}=s.payload;return i?t.map(n=>{if(n.id===e){const a=[...n.answers];for(let c=a.length-1;c>0;c--){const l=Math.floor(Math.random()*(c+1));[a[c],a[l]]=[a[l],a[c]]}return{...n,answers:a}}return n}):t.map(n=>n.id===e?r:n)}return[]},$={subject:"",questions:[],unbluredQuestion:"",sidebarOn:!1,testModeOn:!1,correctAnswers:!1,shuffleQuestions:!1,shuffleAnswers:!1,blurAnswers:!1};function g({id:t,questionText:s,answers:e,image:r,imageAlt:i}){return{id:t||m(),questionText:s,answers:e,get correctAnswers(){return this.answers.filter(n=>n.correct&&n.selected).length},image:r,imageAlt:i}}const W=`
+import{r as u,j as o}from"./react-2785220f.js";import{c as V}from"./react-dom-ee953f5b.js";import{c as f}from"./@reduxjs-4d3d6157.js";import{v as d}from"./uuid-a960c1f4.js";import{d as W}from"./device-detector-js-8f92b5ad.js";import"./firebase-86d04f59.js";import{i as K,P as z,_ as D,p as Z,G as X}from"./@firebase-3a88a537.js";import"./scheduler-04ce0582.js";import"./idb-81bdbf9b.js";(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const r of document.querySelectorAll('link[rel="modulepreload"]'))n(r);new MutationObserver(r=>{for(const q of r)if(q.type==="childList")for(const i of q.addedNodes)i.tagName==="LINK"&&i.rel==="modulepreload"&&n(i)}).observe(document,{childList:!0,subtree:!0});function s(r){const q={};return r.integrity&&(q.integrity=r.integrity),r.referrerPolicy&&(q.referrerPolicy=r.referrerPolicy),r.crossOrigin==="use-credentials"?q.credentials="include":r.crossOrigin==="anonymous"?q.credentials="omit":q.credentials="same-origin",q}function n(r){if(r.ep)return;r.ep=!0;const q=s(r);fetch(r.href,q)}})();const Y=f("questions/add",e=>({payload:{question:e}})),J=f("questions/remove",e=>({payload:{questionId:e}})),ee=f("questions/update",(e,t)=>({payload:{questionId:e,...t}})),S=f("questions/set",(e,t)=>({payload:{test:e,shuffle:t}})),R=f("questions/shuffle",e=>({payload:{shuffle:e}})),B=f("questions/answers/selectOne",(e,t,s)=>({payload:{qgId:e,questionId:t,answerId:s}}));f("questions/answers/unselectOne",(e,t)=>({payload:{qgId:e,questionId:t}}));const _=f("questions/answers/unselectAll");f("questions/answers/shuffleOne",(e,t,s)=>({payload:{questionId:e,question:t,shuffle:s}}));f("questions/answers/shuffleAll",(e,t)=>({payload:{questions:e,shuffle:t}}));const te=(e,t)=>{if(t.type===Y.type)return{...e,questionGroups:[...e.questionGroups,t.payload.question]};if(t.type===J.type)return{...e,questionGroups:e.questionGroups.filter(s=>s.id!==t.payload.questionId)};if(t.type===ee.type)return{...e,...e.questionGroups.map(s=>s.id===t.payload.questionId?{...s,...t.payload}:s)};if(t.type===S.type){const{shuffle:s,test:n}=t.payload;return n==null?void 0:n.shuffled(s)}if(t.type===R.type){const{shuffle:s}=t.payload;return e.shuffled(s)}return t.type===B.type?e.selectAnswer(t.payload.qgId,t.payload.questionId,t.payload.answerId):t.type===_.type?e.unselectAll():{...e}},F={subject:"",testId:"",test:void 0,unblurredQuestion:"",sidebarOn:!1,testModeOn:!1,correctAnswers:!1,shuffleQuestions:!1,shuffleAnswers:!1,blurAnswers:!1};function se(){var e,t,s;return((s=(t=(e=this.answerGroup)==null?void 0:e.answers)==null?void 0:t.find(n=>n.selected))==null?void 0:s.id)??""}function ne(){var e,t;return((t=(e=this.answerGroup)==null?void 0:e.answers)==null?void 0:t.some(s=>s.correct&&s.selected))??!1}function re(){var e,t,s;return!!this.questionText&&(!!((t=(e=this.answerGroup)==null?void 0:e.answers)!=null&&t.length)||!!((s=this.answer)!=null&&s.value))}function oe(e){var t,s;return{...this,answerGroup:{...this.answerGroup,answers:(s=(t=this.answerGroup)==null?void 0:t.answers)==null?void 0:s.map(n=>({...n,selected:n.id===e}))}}}function qe(){return this.questions.filter(e=>e.isCorrect()).length}function ie(){return this.questions.filter(e=>e.countable()).length}function ce(e){const t={};this.questions.forEach(q=>t[q.id]=q.selectedId());const s=q=>q.selectAnswer(t[q.id]),n=()=>Math.random()-.5;let r=[...this.cache.questions].map(s);return e&&(r=r.sort(n)),{...this,shuffle:e,questions:r}}function ae(e,t){return{...this,questions:this.questions.map(s=>s.id===e?s.selectAnswer(t):s)}}function ue(){return{...this,questions:this.questions.map(e=>e.selectAnswer(""))}}function le(){return this.questionGroups.reduce((e,t)=>e+t.correctAnswersCount(),0)}function de(){return this.questionGroups.reduce((e,t)=>e+t.countablesCount(),0)}function pe(e){return{...this,shuffle:e,questionGroups:this.questionGroups.map(t=>t.shuffled(e))}}function fe(e,t,s){return{...this,questionGroups:this.questionGroups.map(n=>n.id===e?n.selectAnswer(t,s):n)}}function me(){return{...this,questionGroups:this.questionGroups.map(e=>e.unselectAll())}}function y({id:e,value:t,correct:s,selected:n,image:r,imageAlt:q}){return{id:e||d(),value:t,correct:s,selected:n,image:r,imageAlt:q}}function he({id:e,answers:t=[]}){return{id:e||d(),answers:t,get isCorrect(){return this.answers.some(n=>n.selected)}}}const I={countable:re,isCorrect:ne,selectedId:se,selectAnswer:oe},O={countablesCount:ie,correctAnswersCount:qe,shuffled:ce,selectAnswer:ae,unselectAll:ue};function Q({id:e,questionText:t,answerGroup:s,image:n,imageAlt:r}){return{id:e||d(),questionText:t,answerGroup:s,type:"MULTICHOICEQUESTION",image:n,imageAlt:r,...I}}function ge({id:e,questions:t,image:s,imageAlt:n}){return{id:e||d(),type:"MULTICHOICEQUESTIONGROUP",image:s,imageAlt:n,questions:t,cache:{questions:t},...O}}function T({id:e,questionText:t,answer:s,image:n,imageAlt:r}){return{id:e||d(),questionText:t,answer:s,type:"TRUEORFALSEQUESTION",image:n,imageAlt:r,...I}}function we({id:e,questions:t,image:s,imageAlt:n}){return{id:e||d(),image:s,imageAlt:n,type:"TRUEORFALSEQUESTIONGROUP",questions:t,cache:{questions:t},...O}}function M({id:e,questionText:t,answer:s,image:n,imageAlt:r}){return{id:e||d(),questionText:t,answer:s,type:"VALUEQUESTION",image:n,imageAlt:r,...I}}function xe({id:e,questions:t,image:s,imageAlt:n}){return{id:e||d(),image:s,imageAlt:n,type:"VALUEQUESTIONGROUP",questions:t,cache:{questions:t},...O}}function E({id:e="",questionText:t,answer:s,answerGroup:n,image:r,imageAlt:q}){return{id:e||d(),questionText:t,answer:s,answerGroup:n,image:r,imageAlt:q,type:"MATCHINGQUESTION",...I}}function be({id:e,questions:t,image:s,imageAlt:n}){return{id:e||d(),image:s,imageAlt:n,type:"MATCHINGQUESTIONGROUP",questions:t,cache:{questions:t},...O}}function g(e){let t=/!\[(.*)\]\((.*)\)/,s=e.replace(t,""),[,n,r]=t.exec(e)||[];return[!!r,n,r,s]}function Ce(e){if(e=e.trim(),!e.length)return Q({});const[t,s,n,r]=g(e),[q,i,...c]=r.split(`
+`).filter(a=>a.trim().length);return Q({questionText:q,image:n,imageAlt:s,answerGroup:he({answers:c.map((a,l)=>y({id:d(),value:a,correct:l+1===Number(i)}))})})}function Ae(e){const[t,s,n,r]=g(e),q=r.split("#q#").map(i=>i.trim()).filter(i=>i.length).map(Ce);return ge({id:d(),questions:q,image:s,imageAlt:n})}function ve(e){if(e=e.trim(),!e.length)return E({});const[t,s,n,r]=g(e),[q,i]=r.split(`
+`);return E({id:d(),questionText:q,image:s,imageAlt:n,answer:y({id:d(),value:i})})}function je(e){const[t,s,n,r]=g(e),q=r.split("#q#").map(ve);return be({id:d(),questions:q,image:s,imageAlt:n})}function ye(e){if(e=e.trim(),!e.length)return T({});const[t,s,n,r]=g(e),[q,i]=r.split(`
+`);return T({questionText:q,image:s,imageAlt:n,answer:y({id:d(),value:i==="1"})})}function Ie(e){const[t,s,n,r]=g(e),q=r.split("#q#").map(ye);return we({id:d(),questions:q,image:s,imageAlt:n})}function Oe(e){if(e=e.trim(),!e.length)return M({});const[t,s,n,r]=g(e),[q,i]=r.split(`
+`);return M({questionText:q,image:s,imageAlt:n,answer:y({id:d(),value:i})})}function Se(e){const[t,s,n,r]=g(e),q=r.split("#q#").map(Oe);return xe({id:d(),questions:q,image:s,imageAlt:n})}function h(e,t){const s=[];return t.split("#qg#").forEach(r=>{const[q,i]=r.split("#qt#").map(c=>c.trim());switch(q){case"#multichoice#":s.push(Ae(i));break;case"#matching#":s.push(je(i));break;case"#trueorfalse#":s.push(Ie(i));break;case"#value#":s.push(Se(i));break}}),{id:d(),title:e,questionGroups:s,correctAnswersCount:le,countables:de,shuffled:pe,selectAnswer:fe,unselectAll:me,cache:{questionGroups:s}}}const Ne=`
 
+#multichoice#
+#qt#
 عرف . . . . الإرشاد الزراعي بأنه جهاز تعليمي غير مدرسي يتعلم فيه الكبار والشباب بالممارسة لمواجهة احتياجاتهم وتسهيل حل مشكلاتهم
 1
 كيلس وهيرن
@@ -8,7 +14,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 شانج
 
 
-#
+#q#
 الأهداف التي يمكن عن طريقها الوصول إلى الأهداف العامة فمثلاً هدف رفع الكفاءة الإنتاجية النباتية يتطلب رفع إنتاجية المحاصيل المختلفة
 2
 الأهداف الأساسية الشاملة
@@ -17,7 +23,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 الأهداف التأكيدية
 
 
-#
+#q#
 عبارة عن أهداف محددة تهتم بالنواحي الاقتصادية والاجتماعية والأخلاقية الخاصة بالسكان الريفيين، ولكنها ترتبط بشكل مباشر بالإرشاد الزراعي
 3
 الأهداف الأساسية الشاملة
@@ -26,7 +32,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 الأهداف التأكيدية
 
 
-#
+#q#
 تعتبر خصائص الأهداف الإرشادية كل مما يلي ما عدا
 4
 واضحة المعالم ومحددة
@@ -35,7 +41,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 كسب ثقه جمهور المسترشدين
 
 
-#
+#q#
 من مبادئ الإرشاد الزراعي كل ما يلي ما عدا
 1
 تطبيق المبادئ والأسس
@@ -44,7 +50,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 مبدأ لا مركزيه الإدارة
 
 
-#
+#q#
 أحد فروع المعرفة الذي يهتم بتنمية الخبرات والمعارف وقدرات المرأة الريفية هو
 1
 الاقتصاد المنزلي
@@ -53,7 +59,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 علم الاجتماع الريفي
 
 
-#
+#q#
 يساعد المرشد الزراعي على فهم الجماعات والعوامل التي تؤثر عليها وتدفعها الى العمل الفعال من خلال الطرق الإرشادية
 4
 علم الاقتصاد الزراعي
@@ -62,7 +68,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 علم النفس
 
 
-#
+#q#
 هي إرسال رسالة إلى المرسل تفيد استلام رسالته وفهمها
 4
 الاتصال
@@ -71,7 +77,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 التغذية الراجعة
 
 
-#
+#q#
 كل مما يلي من أدوار الإرشاد الزراعي ما عدا
 2
 المساهمة في تنميه الموارد البشرية
@@ -80,7 +86,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 نشر وتبني المبتكرات
 
 
-#
+#q#
 	يرتبط الاتصال . . . . باستخدام الأفراد مجموعة من الحركات
 3
 الاتصال اللفظي
@@ -89,7 +95,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 مهارة الاتصال الكتابي
 
 
-#
+#q#
 تعتمد مهارة . . . . علي نقل الرسالة بواسطة استخدام الكلمات مشافهة من قبل المرسل
 1
 مهارة التحدث
@@ -98,7 +104,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 نبرات الصوت
 
 
-#
+#q#
 يعتمد الاتصال غير اللفظي على
 4
 مهارة الاتصال الكتابي
@@ -109,7 +115,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 العوامل المؤثرة في الاتصال هي
 4
 مهارة التحدث
@@ -118,7 +124,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 الخبرة المشتركة
 
 
-#
+#q#
 يقصد ب . . . . تقارب خبرات المرسل والمستقبل في موضوع الحديث
 2
 الكفاية اللغوية
@@ -127,7 +133,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 الضجة والتشويش
 
 
-#
+#q#
 هي الظروف المادية والتقنية المحيطة بالموقف الاتصالي
 1
 التشويش
@@ -136,7 +142,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 الكفاية اللغوية
 
 
-#
+#q#
 يقصد ب . . . . الموقف النفسي أو الحالة الشعورية التي يشعر بها كل من المرسل والمستقبل اتجاه بعضها بناء على خبرة سابقة
 1
 الافتراضات السابقة
@@ -145,7 +151,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 الكفاية الاتصالية
 
 
-#
+#q#
 يُعرف الذكاء . . . . أنه القدرة على معرفة الذات والتواصل معها.
 3
 الذكاء اللغوي
@@ -154,7 +160,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 الذكاء الوجداني
 
 
-#
+#q#
 هي المنطقة التي يعرفها الفرد على ذاته ويعرفها الآخرين عنه 
 1
 المنطقة المكشوفة
@@ -165,7 +171,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 من خصائص نمط الشخصية مدعي المعرفة أنه
 1
 يحتقر الآخرين
@@ -174,7 +180,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 يفتقد إلي الثقة بالنفس
 
 
-#
+#q#
 من صفات فريق العمل الفعال كل مما يلي ما عدا
 4
 تبادل المعلومات بين أعضاء الفريق
@@ -183,7 +189,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 يعاملون الأخرين بتعا ل
 
 
-#
+#q#
 هي ما تستطع بمفردها أن تنتقل وتوصل الرسالة الإرشادية
 1
 الطريقة الإرشادية
@@ -192,7 +198,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 غير ذلك
 
 
-#
+#q#
 هي تلك المعينات التي تعتمد على حاسة البصر في نقل، وتوضيح، وتفسير المعلومات، والأفكار.
 1
 المعينات البصرية
@@ -201,7 +207,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 غير ذالك
 
 
-#
+#q#
 من طرق الاتصال بالجماعات
 1
 المسابقات
@@ -210,7 +216,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 المعارض
 
 
-#
+#q#
 تعتبر . . . . من طرق الاتصال بالأفراد
 1
 الزيارات الحقلية
@@ -221,7 +227,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 من مكونات الإرشاد الإلكتروني
 3
 الجانب المادي
@@ -230,7 +236,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 غير ذلك
 
 
-#
+#q#
 كل مما يلي من مواصفات الإرشاد الإلكتروني ما عدا
 4
 التأهل العالمي والمستمر
@@ -239,7 +245,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 البنيه التحتية للتنظيمات الإرشادية
 
 
-#
+#q#
 من العوامل المؤثرة على استخدام الإرشاد الإلكتروني
 3
 رفع كفاءة المرشد 
@@ -248,7 +254,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
  الاستفادة من عنصر الوقت
 
 
-#
+#q#
 الإرشاد الإلكتروني أهمية كبيرة تتمثل في
 3
 يعتمد المرشد على استخدام تقنيات الاتصال الحديثة
@@ -257,7 +263,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
  يسود في الدول المتقدمة
 
 
-#
+#q#
 كل مما يلي من فوائد الإرشاد الإلكتروني ما عدا
 4
 مساعدة الزراع علي المشاركة
@@ -266,7 +272,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 التأهيل العالي والمستمر للمرشد الزراعي
 
 
-#
+#q#
 يقدم الإرشاد . . . . نوع جديد من الثقافة وهي الثقافة الرقمية
 1
 الإرشاد الإلكتروني
@@ -277,7 +283,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 كل مما يلي من عيوب الإرشاد الزراعي الإلكتروني ما عدا
 1
 التكاليف المادية المنخفضة
@@ -286,7 +292,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 يحتاج لمراقبة المسترشدين أثناء القيام بالأنشطة التعليمية
 
 
-#
+#q#
 هو انتقال المستحدثات الزراعية المناسبة والصالحة للتطبيق في الريف من المراكز البحثية ووصولها للريفيين في وقت زمني محدد
 1
 الانتشار
@@ -295,7 +301,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 الانتباه
 
 
-#
+#q#
 من صفات الفكرة المستحدثة
 2
 يتطلب بنية تحتية اتصاليه
@@ -304,7 +310,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 يسود في الدول المتقدمة
 
 
-#
+#q#
 هي الدرجة التي يتم فيها تجريب المستحدث على نطاق ضيق
 3
 الميزة النسبية
@@ -313,7 +319,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 درجة تعقيد الفكرة المستحدثة
 
 
-#
+#q#
 هي الدرجة التي تتفوق بها الفكرة المستحدثة عن غيرها عن الأفكار السابقة .
 1
 الميزة النسبية
@@ -322,7 +328,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 درجة تعقيد الفكرة المستحدثة
 
 
-#
+#q#
 ثالث مراحل عملية التبني
 4
 مرحلة الوعي
@@ -333,7 +339,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 مبدأ . . . . يضم جميع جوانب المشروع أو المجتمع أو الأنشطة
 2
 الواقعية
@@ -342,7 +348,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 ترتيب الأولويات
 
 
-#
+#q#
 مبدأ . . . . يقوم على إعادة ترتيب الحاجات والمشكلات
 4
 الواقعية
@@ -351,7 +357,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 ترتيب الأولويات
 
 
-#
+#q#
 من مزايا البرنامج الإرشادي المكتوب
 4
 يراعي اهتمامات المسترشدين
@@ -360,7 +366,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 يساعد المؤسسات الاخرى علي تفهم مشكلات المنطقة
 
 
-#
+#q#
 من خصائص البرنامج الإرشادي الجيد
 2
 يؤدي الى معرفة الاحتياجات التدريبية للعاملين
@@ -369,7 +375,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 توجيه العاملين على تنفيذ ما ورد به من أهداف وإجراءات
 
 
-#
+#q#
 البيانات . . . . توضح مدى استخدام الزراع للأساليب والأفكار الزراعية الجديدة
 2
 البيانات الاجتماعية
@@ -378,7 +384,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 البيانات التشغيلية
 
 
-#
+#q#
 تقوم . . . . على ترجمة بيانات الوضع الراهن إلى معلومات قابلة الاستعمال والاستفادة منها
 1
 تحليل الموقف
@@ -389,7 +395,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 عبارة عن مقارنة بين وضعين هما وضع سابق ووضع راهن ويتم قياس التقدم الحادث في سلوك الزراع وأفكارهم
 3
 وضع خطة العمل
@@ -398,7 +404,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
  تنفيذ خطة العمل
 
 
-#
+#q#
 هي عبارة عن الخطوة الأخيرة في العمل في البرامج الإرشادية
 3
 وضع خطة العمل
@@ -407,7 +413,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
  تنفيذ خطة العمل
 
 
-#
+#q#
 تتضمن خطة العمل تنفيذ البرنامج كل مما يلي ما عدا
 4
 المشاكل المراد معالجتها
@@ -416,7 +422,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 تقييم الفرد للأخرين
 
 
-#
+#q#
 يمكن تقسيم التقييم وفقا للوقت إلى
 1
 التقييم القبلي
@@ -425,7 +431,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 تقييم المجموعة
 
 
-#
+#q#
 التقييم . . . . هو الذي يحدث أثناء تنفيذ وتطبيق البرنامج
 1
 التقييم البنائي
@@ -434,7 +440,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
  التقييم النهائي
 
 
-#
+#q#
 هو ذلك النوع من التقييم الذي يتم فيه تحديد الاحتياجات التعليمية وتحديد المستوي الذي يمكن أن تبدأ منه عملية التعلم
 1
 التقييم الأولي
@@ -445,7 +451,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 هو التقييم الذي يهتم بقياس الأهداف العامة
 4
 التقييم الأولي
@@ -454,7 +460,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 التقييم النهائي
 
 
-#
+#q#
 تشمل خطوات عملية التقييم الإرشادي
 1
 تحديد المشكلة
@@ -463,7 +469,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 تحديد نقاط الضعف واقتراح التحسينات
 
 
-#
+#q#
 تعتبر . . . . أقل المستويات التعليمية دقة للتقييم الإرشاد ي
 1
 الملاحظة اليومية العرضية
@@ -472,7 +478,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 الدراسات الإرشادية
 
 
-#
+#q#
 يسمى بالتقييم المتزامن، والتقييم التراكمي اللاحق ، والتقييم التكويني
 2
 تقييم ذاتي
@@ -481,7 +487,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 تقييم مستمر
 
 
-#
+#q#
  تجمع بين أكثر من نوع واحد من طرق معاملة الرسالة
 1
 طرق مختلطة
@@ -490,7 +496,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 طرق كلامية
 
 
-#
+#q#
 كل مما يلي من مجالات التقييم الإرشادي ما عدا
 4
 تقييم الجهاز الإرشادي 
@@ -501,7 +507,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 يمكن تقسيم التقييم وفقا للقائم بعملية التقييم
 1
 تقييم ذاتي
@@ -510,7 +516,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
  تقييم مستمر
 
 
-#
+#q#
 يمكن تقسيم التقييم وفقا للغرض إلي
 4
 تقييم مستمر 
@@ -519,7 +525,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 تقييم نهائي او شخصي
 
 
-#
+#q#
 يفضل الاعتماد على مقياس . . . . في حالة قصور ميزانية الإرشاد الزراعي
 2
 معدل الاتصال 
@@ -528,7 +534,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
  جميع ما سبق
 
 
-#
+#q#
 التحدث بلغة متخصصه لا يتقنها المرسل أو المستقبل
 2
 الغموض اللغوي
@@ -537,7 +543,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
  غموض المعني
 
 
-#
+#q#
 كل مما يلي من عوائق وصول المعنى ما عدا
 3
 الغموض 
@@ -546,7 +552,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 الأحكام المسبقة
 
 
-#
+#q#
 من عوائق وصول المعنى من جانب المرسل
 4
 الأحكام المسبقة 
@@ -557,7 +563,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
   يهدف إلى الكشف عن مواطن القوة والضعف أثناء وبعد الأداء
 4
 تقدير الذات 
@@ -566,7 +572,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 نقد الذات
 
 
-#
+#q#
 القدرة على ملاحظة الفروق بين الأشخاص في أمزجتهم وطبائعهم ودوافعهم ومقاصدهم
 2
 الذكاء العاطفي 
@@ -575,7 +581,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 الذكاء الذاتي
 
 
-#
+#q#
 القدرة على تنظيم حالة المرء النفسية ومنع الآسي أو الألم من شل القدرة على التفكير ، والقدرة على التعاطف والشعور بالأمل
 1
 الذكاء العاطفي 
@@ -584,7 +590,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 الذكاء الذاتي
 
 
-#
+#q#
 معلومات لا يعرفها الفرد عن ذاته ، ولكنها ظاهرة للآخرين
 1
 المنطقة العمياء
@@ -593,7 +599,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 المنطقة المجهولة
 
 
-#
+#q#
 هي منطقة غير معروفة للفرد ولا للآخرين ، وتمثل جميع أبعاد شخصياتنا
 4
 المنطقة العمياء 
@@ -602,7 +608,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 المنطقة المجهولة
 
 
-#
+#q#
 كل مما يلي من تصنيف نمط الإدراك ما عدا
 4
 السمعي 
@@ -613,7 +619,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 كل مما يلي من تصنيف السلوك التفاعلي ما عدا . . . . 
 4
 العنيد 
@@ -622,7 +628,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 العصبي
 
 
-#
+#q#
 عملية تتم بين طرفين أو أكثر ويتم من خلالها تبادل الآراء والأفكار حول موضوع معين دون وجود عوائق
 1
 الحوار 
@@ -631,7 +637,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 الاستعلاء
 
 
-#
+#q#
 يحاول أن يتصيد سلبيات المتحدث من خصائص
 2
 العنيد 
@@ -640,15 +646,18 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 الباحث عن الأخطاء
 
 
-`,z=t=>{let[,s,e]=/^!\[(.*)\]\((.*)\)$/.exec(t)||[];return[!!e,s,e]},X=W.split("#").map((t,s)=>{var d;let e=t.trim().split(`
-`).filter(p=>p.trim().length>0),r=e.shift()||"failed to parse question",i=Number((d=e.shift())==null?void 0:d.trim()),[n,a,c]=z(e[0]);n&&e.shift();const l=e.map((p,f)=>({id:m(),text:p,correct:f+1===i}));return g({questionText:r,answers:l,image:c,imageAlt:a})}),J=`
+`,Ge=h("إرشاد زراعي",Ne),Pe=`
+#qg#
+#multichoice#
+#qt#
+
 بصفه عامة يمكن القول أن الاقتصاد هو
 1
 علم إدارة الموارد الاقتصادية
 علم إدارة الأزمات
 علم إدارة الموارد الاجتماعية
 علم إدارة الموارد الاجتماعية والأزمات
-#
+#q#
 
 
 يبحث علم الاقتصاد تفسير سلوك الفرد فيما يتعلق باستخدام المواد الاقتصادية بهدف تحقيق
@@ -657,7 +666,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 الاستقرار السياسي
 الرفاهية الاقتصادية للمجتمع
 الاستقرار الاقتصادي
-#
+#q#
 
 من وحدات القرار الاقتصادي
 3
@@ -666,7 +675,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 المنشآت التجارية
 جميع ما سبق
 
-#
+#q#
 
 يمكن التمييز بين استخدامات للموارد في
 2
@@ -674,7 +683,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 الاستهلاك والإنتاج
 التصدير
 غير ذلك
-#
+#q#
 
 
 البيانات الاقتصادية . . . . وذلك لتأثيرها بالبعد الزمني
@@ -683,7 +692,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 مستقرة
 متحركة
 ليست ثابتة
-#
+#q#
 
 البيانات الاقتصادية تتأثر ب
 1
@@ -691,7 +700,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 بالمعطيات الاجتماعية
 بالمعطيات النفسية
 بالمعطيات الداخلية
-#
+#q#
 
 من طبيعة التحليل الاقتصادي
 3
@@ -699,56 +708,56 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 بعض العوامل الأخرى متغيرة
 بقاء كافة العوامل الأخرى على حالها
 كافة العوامل الأخرى متغيرة
-#
+#q#
 هو  Model النموذج
 2
 علاقة بين عوامل مختلفة
 ذلك النظام من العلاقات بين مجموعة المتغيرات لبيان ظاهرة معينة
 علاقة بين عناصر الإنتاج
 علاقات متعددة ومختلفة
-#
+#q#
 المتغيرات الداخلية هي
 1
 التي تتحدد من داخل النموذج
 التي تتحدد من خارج النموذج
 تلك التي تؤثر في النموذج ولا تتأثر
 يتحدد خارج علاقات النموذج
-#
+#q#
 المتغيرات الخارجية هي
 4
 التي تتحدد داخل علاقات النموذج
 التي تؤثر بالنموذج وتتأثر به
 التي يتحدد من داخل النموذج
 تلك التي تؤثر في النموذج ولا تتأثر به
-#
+#q#
 السياسة الاقتصادية هي
 1
 مجموعة الأهداف والأساليب والبرامج التي يلجأ اليها المجتمع بغية معظمة الرفاهية الاقتصادية
 مجموعة الوسائل والإجراءات التي يلجأ اليها المجتمع بغية تحقيق الاستقرار السياسي
 مجموعة الوسائل التي يلجأ اليها المجتمع بغية تحقيق الاستقرار الاقتصادي
 مجموعة الأهداف والأساليب والبرامج التي يلجأ اليها المجتمع بغية معظمة الإنتاج
-#
+#q#
 السياسة الزراعية هي
 1
 ذلك الشطر من السياسة الاقتصادية الذي يجري تطبيقه في القطاع الزراعي من البنيان الاقتصادي القومى
 ذلك الشطر من السياسة الاقتصادية الذي يجري تطبيقه في قطاع الخدمات من البنيان الاقتصادي القومى
 ذلك الشطر من السياسة الاقتصادية الذي يجري تطبيقه في القطاع الصناعي من البنيان الاقتصادي القومى
 ذلك الشطر من السياسة الاقتصادية الذي يجري تطبيقه في المجتمع
-#
+#q#
 من أهداف السياسة الزراعية
 3
 تناقص الدخل المزرعي
 ثبات الأحوال الاجتماعية
 زيادة الكفاءة الاقتصادية
 انخفاض الكفاءة
-#
+#q#
 تقاس الكفاءة الاقتصادية ب
 1
 أسعار وكميات السلع المنتجة منسوبة الي أسعار وكميات الموارد المختلفة
 أسعار السلع المنتجة
 كميات السلع المنتجة
 كميات السلع المنتجة منسوبة الي أسعار السلع المنتجة
-#
+#q#
 تعني الكفاءة الاقتصادية القصوى
 3
 جميع الموارد المستخدمة ليست في أحسن استخدام لها
@@ -756,35 +765,35 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 جميع الموارد المستخدمة في أحسن استخدام لها
 كفاءة الموارد المستخدمة
 
-#
+#q#
 الزارعة غالبا ما تتميز ب
 1
 وجود فائض في العمال الزراعيين
 وجود فائض في العمال الصناعيين
 عدم وجود فائض في العمال الزراعيين
 وجود توازن بين حجم القوي العاملة الواجب وجودها والموجودين فعلا
-#
+#q#
 يعتبر متوسط الدخل في الزراعة
 4
 مساوي لبقية قطاعات الاقتصاد الأخرى
 أكبر من مستواه من مثله في بقية قطاعات الاقتصاد الأخرى
 لا يقارن ببقية قطاعات الاقتصاد الأخرى
 أقل من مستواه من مثله في بقية قطاعات الاقتصاد الأخرى
-#
+#q#
 تغير الدخل المزرعي من عام لأخر ناتج عن
 4
 أسعار المحاصيل الزراعية
 التغيرات في العرض والطلب
 التغيرات السنوية التي تحدث في الإنتاج نفسه
 جميع ما سبق
-#
+#q#
 لرفع وتثبيت الدخل المزرعي تتبع السياسة الزراعية وسائل عديدة منها
 3
 البعد عن الإرشاد الزراعي
 عدم تعاون الزراعيين مع بعض
 دراسة وتحليل أسعار المحاصيل الزراعية
 عدم صرف معونات للمزارعين
-#
+#q#
 مثال للأهداف الاجتماعية والسياسية البعيدة الأثر للسياسية الزراعية
 1
 تطور خدمة المجتمع والخدمة الصحية الريفية
@@ -792,35 +801,35 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 البعد عن الإرشاد الزراعي
 عدم صرف معونات للمزارعين
 
-#
+#q#
 من وسائل تحقيق أهداف السياسة الزراعية
 1
 إنهاء الجهاز السعري القائم
 التخطيط السليم
 التوجيه السليم
 غير ذلك
-#
+#q#
 لتحقيق هدف عدالة توزيع الدخل من خلال
 2
 التنظيم السليم
 تعديل الضرائب والإعانات والمنح
 إنهاء الجهاز السعري القائم
 التوجيه السليم
-#
+#q#
 قيام جهاز سعري يحقق كفاءة الإنتاج عن طريق
 3
 التنظيم السليم
 التخطيط السليم
 إجراءات التوزيع المباشر
 الضبط السليم
-#
+#q#
 السياسة الزراعية تستهدف
 4
 عدالة توزيع الدخل داخل قطاع الزراعة
 تحسين الأحوال الاجتماعية
 عدم زيادة الكفاءة الاقتصادية
 أ، ب معا
-#
+#q#
 من إجراءات تحسين الأحوال الاجتماعية
 1
 تطور وسائل الترفيه
@@ -828,35 +837,35 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 تقييد حرية الفرد
 زيادة الكفاءة
 
-#
+#q#
 الفرق بين النظرية الاقتصادية والسياسة الاقتصادية أن النظرية الاقتصادية
 3
 تقدم تفسيرا لتأثيرات الظواهر الاقتصادية
 تخدم في المجال الرياضي
 تخدم في مجال تفسير الظواهر الاقتصادية
 غير ذلك
-#
+#q#
 تعد نظرية السياسة الاقتصادية الحرة
 2
 تجميعا لآراء الاقتصاديين الفرنسيين
 تجميعا لآراء الاقتصاديين الأمريكيين
 تجميعا لآراء الاقتصاديين الإيطاليين
 تجميعا لآراء الاقتصاديين المصريين
-#
+#q#
 الاقتصاديين الأمريكيين نادوا ب
 1
 مبدأ حرية المنافسة في الحياة الاقتصادية
 مبدأ حرية المنافسة في الحياة الاجتماعية
 مبدأ حرية المنافسة في الحياة الليبرالية
 جميع ما سبق
-#
+#q#
 يجمع بين نظرية السياسة الاجتماعية ونظرية السياسة الاقتصادية الحكومية
 4
 مفهوم تعديل الأسعار
 مفهوم إعادة توزيع الدخول فقط
 مفهوم إعادة توزيع الدخول والأسعار
 مفهوم إعادة توزيع الدخول والثروات
-#
+#q#
 نظرية السياسة الاجتماعية
 2
 تستطيع تقديم الدليل علي تحقيق الرفاهية المثلي لأفراد المجتمع
@@ -865,35 +874,35 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 لا تستطيع تقديم جانبا من الرفاهية المثلي
 
 
-#
+#q#
 سياسة النمو الاقتصادي هي
 4
 سياسات تخفيض أو ترشيد الاستهلاك
 سياسات زيادة الإنتاج
 سياسات حفز الاستثمار
 جميع ما سبق
-#
+#q#
 يقصد بالنمو الاقتصادي
 3
 الزيادة في الدخل الجاري
 الزيادة في الدخل القومي الحقيقي
 الزيادة في الدخل الفردي الحقيقي
 غير ذلك
-#
+#q#
 يصاحب التنمية الاقتصادية
 1
 تغيير بنياني للاقتصاد موضع الاعتبار
 تغير بنياني للاقتصاد موضع الاعتبار
 تغير في الدخل الجاري
 غير ذلك
-#
+#q#
 حسب قانون ساي في راي الكلاسيكيين
 3
 الطلب يحدد العرض 
 الطلب ليس له علاقة بالعرض
 العرض يحدد الطلب
 العرض منفصل عن الطلب
-#
+#q#
 وفقا لأراء كينز في التوظيف الكامل فان
 1
 الطلب هو الذي يحدد العرض
@@ -901,35 +910,35 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 العرض هو الذي يحدد الطلب
 الطلب ليس له علاقة بالعرض
 
-#
+#q#
 عند كينز هو الذي يتحكم فيEffective Demand الطلب الفعال 
 4
 الإنتاج
 مستويات التوظف
 الدخل القومي
 جميع ما سبق
-#
+#q#
 تعتمد أفكار النيو كلاسيك على
 4
 تجانس الإنتاج وحده
 اختصار عناصر الإنتاج الي العمل ورأس المال
 الاهتمام بنظريات توزيع الدخل
 جميع ما سبق
-#
+#q#
 طبقا للنظرية الكلاسيكية يتحدد سعر الفائدة في السوق
 1
 بتعادل الطلب على الاستثمار وعرض القروض
 بتعادل الطلب على الادخار وعرض النقود
 بتعادل قوي الطلب مع قوي العرض
 بتعادل الطلب على الاستهلاك وعرض النقود
-#
+#q#
 تضخم الطلب يحدث عندما
 1
 الطلب الكلي أكبر من الإنتاج
 الإنتاج أكبر من الطلب الكلي
 الطلب الكلي يتساوى مع الإنتاج
 الإنتاج أصغر من الطلب الكلي
-#
+#q#
 تضخم التكاليف يطلق عليه
 1
 تضخم البائعين
@@ -937,35 +946,35 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 تضخم المشترين
 التضخم الناشئ عن دفع التكاليف الي أسفل
 
-#
+#q#
 يمكن تتبع آثار مشكلة التضخم علي
 3
 معدلات زيادة الناتج المحلي
 معدلات زيادة الإنتاج
 معدلات زيادة الناتج القومي
 معدلات زيادة الاستهلاك
-#
+#q#
 أول المستفيدين من التضخم هم
 2
 الشركات الحكومية
 الشركات المنتجة الخاصة
 الأفراد
 غير ذلك
-#
+#q#
 من الأثار السلبية للتضخم
 3
 يزيد من القوة الشرائية للدخل
 ليس له علاقة بالدخل
 يقلل من القوة الشرائية للدخل
 يقلل منالاستثمار
-#
+#q#
 ينشأ الأثر السلبي للتضخم أساسا بسبب
 1
 التفاوت الكبير بين معدلات الزيادة في أسعار السلع المختلفة
 تحسن وضع قطاع الأعمال
 يحسن مركز أصحاب الثروة
 يحسن مركز المدينين
-#
+#q#
 من إثر التضخم على توزيع الناتج
 3
 تدهور مركز أصحاب الثروة من العقارات
@@ -973,107 +982,111 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 تحمل أصحاب الثروة النقدية لعبء انخفاض قيمتها الحقيقية
 تدهور مركز المدينين
 
-#
+#q#
 نتيجة لمشكلة البطالة يحدث
 1
 قصور الإنتاج
 زيادة الطلب الكلي
 زيادة عرض موارد الإنتاج
 زيادة الطلب النقدي
-#
+#q#
 من أثر البطالة على محور الإنتاج . . . . 
 2
 زيادة الناتج الحقيقي
 حدوث قصورا في عملية التراكم الرأسمالي
 عدم حدوث قصورا في عملية التراكم الرأسمالي
 عدم حدوث قصورا في تكوين المدخرات
-#
+#q#
 من أثر البطالة على محور عرض موارد الإنتاج . . . . 
 4
 انخفاض معدلات الإنتاجية
 انخفاض معدلات الأجور
 ثبات معدلات الإنتاجية
 زيادة معدلات الأجور
-#
+#q#
 أثبت فيليبس أن انخفاض معدلات البطالة يؤدى الى . . . . 
 1
 زيادة معدلات الأجور
 انخفاض معدلات الأجور
 انخفاض معدلات التضخم
 تدهور معدلات الأجور
-#
+#q#
 أثبت فيليبس أن العلاقة بين معدلي زيادة الأجور والبطالة بالمملكة المتحدة
 1
 علاقة عكسية
 علاقة تبادلية
 علاقة طردية
 لا يوجد علاقة
-#
+#q#
+
+#qg#
+#multichoice#
+#qt#
 
 من أهداف السياسة الزراعية
 1
 زيادة وثبات الدخل المزرعى
-#
+#q#
 
 النموذج هو
 1
 ذلك النظام من العلاقات بين مجموعة المتغيرات لبيان ظاهرة معينه
-#
+#q#
 المتغيرات الداخلية هي
 1
 تلك التي تتحدد من داخل النموذج، أي تؤثر فيه وتتأثر به
-#
+#q#
 المتغيرات الخارجية هي
 1
 تلك التي تؤثر في النموذج ولا تتأثر به بمعنى إنها تتحدد خارج علاقات نموذج
-#
+#q#
 الاقتصاد هو
 1
 علم إدارة الموارد الاقتصادية مشتملة على المورد البشرى كعنصرإنتاج من ناحية وكعنصر مستهدف رفاهيته من ناحية أخرى
-#
+#q#
 السياسة الزراعية هي
 1
 مجموعة الأهداف والأساليب والبرامج والإجراءات التي يلجأالمجتمع إلى طبيقها في القطاع الزراعي بغية معظمة رفاهيته الاقتصادية
-#
+#q#
 السياسة الاقتصادية هي
 1
 مجموعة الأهداف والأساليب والبرامج والوسائل والإجراءات التي يلجأ إليها المجتمع بغية معظمة الرفاهية الاقتصادية لمختلف أفراد ذلك المجتمع
-#
+#q#
 تعنى الكفاءة الاقتصادية لقصوى أن
 1
 جميع الموارد مستخدمة في أحسن استخدام لها وانه يمكن بإحداث تغيير في طريقة استخدامها الحصول على زيادة في الإنتاج
-#
+#q#
 سياسة النمو الاقتصادي
 1
 هي تلك البرامج والإجراءات التي تتخذها الحكومات لزيادة معدل النموالاقتصادي
-#
+#q#
 التنمية الاقتصادية
 1
 هي تحقيق زيادة سريعة تراكمية ودائمة في الدخل الفردي الحقيقي عبر فترة ممتدة من الزمن
-#
+#q#
 النمو الاقتصادي
 1
 الزيادة في الدخل الفردي الحقيقي
-#
+#q#
 التوظيف الكامل عند الاقتصاديين الكلاسيك هو
 1
 حجم العمالة التي يحققها تعادل كل من الطلب على العمل مع عرض العمل في كل سوق على انفراد
-#
+#q#
 سياسة توزيع الدخل عند آدم سميث هي
 1
 جزء من عمليات الجهاز السعري الذي يتحدد أساسا من خلال نظرية تكاليف الإنتاج
-#
+#q#
 تشرح النظرية الكينزية في توزيع الدخل
 1
 عملية توزيع الدخل من خلال القدرة الادخارية لكلا المجموعتين من عناصر الإنتاج المستقبلين للجزء الأكبر من الدخل القومي
-#
+#q#
 يعرف التضخم بأنه
 1
 الارتفاع المستمر في المستوى العام للأسعار
 
-`,Y=J.split("#").map((t,s)=>{var a;let e=t.trim().split(`
-`).filter(c=>c.trim().length>0),r=e.shift()||"failed to parse question",i=Number((a=e.shift())==null?void 0:a.trim());const n=e.map((c,l)=>({id:m(),text:c,correct:l+1===i}));return g({questionText:r,answers:n})}),ee=`
-
+`,Qe=h("سياسة رزاعية — 1",Pe),Te=`
+#multichoice#
+#qt#
 هي وسائل وأدوات غير موجودة في المجتمع أو برامج غير موجودة تصلح للمجتمع
 1
 البرامج الإنشائية
@@ -1082,7 +1095,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 البرامج التنفيذية
 
 
-#
+#q#
 هي الوسائل والأدوات الموجودة الحالية والتي يجرى عليها عمليات الإصلاح
 3
 البرامج الإنشائية
@@ -1091,7 +1104,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 البرامج التنفيذية
 
 
-#
+#q#
 لتحقيق الرفاهية الاقتصادية والتقدم لابد أن يحتفظ المجتمع بأكبر قدر من المعادن النفسية
 1
 المذهب الفكري التجارى
@@ -1101,7 +1114,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 سبب المشاكل على الكرة الرضية هي السعي وراء الربح والبيع بسعر التكلفة (إلغاء النقود (
 3
 المذهب الفكري التجارى
@@ -1111,7 +1124,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 قطاع الزراعة هو الأساس لتحقيق الرفاهية الاقتصادية، ويجب أن يكون هو القطاع الوحيد المنتج
 2
 
@@ -1122,7 +1135,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 يرون أن تدخل الدولة في الحياة الاقتصادية يكون خيراً ونادوا بضرورة التدخل الحكومي في الأعمال والشئون الاقتصادية والأشراف على إدارة المشروعات الكبرى وخصوصا التي تميل إلى الاحتكار في مجال النشاط الفردي
 4
 المذهب الفكري التجارى
@@ -1132,7 +1145,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 تستهدف تقليل الفوارق بين الطبقات وتشمل برامج تستهدف نقل الدخل من الطوائف الأغنى إلى الطوائف الأفقر عن طريق (الزكاه، الضمان الاجتماعي، معاش)
 1
 السياسة التوزيعية
@@ -1142,7 +1155,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 تضم مجموعة من القواعد تلُزم الأفراد عند ممارستهم النشاط الإنتاجي ( كل فرد له حقوق وعلية واجبات)
 2
 السياسة التوزيعية
@@ -1153,7 +1166,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 هي قصيرة الأجل تحدث تغيرات بسيطة في ميزان المدفوعات أو العمالة أو التوازن النقدي وهي تعديلات جزئية قطاع أو أكثر
 3
 السياسة التوزيعية
@@ -1163,7 +1176,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 سياسات في المدى القصيرة وتهدف إلى إحداث تغيير جزئي (طبيعي) في التركيب الاجتماعي الموجود في المجتمع
 4
 السياسة التوزيعية
@@ -1173,7 +1186,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 سياسات طويلة الأجل تهدف لإحداث تعديل كمي أو نوعي في المتغيرات (المقومات) الرئيسية الموجودة في المجتمع، والهدف منها تحقيق الاستقرار الاقتصادي
 4
 السياسة التوزيعية
@@ -1181,7 +1194,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 السياسة الكمية
 
 
-#
+#q#
 السياسة الإصلاحية
 1
 هو الدخل الذي يأخذ في الاعتبار مستويات الأسعار
@@ -1196,7 +1209,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 هي مجموعة البرامج الإنشائية والإصلاحية التي يجرى تنفيذها في مجال القطاع الزراعي بهدف تحقيق الرفاهية الاقتصادية لسكان القطاع الزراعي
 1
 السياسة التوزيعية
@@ -1206,7 +1219,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 السيطرة المباشرة على السعر المزرعى للمنتجات المحلية وكذلك فرض ضرائب على صادرات السلع الزراعية
 3
 السياسة التوزيعية
@@ -1216,7 +1229,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 استخدام سياسة سعر الصرف للتأثير على الصادرات الزراعية
 4
 السياسة التوزيعية
@@ -1227,7 +1240,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 هو تعادل الأنفاق الكلى مع الناتج الكلى
 3
 الدخل الحقيقي
@@ -1238,7 +1251,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 هو مختلف التوليفات التي تحقق نفس القدر من الإنتاج
 3
 منحنيات السعر
@@ -1249,7 +1262,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 هي عبارة عن دالة في عناصر الإنتاج
 1
 دالة الإنتاج الزراعى
@@ -1259,7 +1272,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 هو طريقة كمية لحل مشاكل الوحدة الإنتاجية كاختيار التوليفة المثلى من منتجاتها المعظمة للربح أو المدنية للخسارة(التكاليف)
 1
 نموذج البرمجة
@@ -1271,7 +1284,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 عبارة عن جدول للمدخلات وللمخرجات يعتمد على إعطاء وصفا للحسابات القومية الاجتماعية وتسجيلاً كاملاً للمشتريات أو مبيعات مختلف قطاعات الاقتصاد القومي المكونة له
 4
 نموذج البرمجة
@@ -1281,7 +1294,7 @@ import{r as u,j as o}from"./react-2785220f.js";import{c as M}from"./react-dom-ee
 
 
 
-#
+#q#
 دور الأسعار الزرعية في القطاع الزراعي
 3
 توجيه الاستهلاك
@@ -1292,7 +1305,7 @@ A, B العباره
 
 
 
-#
+#q#
 يتوسع الزراع في إنتاج السلع الأكث راربحية بينما يقللون من السلع الأقل أربحية
 2
 توجيه الاستهلاك
@@ -1302,7 +1315,7 @@ A, B العباره
 
 
 
-#
+#q#
 العمل على زيادة السلع البديلة
 1
 توجيه الاستهلاك
@@ -1312,7 +1325,7 @@ A, B العباره
 
 
 
-#
+#q#
 يؤثر مستوى الأسعار الزراعية على توزيع الدخل القومي بين القطاع الزراعي وغيره من القطاعات
 3
 توجيه الاستهلاك
@@ -1322,7 +1335,7 @@ A, B العباره
 
 
 
-#
+#q#
 تتدخل الدولة لتحديد الأسعار في حالة وجود احتكار لسلعة ما أو خدمة لتحديد السعر وجعل السوق سوق منافسة كاملة
 1
 التحديد المباشر للأسعار
@@ -1331,7 +1344,7 @@ A, B العباره
 توجيه الاستهلاك
 
 
-#
+#q#
 تحديد المساحة الأرضية، والغرض منه هو تحديد الإنتاج من سلعة معينة أو قد يكون في نفس الوقت تدعيم الإنتاج من سلعة أخرى
 2
 التحديد المباشر للأسعار
@@ -1341,7 +1354,7 @@ A, B العباره
 
 
 
-#
+#q#
 التحكم في مستلزمات الإنتاج مثل الأسمدة – المبيدات – التقاوي
 2
 التحديد المباشر للأسعار
@@ -1351,7 +1364,7 @@ A, B العباره
 
 
 
-#
+#q#
 من طرقها السيطرة على الصادرات والواردات
 3
 التحديد المباشر للأسعار
@@ -1361,7 +1374,7 @@ A, B العباره
 
 
 
-#
+#q#
 هو تحقيق الاستقرار الزراعي للمزارع عن طريق تقليل التقلبات التي تحدث للأسعار والدخول المزرعية
 1
 هدف السياسة السعرية
@@ -1371,7 +1384,7 @@ A, B العباره
 
 
 
-#
+#q#
 أهداف تدخل الدولة في السياسة التسويقية الزراعية
 1
 الحد من تعدد الوسطاء
@@ -1381,7 +1394,7 @@ A, B العباره
 
 
 
-#
+#q#
 أي التوزيع العادل للناتج المتحصل عليه أي إعطاء كل ذي حق حقه مهما تباين الحقوق
 1
 الكفاءة التوزيعية
@@ -1391,7 +1404,7 @@ A, B العباره
 
 
 
-#
+#q#
 الإنتاج المتحصل عليه يعكس تفضيلات أفراد المجتمع بصفى عامة الى جانب أنه يعكس الإمكانيات الفنية المتاحة لاستخدام الموارد
 3
 الكفاءة التوزيعية
@@ -1402,7 +1415,7 @@ A, B العباره
 
 
 
-#
+#q#
 ويتصل بها كافة مشاكل توازن الاقتصاد الكلى وإدارته خاصة مشكلتي التضخم وعجز ميزان المدفوعات وتتحقق إذا ماتم التوصل الى نوع من التوازن بين كل من الطلب الكلى والعرض الكلى لاقتصادما
 2
 الكفاءة التوزيعية
@@ -1412,7 +1425,7 @@ A, B العباره
 
 
 
-#
+#q#
 ويتصل بها المشاكل التي تعوق سرعة انتقال منحنى الإمكانيات الإنتاجية للمجتمع بمرور الوقت، والذي يتأثر عاملين رئيسيين هما (معدل الاستثمار، وإنتاجية هذا الاستثمار)
 4
 الكفاءة التوزيعية
@@ -1423,7 +1436,7 @@ A, B العباره
 
 
 
-#
+#q#
 أسس نجاح السياسة الاقتصادية
 2
 عدم وجود سلطة تنفيذية
@@ -1433,7 +1446,7 @@ A, B العباره
 
 
 
-#
+#q#
 أسس نجاح السياسة الاقتصادية
 2
 عدم وجود سلطة تنفيذية
@@ -1443,7 +1456,7 @@ A, B العباره
 
 
 
-#
+#q#
 هو عبارة عن منحنى يوضح مستوى التدخل للدولة في النشاط الاقتصادي لتحقيق الرفاهية الاقتصادية
 1
 نموذج الرفاهية الأمثل
@@ -1453,7 +1466,7 @@ A, B العباره
 
 
 
-#
+#q#
 وعبارة عن نموذج يحدد المنطقة أو الحدود الخاصة بالإنتاج في ظل القيود الاقتصادية والاجتماعية
 2
 نموذج الرفاهية الأمثل
@@ -1463,7 +1476,7 @@ A, B العباره
 
 
 
-#
+#q#
 إلغاء نظام التوريد الإجباري وتحرير أسعار وتسويق الحاصلات الزراعية
 3
 السياسة التوزيعية
@@ -1473,7 +1486,7 @@ A, B العباره
 
 
 
-#
+#q#
 إلغاء الدعم على مستلزمات الإنتاج، بهدف الحد من عجز الموازنة العامة ويتم ذلك تدريجيا وفق خطة زمنية
 3
 السياسة التوزيعية
@@ -1483,7 +1496,7 @@ A, B العباره
 
 
 
-#
+#q#
 التحول من التخطيط المركزي (نظام الدورة الزراعية الإلزامية) الى التخطيط التأشيرى (توقعات)
 3
 السياسة التوزيعية
@@ -1493,7 +1506,7 @@ A, B العباره
 
 
 
-#
+#q#
 نظام الدورة الزراعية الإلزامية يوجد في
 1
 التخطيط المركزى
@@ -1503,7 +1516,7 @@ A, B العباره
 
 
 
-#
+#q#
 قصر دور البنك الرئيسي للتنمية والائتمان الزراعي تدريجيا على تمويل الأنشطة الزراعية هي أحد مكونات الإصلاح الاقتصادي وهي
 4
 تعزيز دور القطاع الحكومي
@@ -1513,7 +1526,7 @@ A, B العباره
 
 
 
-#
+#q#
 إجراء تعديلات تشريعية تفيد تنظيم العلاقة بين أطراف التعامل في النشاط الزراعي مثل )قانون المالك والمستأجرهي أحد مكونات الإصلاح الاقتصادي وهي
 4
 تعزيز دور القطاع الحكومي
@@ -1523,7 +1536,7 @@ A, B العباره
 
 
 
-#
+#q#
 إصلاح القطاع العام وتنمية القطاع الخاص هي أحد مكونات الإصلاح الاقتصادي وهي
 4
 تعزيز دور القطاع الحكومي
@@ -1533,7 +1546,7 @@ A, B العباره
 
 
 
-#
+#q#
 تشجيع القطاع الخاص على استصلاح وتملك الأراضي والاستزراع وإلغاء القيود في مجال استيراد وتصدير الحاصلات البستانية هي أحد مكونات الإصلاح الاقتصادي وهي
 3
 تعزيز دور القطاع الحكومي
@@ -1542,7 +1555,7 @@ A, B العباره
 الإصلاح المؤسسي والتشريعي
 
 
-#
+#q#
 تحرير سعر الصرف هي أحد مكونات الإصلاح الاقتصادي وهي
 3
 تعزيز دور القطاع الحكومي
@@ -1552,7 +1565,7 @@ A, B العباره
 
 
 
-#
+#q#
 الغاء نظام التوريد الإجباري وتحرير أسعار وتسويق الحاصلات الزراعية هي أحد مكونات الإصلاح الاقتصادي
 2
 تعزيز دور القطاع الحكومي
@@ -1562,7 +1575,7 @@ A, B العباره
 
 
 
-#
+#q#
 من الغاء الدعم على مستلزمات الإنتاج هي أحد مكونات الإصلاح الاقتصادي وهي
 2
 تعزيز دور القطاع الحكومي
@@ -1572,7 +1585,7 @@ A, B العباره
 
 
 
-#
+#q#
 التحول من التخطيط المركزي (نظام الدورة الزراعية الإلزامية) الي التخطيط التاشيري هي أحد مكونات الإصلاح الاقتصادي وهي
 2
 تعزيز دور القطاع الحكومي
@@ -1582,7 +1595,7 @@ A, B العباره
 
 
 
-#
+#q#
 يعتقدون في إصلاح نواحي الخلق استنادا الى العادات والتقاليد والأخلاق التي ينادي بها الدين (الإصلاح الأدنى للمجتمع تمهيدا لإصلاحه اقتصاديا)
 4
 المذهب الفكري التجارى
@@ -1592,7 +1605,7 @@ A, B العباره
 
 
 
-#
+#q#
 ينادون بإحلال الملكية الاجتماعية محل الملكية الفردية
 4
 المذهب الفكري التجارى
@@ -1607,7 +1620,7 @@ A, B العباره
 
 
 
-#
+#q#
 ينادون بالتدخل الحكومي لأقصى درجات التدخل (المجتمع يستولي على جميع الموارد) 
 4
  المذهب الفكري التجارى
@@ -1617,7 +1630,7 @@ A, B العباره
 
 
 
-#
+#q#
 هي زيادة الدخل الفردي الحقيقي على مر الزمن
 1
 الرفاهية الاقتصادية
@@ -1627,7 +1640,7 @@ A, B العباره
 
 
 
-#
+#q#
 تنقسم السياسة الاقتصادية من حيث طبيعة الأداء
 1
 السياسة التوزيعية
@@ -1637,7 +1650,7 @@ A, B العباره
 
 
 
-#
+#q#
 تنقسم السياسة الاقتصادية من حيث طبيعة الأداء
 1
 السياسة التنظيمية
@@ -1647,7 +1660,7 @@ A, B العباره
 
 
 
-#
+#q#
 تنقسم السياسة الاقتصادية من حيث حجم الأداء
 4
 السياسة التنظيمية
@@ -1657,7 +1670,7 @@ A, B العباره
 
 
 
-#
+#q#
 تنقسم السياسة الاقتصادية من حيث حجم الأداء
 4
 السياسة التنظيمية
@@ -1667,7 +1680,7 @@ A, B العباره
 
 
 
-#
+#q#
 تتعادل قوى الادخار المخطط مع الاستثمار المخطط
 1
 توازن الدخل
@@ -1679,7 +1692,7 @@ A, B العباره
 
 
 
-#
+#q#
 تعادل عرض النقود مع الطلب عليها
 2
 توازن الدخل
@@ -1689,7 +1702,7 @@ A, B العباره
 
 
 
-#
+#q#
 تعادل قوى العرض والطلب على هذه السلعة
 4
 توازن الدخل
@@ -1699,7 +1712,7 @@ A, B العباره
 
 
 
-#
+#q#
 تعادل قوى عرض العمل والطلب عليه
 3
 توازن الدخل
@@ -1709,10 +1722,10 @@ A, B العباره
 
  
 
-`,te=ee.split("#").map((t,s)=>{var a;let e=t.trim().split(`
-`).filter(c=>c.trim().length>0),r=e.shift()||"failed to parse question",i=Number((a=e.shift())==null?void 0:a.trim());const n=e.map((c,l)=>({id:m(),text:c,correct:l+1===i}));return g({questionText:r,answers:n})}),se=`
+`,Me=h("سياسة رزاعية — 2",Te),Ee=`
 
-
+#multichoice#
+#qt#
 تحظى مسألة تنمية . . . . باهتمام متزايد وتوضع على رأس أولويات السياسة الاقتصادية في مصر،وبصفة خاصة في الآونة الأخيرة وذلك لمعالجة العجز في الميزان التجاري.
 1
 الصادرات
@@ -1722,7 +1735,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 تعتبر تنمية الصادرات الزراعية أحد العناصر الهامة والرئيسية لتنمية مصادر . . . . ، حيث تقدر قيمة هذه الصادرات بحوالي 3 مليار دولار عام 2020 م
 1
@@ -1733,7 +1746,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 وفى إطار الاتجاه العالمي لإزالة معوقات التبادل التجاري بين مختلف الدول، تسعى كل دولة إلى زيادة حجم
 2
@@ -1744,7 +1757,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 تسعى السياسة الاقتصادية المصرية جاهدة لتنويع وتعظيم العائد من الصادرات بوجه عام، والصادرات . . . . بوجه خاص 
 1
@@ -1755,7 +1768,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 تعاني التجارة الخارجية المصرية بصفة عامة من . . . . دائم ومستمر على مدار الفترة الماضية بسبب التزايد السكاني المتزايد ومحدودية الموارد الزراعية
 1
@@ -1765,7 +1778,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 يبنى التفسير الكلاسيكي للتجارة الدولية على مبدأ التكاليف النسبية الذي صاغه الاقتصادي الإنجليزي . . . . عام 1817
 2
@@ -1775,7 +1788,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 إن اختلاف النفقات هو الشرط الضروري والكافي للتبادل التجاري بين دولتين
 2
@@ -1785,7 +1798,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 ويرى . . . . أن الفائدة أو المنافع المتحصل عليها من التجارة الدولية تتأتى من التوظيف الأكثر كفاءة للقوى الإنتاجية في العالم
 3
@@ -1795,7 +1808,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 يتم قياس الميزة النسبية باستخدام معامل تكلفة الموارد . . . . 
 2
@@ -1804,7 +1817,7 @@ A, B العباره
 العالمية
 الحدود
 
-#
+#q#
 
 
 إذا كانت قيمة معامل تكلفة الموارد المحلية أقل من الواحد الصحيح فهذا يشير إلى أن الدولة . . . . عملة أجنبية من إنتاج السلعة محليا
@@ -1815,7 +1828,7 @@ A, B العباره
 لا تخسر
 
 
-#
+#q#
 يمكن للدولة أن يكون لها ميزة نسبية في إنتاج تلك السلعة إذا توافرت السلعة . . . . 
 1
 بوفرة
@@ -1824,7 +1837,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 بتركيب الرقم القياسي للميزة النسبية Balassaقام 
 3
@@ -1835,7 +1848,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 كلما زادت قيمة الرقم القياسي للميزة النسبية الظاهرة عن 100 دل ذلك على . . . . ميزة نسبية ظاهرة لصادرات السلعة
 2
@@ -1846,7 +1859,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 وإذا انخفض الرقم القياسي للميزة النسبية الظاهرة عن 100 دل ذلك على . . . . الميزة النسبية للسلع الداخلة في حسابه
 3
@@ -1856,7 +1869,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 يقيس معامل الحماية الأسمى أثر
 4
@@ -1868,7 +1881,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 معامل الحماية الأسمى يساوي السعر المزرعى مقسوما على السعر العالمي . . . . 
 4
@@ -1879,7 +1892,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 الميزة . . . . لها مكونات معناها إنتاج سلعة بتكلفة منخفضة وذات جودة عالية ووجود خدمات لتوصيل هذه السلعة للمستهلك في الوقت المناسب والشكل المناسب
 1
@@ -1889,7 +1902,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 تستخدم مرونة . . . . على السلعة المصدرة في الدولة المستوردة كمؤشر للمركز أو القوة التنافسية للسلعة في سوق الدولة المستوردة لها
 2
@@ -1899,7 +1912,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 كلما كانت مرونة الطلب الخارجي على السلعة في سوق ما . . . . كلما دل ذلك على أن الدولة المصدرة تستطيع رفع سعر السلعة في أسواق الدول المستوردة
 2
@@ -1910,7 +1923,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 إن النظام التجاري . . . . ينطوي على قواعد يضعها المجتمع الدولي، بصورة متعددة الأطراف
 3
@@ -1920,7 +1933,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 إن النظام التجاري الدولي يبني على . . . . دولية، تكون ملزمة للدول التي توقعها بعد مناقشتها
 3
@@ -1930,7 +1943,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 تعتبر منظمة . . . . العالمية العنصر الأساسي في النظام التجاري الدولي متعدد الأطراف
 4
@@ -1941,7 +1954,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 تعد منظمة . . . . العالمية الآن بمثابة الإطار المؤسسي الدولي الوحيد الذي يضع ويوضح، ويطور، ويشرف على تطبيق القواعد التي تحكم حركة التجارة الدولية بين دول العالم المختلفة
 4
@@ -1952,7 +1965,7 @@ A, B العباره
 
 
 
-#
+#q#
 التعرفة والربط Tarifficationاتفقت الدول الأعضاء في النظام التجاري العالمي على إجراء . . . . جمركية على مدى ست سنوات بدءا من عام 1995  Binding 
 2
 زيادات
@@ -1962,7 +1975,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 يؤكد هذا الاتفاق لحرية التجارة الدولية على حق أي دولة عضو في منظمة التجارة العالمية في تبني أي تدابير تراها ضرورية للحفاظ على . . . . الإنسان، والحيوان، والنبات
 3
@@ -1972,7 +1985,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 اتبعت الدول النامية بعد الاستقلال الدول المتقدمة في نظام حرية التجارة العالمية لتحقيق . . . . من التجارة الدولية
 2
@@ -1982,7 +1995,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 يمكن تعريف . . . . الاقتصادي الدولي على أنه درجة معينة من التكامل الاقتصادي الذي يقوم بين مجموعة من الدول المتجانسة اقتصاديا
 3
@@ -1991,7 +2004,7 @@ A, B العباره
 التكتل
 
 
-#
+#q#
 
 تعريف التكتل الاقتصادي الدولي على أنه درجة معينة من التكامل الاقتصادي بهدف تعظيم المصالح وزيادة التجارة الدولية لتحقيق . . . . عائد لشعوب تلك الدول
 2
@@ -2001,7 +2014,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من أهم . . . . النظام الاقتصادي العالمي الجديد هو الاتجاه المتزايد نحو تكوين التكتلات الاقتصادية العملاقة للحصول على أكبر مكاسب ممكنة من التجارة الدولية
 1
@@ -2011,7 +2024,7 @@ A, B العباره
 
 
 
-#
+#q#
 
  . . . . من الدوافع التي تجعل مجموعة من الدول تهتم بتكوين تكتل اقتصادي فيما بينها هو
 1
@@ -2021,7 +2034,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من الدوافع التي تجعل مجموعة من الدول تهتم بتكوين تكتل اقتصادي فيما بينها
 1
@@ -2031,7 +2044,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من الدوافع التي تجعل مجموعة من الدول تهتم بتكوين تكتل اقتصادي فيما بينها
 1
@@ -2041,7 +2054,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من الدوافع التي تجعل مجموعة من الدول تهتم بتكوين تكتل اقتصادي فيما بينها
 1
@@ -2051,7 +2064,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من الدوافع التي تجعل مجموعة من الدول تهتم بتكوين تكتل اقتصادي فيما بينها
 3
@@ -2061,7 +2074,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من الدوافع التي تجعل مجموعة من الدول تهتم بتكوين تكتل اقتصادي فيما بينها
 2
@@ -2071,7 +2084,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من الدوافع التي تجعل مجموعة من الدول تهتم بتكوين تكتل اقتصادي فيما بينها
 3
@@ -2081,7 +2094,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من الدوافع التي تجعل مجموعة من الدول تهتم بتكوين تكتل اقتصادي فيما بينها
 2
@@ -2091,7 +2104,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 الضلع النقدي في نظام التجارة العالمية ويشير إلى المعاملات النقدية الدولية قصيرة الأجل وأهمية تحقيق الاستقرار فيها ويعبر عنه . . . . 
 3
@@ -2101,7 +2114,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 الضلع المالي في نظام التجارة العالمية يعبر عن المعاملات الاقتصادية طويلة الأجل والتي تمثل الاستثمارات الدولية ويشرف على هذا النوع من المعاملات مجموعة . . . . والذي يسعى إلى تأمين حركة تدفقات
 4
@@ -2112,7 +2125,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 الضلع التجاري أو ما يعرف بالتجارة الدولية متعددة الأطراف وقد كانت الاتفاقية العامة للتعريفة والتجارة الجات) ترعى شئون التجارة العالمية من الفترة 1 / 1 / 1948 - 31 / 12 / 1994 . ومع بداية عام 1995 حلت) 
 4
@@ -2123,7 +2136,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 ويضيف . . . . أن اختلاف الندرة النسبية لعوامل الإنتاج ما بين دولة وأخرى هو شرط ضروري لوجود اختلاف في النفقات النسبية وبالتالي لقيام التجارة الخارجية
 3
@@ -2133,7 +2146,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 معامل . . . . = إجمالي التكاليف للوحدة بالسعر المحلى / القيمة المضافة للوحدة بسعر الحدود
 2
@@ -2145,7 +2158,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 التكامل الاقتصادي . . . . ويقصد به توسيع النطاق الجغرافي للاتحاد من خلال قبول أعضاء جدد من بين الدول المنتمية جغرافيا إلى الإقليم الاقتصادي
 2
@@ -2155,7 +2168,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 التكامل الاقتصادي . . . . ويقصد به التحرك من درجة إلى أخرى على درجات سلم التكامل الاقتصادي والذي يبدأ بمنظمة التجارة الحرة مرورا بالاتحاد الجمركي فالسوق المشتركة فالوحدة الاقتصادية انتهاءا بالتكامل 
 3
@@ -2166,7 +2179,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 التكامل الاقتصادي . . . . وهو يشير إلى درجات سلم التكامل الاقتصادي الثلاث الأولى (منظمة التجارة الحرة، الاتحاد الجمركي، السوق المشتركة)، حيث يتم إزالة القيود فقط
 2
@@ -2176,7 +2189,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 التكامل الاقتصادي . . . . وهو يعكس الوحدة النقدية المالية والتكامل حيث تتخذ سلطات التكامل خطوات إيجابية نحو إنشاء آليات جديدة للتكامل مثل التنسيق وتوحيد السياسات الاقتصادية وإنشاء عملة موحدة وإنشاء بنك مركزي موحد وتوحيد النظم الضريبية وتشريعات العمل وغير ذلك
 1
@@ -2186,7 +2199,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 ويتكون هذا التكتل الاقتصادي بهدف تحرير التجارة بين دول الأعضاء ويتم الاتفاق بين دولتين أو أكثر على إزالة كافة العقبات التي تقف في سبيل التبادل التجاري بينهم وتلتزم كل دولة من الدول المشتركة بإلغاء الرسوم الجمركية والقيود الكمية المفروضة على الواردات من بقية الدول المشتركة
 3
@@ -2196,7 +2209,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 وفيه يتم إلغاء الرسوم الجمركية والقيود الكمية فيما بين الدول الأعضاء، وتلتزم الدول الأعضاء بتعريفة جمركية موحدة يتم تطبيقها على السلع المستوردة من العالم الخارجي
 2
@@ -2206,7 +2219,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 وفيه يتم توحيد أسواق كل من المنتجات وعناصر الإنتاج فيما يمكن تسميته بتكامل الأسواق وهذا لا يكون ممكنا إلا إذا اتفقت الدول الأعضاء في السوق على ترتيبات من شأنها تنسيق السياسة الاقتصادية فيما يسمى بتكامل السياسات
 1
@@ -2217,7 +2230,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من خلال الاتحاد الاقتصادي يتم إلغاء كافة القيود على التجارة الدولية وانتقال رؤوس الأموال والأشخاص بين الدول بالإضافة إلى تحقيق التنسيق في كافة السياسات الاقتصادية بغرض الوصول إلى الوحدة الاقتصادية العالمية
 1
@@ -2227,7 +2240,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 يعتبر . . . . أكبر التكتلات الاقتصادية في العالم وأصبح هذا التكتل الاقتصادي في نظر العديد من الخبراء أكبر قوة اقتصادية وأقوى تكتل اقتصادي على مستوى العالم
 3
@@ -2237,7 +2250,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من أهم أهداف التكتل الاقتصادي الأوروبي
 1
@@ -2247,7 +2260,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من أهم أهداف التكتل الاقتصادي الأوروبي
 1
@@ -2257,7 +2270,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من أهم أهداف التكتل الاقتصادي الأوروبي
 2
@@ -2267,7 +2280,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من أهم أهداف التكتل الاقتصادي الأوروبي
 3
@@ -2277,7 +2290,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من أهم أهداف التكتل الاقتصادي الأوروبي
 1
@@ -2287,7 +2300,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من أهم أهداف التكتل الاقتصادي الأوروبي
 2
@@ -2298,7 +2311,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 يعتبر التكتل الاقتصادي . . . . من أكبر التكتلات الاقتصادية في العالم بعد التكتل الاقتصادي الأوروبي من ناحية الحجم والإمكانيات
 2
@@ -2309,7 +2322,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من أهداف التكتل الاقتصادي لأمريكا الشمالية (نافتا) انه يسعى إلى تحقيق مجموعة من الأهداف أهمها
 1
@@ -2319,7 +2332,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من أهداف التكتل الاقتصادي لأمريكا الشمالية (نافتا) انه يسعى إلى تحقيق مجموعة من الأهداف أهمها
 3
@@ -2329,7 +2342,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من أهداف التكتل الاقتصادي لأمريكا الشمالية (نافتا) انه يسعى إلى تحقيق مجموعة من الأهداف أهمها
 1
@@ -2339,7 +2352,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من أهداف التكتل الاقتصادي لأمريكا الشمالية (نافتا) انه يسعى إلى تحقيق مجموعة من الأهداف أهمها
 1
@@ -2349,7 +2362,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من أهداف التكتل الاقتصادي لأمريكا الشمالية (نافتا) انه يسعى إلى تحقيق مجموعة من الأهداف أهمها
 2
@@ -2359,7 +2372,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 السوق المشتركة لدول . . . . تعبر عن أكبر تكتل اقتصادي في القارة الأفريقية، ويبلغ عددها بعد انضمام مصر إليها واحد وعشرون دولة 
 1
@@ -2371,7 +2384,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 تسعى السوق المشتركة ( الكوميسا ) لتحقيق الأهداف التالية
 1
@@ -2381,7 +2394,7 @@ A, B العباره
 
 
 
-#
+#q#
 تسعى السوق المشتركة ( الكوميسا ) لتحقيق الأهداف التالية
 2
 خلق بيئة غير مواتية للاستثمار المحلى والأجنبي
@@ -2390,7 +2403,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 تسعى السوق المشتركة ( الكوميسا ) لتحقيق الأهداف التالية
 1
@@ -2402,7 +2415,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 تسعى السوق المشتركة(الكوميسا) لتحقيق الأهداف التالية
 1
@@ -2412,7 +2425,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 تسعى السوق المشتركة (الكوميسا) لتحقيق الأهداف التالية
 3
@@ -2421,9 +2434,9 @@ A, B العباره
 تنمية تطوير العلوم والتكنولوجيا وتحقيق السلام والأمن والاستقرار للدول
 
 
-`,ne=t=>{let[,s,e]=/^!\[(.*)\]\((.*)\)$/.exec(t)||[];return[!!e,s,e]},re=se.split("#").map((t,s)=>{var d;let e=t.trim().split(`
-`).filter(p=>p.trim().length>0),r=e.shift()||"failed to parse question",i=Number((d=e.shift())==null?void 0:d.trim()),[n,a,c]=ne(e[0]);n&&e.shift();const l=e.map((p,f)=>({id:m(),text:p,correct:f+1===i}));return g({questionText:r,answers:l,image:c,imageAlt:a})}),ie=`
-
+`,$e=h("تجارة دولية — 1",Ee),Ue=`
+#multichoice#
+#qt#
 
 المسار أو المسلك الذي تمر من خلاله السلع والمنتجات الى المستهلك أو المستخدم النهائي هو
 2
@@ -2433,7 +2446,7 @@ A, B العباره
 السعر المرتفع للسلعة
 
 
-#
+#q#
 
 من المهام الرئيسية للمصدر في النشاط التصديرية
 3
@@ -2443,7 +2456,7 @@ A, B العباره
 عدم دراسة البدائل الممكنة للقنوات التسويقية لمنتجاته
 
 
-#
+#q#
 
 يجرى تسويق المنتجات في الأسواق الخارجية بطرق غير مباشره ومنها
 1
@@ -2453,7 +2466,7 @@ A, B العباره
 تجار الجملة
 
 
-#
+#q#
 
 يجرى تسويق المنتجات في الأسواق الخارجية بطرق مباشره ومنها
 2
@@ -2463,7 +2476,7 @@ A, B العباره
 حقوق الامتياز
 
 
-#
+#q#
 
 يجرى تسويق المنتجات في الأسواق الخارجية بطرق غير مباشره ومنها
 2
@@ -2473,7 +2486,7 @@ A, B العباره
 الموزعون
 
 
-#
+#q#
 
 كلما كانت دورة البيع للمنتج بطيئة كان المسلك التسويقي
 2
@@ -2485,7 +2498,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من العوامل المؤثرة على طول أو قصر القناة التسويقية
 2
@@ -2494,7 +2507,7 @@ A, B العباره
 دراسة البدائل الممكنة للقنوات التسويقية
 
 
-#
+#q#
 
 هناك بعض العوامل التي تجعل البيع في الأسواق الخارجية يختلف عن البيع في الأسواق المحلية
 1
@@ -2504,7 +2517,7 @@ A, B العباره
 ارتفاع درجة المخاطرة وانخفاض التكاليف التسويقية
 
 
-#
+#q#
 
 من المهام الرئيسية للمصدر في النشاط التصديرية
 1
@@ -2514,7 +2527,7 @@ A, B العباره
 ليس مما سبق
 
 
-#
+#q#
 
 في نموذج قنوات التسويق النمطي يوجد الموزع وهو بدوره يشتري من المصدر ثم يبيع الموزع الى
 2
@@ -2524,7 +2537,7 @@ A, B العباره
 المصدر
 
 
-#
+#q#
 
 في نموذج قنوات التسويق النمطي يوجد تجار التجزئة وهم بدورهم يشت روا من تجار الجملة ثم يبيعوا الى
 2
@@ -2534,7 +2547,7 @@ A, B العباره
 المصدر
 
 
-#
+#q#
 
 يجرى تسويق المنتجات في الأسواق الخارجية بطرق مباشره ومنها
 3
@@ -2544,7 +2557,7 @@ A, B العباره
 حقوق الامتياز
 
 
-#
+#q#
 
 من العوامل المؤثرة على طول أو قصر القناة التسويقية الخدمات المطلوبة للمنتج، فمثلا وجود خدمات ما بعد البيع بدرجة عالية، كان المسلك التسويقي
 2
@@ -2555,7 +2568,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من العوامل المؤثرة على طول أو قصر القناة التسويقية المتطلبات والمعاملات الفنية للمنتج، فكلما كانت معقده، كان المسلك التسويقي
 2
@@ -2565,7 +2578,7 @@ A, B العباره
 أبطئ
 
 
-#
+#q#
 
 من العوامل المؤثرة على طول أو قصر القناة التسويقية قدره المنتج على البقاء سليما، فكلما كان هناك سرعه تلف للمنتج، كان المسلك التسويقي
 1
@@ -2575,7 +2588,7 @@ A, B العباره
 أبطئ
 
 
-#
+#q#
 
 يتم تسويق المنتجات في الأسواق الخارجية بطرق غير مباشره، وإحدى هذه الطرق هو عباره عن اتفاق بين شركتين تقوم إحداها بتنظيم بعض أو كل أنشطه الشركة الأخرى
 3
@@ -2585,7 +2598,7 @@ A, B العباره
 تراخيص الإنتاج
 
 
-#
+#q#
 
 عقود الإدارة من احدى طرق التسويق للأسواق الخارجية بطريقه غير مباشره بالنسبة للاستثمارات المحددة التي تتطلبها، بانها تحقق عوائد
 1
@@ -2595,7 +2608,7 @@ A, B العباره
 ليس مما سبق
 
 
-#
+#q#
 
 يتم تسويق المنتجات في الأسواق الخارجية بطرق مباشره عن طريق الوسطاء، وإحدى هذه الطرق هو شخص اعتباري أو طبيعي يقوم باسم المصدر، ونيابة عنه بالسعي لتوزيع السلعة في الأسواق الخارجية
 2
@@ -2605,7 +2618,7 @@ A, B العباره
 تجار التجزئة
 
 
-#
+#q#
 
 يتم تسويق المنتجات في الأسواق الخارجية بطرق غير مباشره، وإحدى هذه الطرق يكون بموجبها يمكن بقدر من السرعة والسهولة دخول الأسواق الخارجية المستهدفة
 1
@@ -2618,7 +2631,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 يتم تسويق المنتجات في الأسواق الخارجية بطرق غير مباشره، وإحدى هذه الطرق تتميز بتغلبها على العقبات الجمركية ومعوقات التصدير الى السوق الخارجي
 4
@@ -2628,7 +2641,7 @@ A, B العباره
 عقود التصنيع
 
 
-#
+#q#
 
 يتم تسويق المنتجات في الأسواق الخارجية بطرق مباشره، وتتميز هذه الطريقة بان يقوم المنتج المصدر بتنفيذ البرنامج التصدير ية الخاص به بالكامل
 2
@@ -2638,7 +2651,7 @@ A, B العباره
 عقود الإدارة
 
 
-#
+#q#
 
 يتم تسويق المنتجات في الأسواق الخارجية بطرق مباشره عن طريق الوسطاء، وإحدى هذه الطرق فيها تمارس التجارة الخارجية نشاط عامة استيرادا أو تصديرا وقد تقوم بشراء البضائع كعميل مباشر مع المصدر ثم تقوم ببيعها وتوزيعها في الأسواق
 3
@@ -2648,7 +2661,7 @@ A, B العباره
 هيئات الشراء الحكومية
 
 
-#
+#q#
 
 يتم تسويق المنتجات في الأسواق الخارجية بطرق مباشره عن طريق الوسطاء، وإحدى هذه الطرق فيها يقومون بالشراء المباشر من المصدر مثل شركات الاستيراد بدلا من الاعتماد على الشراء من الموزعين أو المستوردين أو الوكلاء
 2
@@ -2658,7 +2671,7 @@ A, B العباره
 المشترين المصنعين
 
 
-#
+#q#
 
 يتم تسويق المنتجات في الأسواق الخارجية بطرق غير مباشره ، وإحدى هذه الطرق فيها تتم عمليه إنتاج المنتجات التصديريه وذالك بموجب اتفاق منح ترخيص يحصل بموجبه احد طرفي الاتفاق على الخبرة الفنية والتجارية وحق استخدام الماركة وبراءات الاختراع وذالك في مقابل مبلغ أو نسبه معينه يدفعها للطرف الأخر المانح للترخيص
 2
@@ -2668,7 +2681,7 @@ A, B العباره
 المشروعات المشتركة
 
 
-#
+#q#
 
 يتم تسويق المنتجات في الأسواق الخارجية بطرق مباشره عن طريق الوسطاء، وإحدى هذه الطرق الشركات التي تشتري كميات كبيره وبشكل متكرر من السلع قد يفضلون التعامل مباشره مع المصدر وقد يتم ذالك على أساس تعاقدأو بدون تعاقد
 4
@@ -2679,7 +2692,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 من أدوات التمويل السابق للشحن، تحدد الدول التي تقدم هذا النوع مثل دوله المكسيك من التمويل أسعار فائدته بما يتناسب وأسعار الفائدة التي تقدمها الدول الأخرى على مثل هذا النوع من التمويل
 3
@@ -2689,7 +2702,7 @@ A, B العباره
 جميع ما سبق
 
 
-#
+#q#
 
 يتمثل الشكل التقليدي في الخصم التجاري في التمويل الذي يتراوح من ثلاث الى خمس سنوات وهو تمويل
 4
@@ -2699,7 +2712,7 @@ A, B العباره
 متوسط الأجل
 
 
-#
+#q#
 
 تتضمن عمليه الخصم التجاري قيامه كطرف ثالث بضمان الأوراق المالية (تجاريه وكمبيالات وسندات إذنيه) بدون أيه قيود
 3
@@ -2709,7 +2722,7 @@ A, B العباره
 القروض
 
 
-#
+#q#
 
 يعد خصم الكمبيالات التي يضمنها البنك واحده من اهم أدوات التمويل . . . . بعد الشحن
 1
@@ -2719,7 +2732,7 @@ A, B العباره
 متوسط الأجل
 
 
-#
+#q#
 
 من أدوات التمويل أثناء وبعد الشحن، تتمثل في قيام الجهة الممولة بتقديم القروض والتسهيلات الائتمانية الى المستوردين
 3
@@ -2729,7 +2742,7 @@ A, B العباره
 الشراء التبادلي
 
 
-#
+#q#
 
 وفقا لهذه الأداة تقوم الدولة التي تتمتع بميزه نسبيه وتنافسيه في احدى القطاعات بتشجيع تدفق الاستثمار المحلي والأجنبي الى تلك القطاعات ومن ثم زيادة الصادرات من تلك القطاعات الى الأسواق العالمية
 4
@@ -2742,7 +2755,7 @@ A, B العباره
 
 
 
-#
+#q#
 
 تتمثل في قيام المُصدر بالتامين على تحصيل قيمه صادراته عند استحقاق موعد الائتمان الممنوح أثناء عمليه التصدير
 1
@@ -2752,7 +2765,7 @@ A, B
 حفظ الصادرات
 
 
-#
+#q#
 
 يعد فشل أو رفض المستورد أن يتقيد باي شرط من شروط عقد التصدير إذا كان ذالك المستورد جهة أو مؤسسه حكومية سبق التعامل معها من
 2
@@ -2762,7 +2775,7 @@ A, B
 حفظ الصادرات
 
 
-#
+#q#
 
 نظرا لما يواجهه مديري التصدير بالأسواق العالمية من صعوبة الحصول على معلومات صحيحه ودقيقه وحديثه عن الشركات الأجنبية، ولتقليل مخاطر عدم السداد من قبل المستوردين الأجانب فيتم طلب
 2
@@ -2772,7 +2785,7 @@ A, B
 حفظ الصادرات
 
 
-#
+#q#
 
 يقوم المصدرون في هذا الشكل من أشكال التمويل بالتعاون فيما بينهم في مجال تسويق صادراتهم مما يسهم في زيادة فرص التصدير لتلك الأسواق
 3
@@ -2782,7 +2795,7 @@ A, B
 تمويل عمليات البيع
 
 
-#
+#q#
 
 يعتبر قيام الحكومة بأنشاء مؤسسات متخصصة لتمويل الصادرات دون توفير الموارد المالية الكافية للقيام بهذا الدور
 1
@@ -2792,7 +2805,7 @@ A, B
 من أدوات التمويل أثناء وبعد الشحن
 
 
-#
+#q#
 
 يعد من المؤسسات التي تقدم خدمات تمويل الصادرات بمصر، وتم إنشاؤه بموجب القانون رقم 1983 بغرض تشجيع الصادرات المصرية والمعاونة في قيام قطاع تصديري زراعي وصناعي وتجاري ومصرفي
 2
@@ -2805,7 +2818,7 @@ A, B
 
 
 
-#
+#q#
 
 يعد من المؤسسات التي تقدم خدمات تمويل الصادرات بمصر، وقام البنك المصري لتنميه الصادرات بإنشائها لضمان الصادرات بموجب القانون رقم 21 لسنه 1992 ، وذالك من اجل تنفيذ نظام تامين لضمان الصادرات ضد المخاطر التجارية وغير التجارية
 3
@@ -2815,7 +2828,7 @@ A, B
 المؤسسة العربية لضمان الاستثما ر
 
 
-#
+#q#
 
 رفض المشتري أو امتناعه عن استلام البضاعة المشحونة رغم قيام المصدر بالوفاء بجميع التزاماته تجاه المشتري من المخاطر المغطاة
 1
@@ -2825,7 +2838,7 @@ A, B
 المخاطر المغطاة غير التجارية
 
 
-#
+#q#
 
 تعمل المؤسسة العربية لضمان الاستثمار على توفير خدمات الضمان ضد المخاطر غير التجارية ومن هذه المخاطر المغطاة غير التجارية
 2
@@ -2835,7 +2848,7 @@ A, B
 إفلاس المشتري
 
 
-#
+#q#
 
 يعد من المؤسسات التي تقدم خدمات تمويل الصادرات بمصر، هو مؤسسه ماليه عربيه مشتركه تهدف للإسهام في تنميه التجارة العربية وقد أنشئ في عام 1989 ويبلغ راس المال المدفوع 500 مليون دولار أمريكي
 3
@@ -2845,7 +2858,7 @@ A, B
 المؤسسة العربية لضمان الاستثما
 
 
-#
+#q#
 
 من أدوات تمويل الصادرات المصرية أثناء وبعد الشحن، تعمل هذه الأداة في قطاعات رئيسيه مثل القطاع الزراعي والغذائي والمجمدات ، الصناعات الدوائية ، الصناعات الهندسية والنسيجية تم التركيز عليها
 4
@@ -2855,7 +2868,7 @@ A, B
 إدخال خدمه الخصم التجاري للمصدر المصري
 
 
-#
+#q#
 
 من أدوات تمويل الصادرات المصرية أثناء وبعد الشحن، يساعد على حل مشكله التدفق النقدي التي قد يعاني منها يعض المصدرين المصريين
 4
@@ -2868,7 +2881,7 @@ A, B
 
 
 
-#
+#q#
 
 قامت وزاره التجارة الخارجية بوضع القواعد ومنها : الخصائص المالية للصفقة ، نوع السلعة التي تغطيها، وأجال التغطية وتكاليفها التي تعمل وفقال
 3
@@ -2878,7 +2891,7 @@ A, B
 إدخال خدمه الخصم التجاري للمصدر المصري
 
 
-#
+#q#
 
 تعد سندات التصدير من أدوات التمويل الاستثماري بمصر، حيث يقوم البنك الأهلي بطرح سندات لتمويل الصادرات طويله الأجل من
 4
@@ -2887,7 +2900,7 @@ A, B
 10:7 شهور
 10:7 سنوات
 
-#
+#q#
 
 من أدوات التمويل الاستثماري بمصر، يتم ذالك من خلال حصول بنك تنميه الصادرات على قروض من بنوك مثل بنك التنمية الأفريقي وكذالك بنك الصادرات الأمريكي الياباني لتمويل الصادرات المصرية
 4
@@ -2897,7 +2910,7 @@ A, B
 الحصول على تمويل دولاري طويل الأجل
 
 
-#
+#q#
 
 تتولى الحكومة تدبير مبالغ لمواجهه جزء من أعباء الشركات لضمان مخاطر الصادرات في دعم أقساط الضمان للدول متوسطه المخاطر لتصبح 1% بدلا من
 1
@@ -2906,7 +2919,7 @@ A, B
 1%
 0.5%
 
-#
+#q#
 
 من أدوات تامين وضمان الصادرات، حيث تم إعداد وثيقة تقوم بتحمل الدولة لنفقات الاشتراك بهذه الأداة بنسبه تتراوح من 50% الى 75% من التكلفة الكلية في حاله إخفاق المٌصدر في الحصول على تعاقدات فعليه
 2
@@ -2916,7 +2929,7 @@ A, B
 اليه التخصيم
 
 
-#
+#q#
 
 من أدوات تمويل الصادرات المصرية قبل الشحن، ومن امثلتها توقيع وزاره الخارجية بروتوكول التعاون مع البنك الأهلي المصري في أبريل عام 2004
 2
@@ -2928,7 +2941,7 @@ A, B
 
 
 
-#
+#q#
 
 تشير العديد من الدراسات الى انه يمكن النظر الى مفهوم الميزة التنافسية
 2
@@ -2938,7 +2951,7 @@ A, B
 مستويات ست
 
 
-#
+#q#
 
 يمكن النظر الى مفهوم الميزة التنافسية لأكثر من مستوى وهذه المستويات هي
 4
@@ -2948,7 +2961,7 @@ A, B
 الدولة والصناعة والشركة
 
 
-#
+#q#
 
 تعتبر أحد مستويات الميزة التنافسية وفي هذا المستوي يرتكز الاهتمام حول انعكاس الميزة التنافسية على الرفاهية العامة للدول
 1
@@ -2958,7 +2971,7 @@ A, B
 الميزة التنافسية على مستوى الفرد الواحد
 
 
-#
+#q#
 
 تعتبر أحد مستويات الميزة التنافسية وفي هذا المستوي قد تتمتع الدولة بميزه تنافسيه عالميه في صناعه معينه أو في بعض الصناعات
 2
@@ -2968,7 +2981,7 @@ A, B
 الميزة التنافسية على مستوى الفرد الواحد
 
 
-#
+#q#
 
 تعتبر أحد مستويات الميزة التنافسية وفي هذا المستوي يتم التنافس في السوق العالمي يقوم فيما بين الشركات
 3
@@ -2978,7 +2991,7 @@ A, B
 الميزة التنافسية على مستوى الفرد الواحد
 
 
-#
+#q#
 
 من مؤشرات الميزة التنافسية
 4
@@ -2988,7 +3001,7 @@ A, B
 خفة الحركة والاعتمادية والتعليم
 
 
-#
+#q#
 
 من محددات الميزة التنافسية
 1
@@ -2998,7 +3011,7 @@ A, B
 عدم تجهيز المقومات الضرورية لنشاط التصدير
 
 
-#
+#q#
 
 من محددات الميزة التنافسية
 3
@@ -3008,7 +3021,7 @@ A, B
 معدل نمو الصادرات والواردات
 
 
-#
+#q#
 
 هناك مقاييس لقياس درجة التنافسية ومن أمثلتها
 1
@@ -3018,7 +3031,7 @@ A, B
 معدل نمو الواردات
 
 
-#
+#q#
 
 من مؤشرات الميزة التنافسية وهو يعني قدرة المؤسسات والعاملين على استيعاب المعلومات والتقانات الجديدة
 3
@@ -3028,7 +3041,7 @@ A, B
 التشابكات
 
 
-#
+#q#
 
 من مؤشرات الميزة التنافسية وهي تعني قدرة المؤسسات على القيام بالتزامات متواصلة وتلبيتها مع مرور الزمن في مواجهة عوامل المخاطرة واللايقين
 2
@@ -3038,7 +3051,7 @@ A, B
 التشابكات
 
 
-#
+#q#
 
 من مؤشرات الميزة التنافسية وهي تعني مختلف أشكال الارتباط أو التواصل القائم بين الأسواق المحلية والدولية ومصادر المعلومات والتكنولوجيا
 4
@@ -3048,7 +3061,7 @@ A, B
 التشابكات
 
 
-#
+#q#
 
 من مؤشرات الميزة التنافسية وهي قدرة المؤسسات والعاملين على الاستجابة لمؤشرات السوق كما يعكسها الأداء الاقتصادي والتصديري
 1
@@ -3058,7 +3071,7 @@ A, B
 التشابكات
 
 
-#
+#q#
 
 من مؤشرات الميزة التنافسية ويشمل على نسبة الأنفاق على الدفاع القومي الى الموازنة الكلية
 3
@@ -3068,7 +3081,7 @@ A, B
 التشابكات
 
 
-#
+#q#
 
 من مؤشرات الميزة التنافسية ويشمل نسبة عجز الموازنة مقارنة بالناتج المحلي
 2
@@ -3078,7 +3091,7 @@ A, B
 التشابكات
 
 
-#
+#q#
 
 من مؤشرات الميزة التنافسية ويشمل عدد أجهزه التليفزيون والجرائد اليومية لكل ألف نسمه
 4
@@ -3088,7 +3101,7 @@ A, B
 التشابكات
 
 
-#
+#q#
 
 من مؤشرات الميزة التنافسية ويشمل متوسط معدل نمو الدخل للفرد ومتوسط معدل نمو الصادرات والواردا ت
 1
@@ -3098,7 +3111,7 @@ A, B
 التشابكات
 
 
-#
+#q#
 
 من محددات الميزة التنافسية ويقصد به العمالة المدربة الماهرة المتخصصة عالية الكفاءة والكفاءات العالية من العلماء والخبراء والمهندسين والفنيين
 1
@@ -3108,7 +3121,7 @@ A, B
 مواصفات الجودة السلعية
 
 
-#
+#q#
 
 من المقاييس المستخدمة لقياس درجة التنافسية وهو يعبر عن التغير النسبي بالزيادة أو النقص في كميه أو قيمه الصادرات للدولة عامه
 2
@@ -3118,7 +3131,7 @@ A, B
 مؤشر التنافسية الظاهرة لفولراث
 
 
-#
+#q#
 
 من المقاييس المستخدمة لقياس درجة التنافسية وهو يقاس بنسبه نصيب صادرات الدولة في الأسواق التصديرية
 1
@@ -3132,7 +3145,7 @@ A, B
 
 
 
-#
+#q#
 
 من المقاييس المستخدمة لقياس درجة التنافسية وهو أكثر المقاييس شمولا لكونه يأخذ في الاعتبار كلا من جانبي الصادرات والواردات معا كما يمكن تطبيقه على جانب الصادرات فقط أو الواردات فقط
 4
@@ -3142,7 +3155,7 @@ A, B
 مؤشر التنافسية الظاهرة لفولراث
 
 
-#
+#q#
 
 من المقاييس المستخدمة لقياس درجة التنافسية وهو يقيس الأداء التصديري للسلعة من دوله معينه مقارنه بالأداء التصديري العام للصادرات على مستوى الدولة وأيضا للصادرات من نفس السلعة على مستوى العالم
 3
@@ -3152,7 +3165,7 @@ A, B
 مؤشر التنافسية الظاهرة لفولراث
 
 
-#
+#q#
 
 من الخطوط العامة لمداخل التنافسية في الدول المتقدمة
 2
@@ -3162,7 +3175,7 @@ A, B
 الميزة القومية لا تكتسب
 
 
-#
+#q#
 
 من محددات الميزة التنافسية وتشتمل على المجموع الكلي للمزايا والخواص للسلعة أو الخدمة وما يقترن بها من عمليات أو معاملات كالتغليق والتعبئة وظروف النقل ومدى المطابقة لمعايير الجودة العالمية أو تلك التي تفرضه الدول المستوردة
 1
@@ -3172,7 +3185,7 @@ A, B
 راس المال البشري
 
 
-#
+#q#
 
 من محددات الميزة التنافسية وهي الوسيلة التي يتم بها تحويل الموارد الى سلع وهي تعد شرطا ضروريا لتأهيل الدولة للمنافسة في الأسواق العالمية
 3
@@ -3182,7 +3195,7 @@ A, B
 راس المال البشري
 
 
-#
+#q#
 
 يقصد به السعر المدفوع أو الوجب دفعه ثمنا لهذا المنتج من قبل المستورد ودون تحميله باي تكاليف أو رسوم أو نفقات تزيد على ما يتحمله عند البيع
 2
@@ -3195,7 +3208,7 @@ A, B
 
 
 
-#
+#q#
 
 يقصد بها سعر المنتج في مجرى التجارة العادي في السوق المحلية لدولة المنشأ أو التصدير
 3
@@ -3205,7 +3218,7 @@ A, B
 هامش الإغراق
 
 
-#
+#q#
 
 يجوز لها تقدير القيمة العادية وفقا لتكلفه الإنتاج في دولة المنشأ مضافا اليها مبلغ مناسب من المصروفات البيعية والعمومية والإدارية وهامش ربح مناسب
 1
@@ -3215,7 +3228,7 @@ A, B
 النقل الداخلي
 
 
-#
+#q#
 
 CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من سعر التصدير
 4
@@ -3225,7 +3238,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 هامش الإغراق
 
 
-#
+#q#
 
 يقصد به انخفاض سعر بيع المنتح المستورد في السوق المحلي عن سعر بيع المنتج المثيل الذي تنتجه الصناعة المحلي على نفس المستوى التجاري
 1
@@ -3235,7 +3248,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 منع الأسعار المحلية من الزيادة
 
 
-#
+#q#
 
 يقصد به انحفاض أسعار بيع المنتج المحلي نتيجة تأثير الواردات التي تباع بأسعار مغرقه( منخفضه)
 2
@@ -3245,7 +3258,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 الدعم
 
 
-#
+#q#
 
 يقصد به عدم حدوث الزيادة في الأسعار التي كان من الممكن أن تحدث لولا وجود الواردات المغرقة
 3
@@ -3259,7 +3272,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 
 يعرف بانه الأثار السلبية التي تقع على الصناعة المحلية نتيجة للممارسات الغير عادله في التجارة الدولية
 3
@@ -3269,7 +3282,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 هامش الإغراق
 
 
-#
+#q#
 
 يقسم الضرر الى
 2
@@ -3279,7 +3292,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 نوع واحد
 
 
-#
+#q#
 
 من أنواع الضرر، وهو يعني أن هناك ضرر وقع بالفعل على الصناعة المحلية
 1
@@ -3289,7 +3302,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 الأرباح
 
 
-#
+#q#
 
 الضرر المادي، وهو يعني أن هناك ضرر وقع بالفعل على الصناعة المحلية ويتم بحثه من خلال
 2
@@ -3299,7 +3312,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 سبعه عناصر
 
 
-#
+#q#
 
 يعتبر معدل زيادة كبيره في الواردات المغرقة الى السوق المحلي مما يكشف عن احتمال حدوث زيادة كبيره في الاستيراد من
 2
@@ -3309,7 +3322,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 عوامل الدعم
 
 
-#
+#q#
 
 من أنواع الضرر، وهي أنها تفسر على أن الواردات المغرقة تمنع قيام أو إنشاء صناعه جديده في الدولة المستوردة
 3
@@ -3319,7 +3332,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 الأرباح
 
 
-#
+#q#
 
 يعتبر من أنواع الدعم، ويعرف بانه الدعم الذي يجب أن يمتنع الأعضاء كلية عن تقديمه
 1
@@ -3329,7 +3342,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 الدعم المخصص للبيئة
 
 
-#
+#q#
 
 يعرف بانه أي مساهمه ماليه مباشره أو غير مباشره مقدمه من دولة المنشأ أو من أي هيئة عامه بها من خلال برامج أو خطط وينتج عنها تحقيق فائدة للمنتج أو المصدر
 2
@@ -3339,7 +3352,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 الوقاية
 
 
-#
+#q#
 
 تعرف بانها إمكانيه فرض تدابير ضد الزيادة غير المبررة في الواردات سوآءا بشكلها المطلق أو النسبي من الإنتاج وتسبب ضرر جسيما بالصناعة المحلية أو تهديد بحدوث ضرر جسيم
 4
@@ -3349,7 +3362,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 الوقاية
 
 
-#
+#q#
 
 تعرف بانها زيادة مطلقه أو زيادة نسبيه بالنسبة للإنتاج المحلي وهي زيادة حدثت مؤخرا بصورة مفاجئة وكبيره وجوهريه
 1
@@ -3359,7 +3372,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 الإعاقة المادية
 
 
-#
+#q#
 
 يعرف بانه مستوى اعلى من الضرر المادي في حالات مكافحة الإغراق والإجراءات التعويضية
 3
@@ -3369,7 +3382,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 الإعاقة المادية
 
 
-#
+#q#
 
 يعرف بان السلع إذا كان سعر تصديرها الى السوق المحلي في بلد الاستيراد اقل من قيمتها العادية في بلد التصدي
 1
@@ -3379,7 +3392,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 الضرر
 
 
-#
+#q#
 
 يعرف بانه الأضعاف الكلي الكبير في مركز الصناعة المحلية أو التهديد بوقوعه استنادا على وقائع وليس مجرد ادعاءات أو تكهنات
 3
@@ -3392,7 +3405,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 
 من أنواع الدعم المحظو
 3
@@ -3402,7 +3415,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 الدعم المخصص للبحوث والتطوير
 
 
-#
+#q#
 
 من أنواعه الدعم ، وهو الدعم الذي لا يكون محظورا ويسبب ضررا بالصناعة المحلية لعضو أخر من أعضاء منظمه التجارة العالمية
 1
@@ -3412,7 +3425,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 الدعم المخصص للبيئة
 
 
-#
+#q#
 
 هو الفرق بين القيمة العادية وسعر التصدير
 3
@@ -3422,7 +3435,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 هامش الإغراق
 
 
-#
+#q#
 
 طبقا لاتفاق مكافحة الإغراق يجب إثبات علاقة السببية عن طريق ما يعرف بانه حدوث الضرر تزامن مع زيادة الواردات المغرقة
 3
@@ -3432,7 +3445,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 سعر التصدير
 
 
-#
+#q#
 
 تعرف بانها زيادة الواردات سوآءا كانت مطلقه أو نسبيه وهي زيادة نسبة الواردات الى الإنتاج أو الاستهلاك
 4
@@ -3442,8 +3455,9 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 أثر الواردات على اقتصاديات الصناعة المحلية بالنسبة لحجم الواردات
 
 
-`,oe=t=>{let[,s,e]=/^!\[(.*)\]\((.*)\)$/.exec(t)||[];return[!!e,s,e]},ae=ie.split("#").map((t,s)=>{var d;let e=t.trim().split(`
-`).filter(p=>p.trim().length>0),r=e.shift()||"failed to parse question",i=Number((d=e.shift())==null?void 0:d.trim()),[n,a,c]=oe(e[0]);n&&e.shift();const l=e.map((p,f)=>({id:m(),text:p,correct:f+1===i}));return g({questionText:r,answers:l,image:c,imageAlt:a})}),ce=`
+`,ke=h("تجارة دولية — 2",Ue),De=`
+#multichoice#
+#qt#
 
 تمر دورة حياه المشروع ب . . . . 
 3
@@ -3454,7 +3468,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 تعنى المزايا أو الجوانب التي يتمتع بها الفرد ب . . . . 
 1
 نقاط القوة
@@ -3464,7 +3478,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 تتناول المجالات أول الجوانب التي يتطلب العمل على تقويتها أو استبعادها أو تحديدها ب . . . . 
 2
 نقاط القوة
@@ -3474,7 +3488,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 تعنى كيفية تحسين الأداء والخصائص والفرص المتاحة لتحقيق ذلك ب . . . . 
 3
 نقاط القوة
@@ -3483,7 +3497,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 التهديدات
 
 
-#
+#q#
 يقصد بها المخاطر التي قد يتعرض لها الفرد ب . . . . 
 4
 1نقاط القوة
@@ -3492,7 +3506,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 التهديدات
 
 
-#
+#q#
 الصورة الذهنية للأثر التنموي المتحقق في الوضع المستقبلي والذي يشمل تغيراً جذريا في حياة السكان المستهدفين
 1
 الهدف طويل المدى
@@ -3502,7 +3516,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 النتائج العامة المنشودة في شكل تغيير في أوضاع الحياة والسكان المستهدفين
 2
 الهدف طويل المدى
@@ -3512,7 +3526,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 تسهم في تحقيق الأهداف الكلية والتي تمثل مخرجات مباشره قابله للقياس لأنشطه المشروع
 3
 الهدف طويل المدى
@@ -3522,7 +3536,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 تتسم الأهداف الذكية ب . . . . صفات
 3
 ثلاث
@@ -3532,7 +3546,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 النتائج البعيدة المدى والأكثر شمولا والتي تنتج عاده عن جهود تدخلات مختلفة حكومية وغير حكومية
 3
 مخرجات
@@ -3542,7 +3556,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 النتائج التي تنشأ عن مجموعه مخرجات مجتمعه لنفس المشروع أو للمشروع
 2
 مخرجات
@@ -3552,7 +3566,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 النتائج المباشرة لأنشطه المشروع
 1
 مخرجات
@@ -3562,7 +3576,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 يتسم المؤشر الجيد ب . . . . صفات
 3
 ثلاث
@@ -3572,7 +3586,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 تتم عمليه للتقييم المؤسسة كل . . . . 
 1
 ثلاث سنوات
@@ -3582,7 +3596,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 عمليه التقييم تتكون من . . . . مراحل رئيسيه
 1
 ثلاث
@@ -3592,7 +3606,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 يتصف المقيم الخارجي بأنه . . . . 
 4
 جزء من الهيكل التنظيمي والسلطة في البرنامج
@@ -3602,7 +3616,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 معيار يقيس مدى ملائمه المشروع للمؤسسات والجمعيات والممولين والفئات المستهدفة، وأن على أداره المشروع في هذا المعيار اختيار الفئات المستهدفة
 3
 معيار الفاعلية
@@ -3612,7 +3626,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 لاستغلال الأمثل للموارد المادية والمالية والبشرية لتحقيق المخرجات المخطط لها وذلك بأقل جهد ووقت وتكلفه
 2
 معيار الفاعلية 
@@ -3622,7 +3636,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 يقيس مدى القرب من تحقيق الأهداف
 1
 معيار الفاعلية 
@@ -3632,7 +3646,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 قيس مدى تحقق الهدف العام للمشروع والمنظمة على مستوى الفئات المستهدفة والمجتمع على المدى البعيد
 2
 معيار الفاعلية 
@@ -3643,7 +3657,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 يقيس مدى ديمومة المشروع بعد انتهاءه
 2
 معيار الفاعلية 
@@ -3653,7 +3667,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 إذا كان للبرنامج أهداف طويله المدى فسوف يكون من غير المجدي قياس الأثر بسرعه أي قبل  . . . . 
 4
 شهر
@@ -3663,7 +3677,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 تتضمن الحصول على معلومات مفيدة وفى الوقت المناسب من خلال مراقبه ما يفعله الناس
 4
 طريقه مقابلات شبه منظمه 
@@ -3673,7 +3687,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 هي عباره عن توثيق قصه حياه أو تسلسل الأحداث مع مرور الوقت المتعلقة بشخص، أو موق ع، أو أسره، أو مؤسسه
 2
 طريقه مقابلات شبه منظمه 
@@ -3683,7 +3697,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 تتم من خلال الحصول على معلومات وجها لوجه من مجموعه فرديه أو صغيره
 1
 طريقه مقابلات شبه منظمه 
@@ -3692,7 +3706,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 طريقه الملاحظة المباشرة
 
 
-#
+#q#
 يتم الحصول على بيانات من عدد كبير من الأشخاص بطريقه منظمه وفقا لأسئلة محدده
 3
 طريقه مقابلات شبه منظمه 
@@ -3702,7 +3716,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 تشجع الناس على التفكير النقدي والإبداعي، بدلاً من مجرد إنشاء قائمه بالخيارات أو الإجابات أو الاهتمامات
 2
 طريقه مجموعات التركيز 
@@ -3712,7 +3726,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 تستخدم لجمع معلومات عامه، أوضح في التفاصيل وجمع الأراء حول مشكله من مجموعه صغيره من الأشخاص المختارين الذين يمثلون وجهات نظر مختلفة
 1
 طريقه مجموعات التركيز 
@@ -3722,7 +3736,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 تساعد أصحاب المصلحة في المشروع على التفكير في مدى ملائمه الأنشطة القائمة على رؤى الناس للتنمية
 3
 طريقه مجموعات التركيز 
@@ -3732,7 +3746,7 @@ CIF يعرف بانه هو مقدار الإغراق كنسبة مئوية من 
 
 
 
-#
+#q#
 توفر تمثيل مرئي للمعلومات في سياق جغرافي معيت استنادا إلى تصورات أصحاب المصلحة لأى مشكله
 3
 نظم تحديد المواقع العالمية
@@ -3741,7 +3755,7 @@ GISطريقه
 طريقه لتقويمات الموسمية
 
 
-#
+#q#
 تستخدم لاكتشاف وتسجيل البيانات لفترات زمنيه مميزه لإظهار التغيرات الدورية مع مرور الوقت
 3
 طريقه الروتين اليومي 
@@ -3751,7 +3765,7 @@ GISطريقه
 
 
 
-#
+#q#
 تستخدم لتقييم الاختلافات الرئيسية في المهام اليومية وكيفية التغلب عليها
 1
 طريقه الروتين اليومي 
@@ -3761,7 +3775,7 @@ GISطريقه
 
 
 
-#
+#q#
 تستخدم لتحديد حالات التغييرات الهامة / الحرجة - الإيجابية والسلبية
 2
 طريقه الروتين اليومي 
@@ -3770,7 +3784,7 @@ GISطريقه
 طريقه الخرطة الاجتماعية
 
 
-#
+#q#
 رسم يتم فيه عرض الأفكار والمعلومات بطريقه تسهل على ذهنك حفظها وتذكرها
 1
  طريقه الخرائط الذهنية 
@@ -3780,7 +3794,7 @@ GISطريقه
 
 
 
-#
+#q#
 توضح مدى تفاعل الأفراد، أو المنظمات، أو المشاريع، أو الخدمات مع بعض البعض والأهمية النسبية لكل منهم في القضية التي يجرى تقييمها
 2
 طريقه الخرائط الذهنية 
@@ -3790,7 +3804,7 @@ GISطريقه
 
 
 
-#
+#q#
 تحليل تفصيلي تساعد الأنظمة في تحليل المدخلات اللازمة لجعل النظام يعمل، وكذلك مخرجاته
 2
 طريقه الخرائط الذهنية 
@@ -3800,7 +3814,7 @@ GISطريقه
 
 
 
-#
+#q#
 طريقه العصف الذهني من طرق . . . . 
 4
 تحليل الروابط والعلاقات 
@@ -3810,7 +3824,7 @@ GISطريقه
 
 
 
-#
+#q#
 طريقه نظم تحديد المواقع العالمية من طرق . . . . 
 3
 تحليل الروابط والعلاقات 
@@ -3820,7 +3834,7 @@ GISطريقه
 
 
 
-#
+#q#
 طريقه تحليل الاتجاهات التاريخية للموارد الطبيعية المتجددة من طرق . . . . 
 2
 تحليل الروابط والعلاقات 
@@ -3830,7 +3844,7 @@ GISطريقه
 
 
 
-#
+#q#
 طريقه الخرائط الذهنية من طرق . . . . 
 1
 تحليل الروابط والعلاقات 
@@ -3840,7 +3854,7 @@ GISطريقه
 
 
 
-#
+#q#
 طريقه مجموعات التركيز من طرق . . . . 
 4
 تحليل الروابط والعلاقات 
@@ -3850,7 +3864,7 @@ GISطريقه
 
 
 
-#
+#q#
 طريقه رسم الخرائط من طرق . . . . 
 3
 تحليل الروابط والعلاقات 
@@ -3860,7 +3874,7 @@ GISطريقه
 
 
 
-#
+#q#
 طريقه التقويمات الموسمية من طرق . . . . 
 2
 تحليل الروابط والعلاقات 
@@ -3870,7 +3884,7 @@ GISطريقه
 
 
 
-#
+#q#
 طريقه مخطط الارتباط المؤسسي من طرق . . . . 
 1
 تحليل الروابط والعلاقات 
@@ -3880,7 +3894,7 @@ GISطريقه
 
 
 
-#
+#q#
 طريقه التقويمات الموسمية من طرق . . . . 
 2
 تحليل الروابط والعلاقات 
@@ -3890,7 +3904,7 @@ GISطريقه
 
 
 
-#
+#q#
 طريقه الخريطه الاجتماعية من طرق . . . . 
 3
 تحليل الروابط والعلاقات 
@@ -3900,7 +3914,7 @@ GISطريقه
 
 
 
-#
+#q#
 طريقه الروتين اليومي من طرق . . . . 
 2
 تحليل الروابط والعلاقات 
@@ -3910,7 +3924,7 @@ GISطريقه
 
 
 
-#
+#q#
 طريقه تحليل المدخلات والمخرجات من
 1
 تحليل الروابط والعلاقات 
@@ -3920,7 +3934,7 @@ GISطريقه
 
 
 
-#
+#q#
 طريقه خريطه الموارد والخدمات والفرص من طرق . . . . 
 3
 تحليل الروابط والعلاقات 
@@ -3930,7 +3944,7 @@ GISطريقه
 
 
 
-#
+#q#
 طريقه التقويمات الموسمية من طرق . . . . 
 2
 تحليل الروابط والعلاقات 
@@ -3940,7 +3954,7 @@ GISطريقه
 
 
 
-#
+#q#
 طريقه التغير الأكثر أهمية من طرق . . . . 
 2
 تحليل الروابط والعلاقات 
@@ -3950,7 +3964,7 @@ GISطريقه
 
 
 
-#
+#q#
  من طرق . . . . GIS طريقه 
 3
 تحليل الروابط والعلاقات 
@@ -3960,7 +3974,7 @@ GISطريقه
 
 
 
-#
+#q#
 طريقه تحقيق الأحلام أو الرؤية من طرق . . . . 
 4
 تحليل الروابط والعلاقات 
@@ -3970,7 +3984,7 @@ GISطريقه
 
 
 
-#
+#q#
 يوضح أهم الأنشطة التي يتم تنفيذها من قبل المؤسسة خلال اليوم وتكون تفصيليه مثل تقارير الأنشطة وتقارير حضور وانصراف الموظفين اليومي، وتكون عاده روتينية لا تحمل مؤشرات
 4
 تقارير المراقبة والمتابعة 
@@ -3979,7 +3993,7 @@ GISطريقه
 التقرير اليومي
 
 
-#
+#q#
 تكون مرتبطة بخطه موضوعه أو ببرنامج أو مشروع جارى تنفيذه، وعاده ما تتضمن عمليه مقارنه بين ما هو واقع وما كان يجب أن يتم وفقا للخطة أو البرنامج الموضوع، وتوضيح وتقديم تحليل لها وبيان مسبباتها
 1
 تقارير المراقبة والمتابعة 
@@ -3988,7 +4002,7 @@ GISطريقه
 التقرير اليومي
 
 
-#
+#q#
 تقارير تصدر لحاجه معينه أو بناء على طلب محدد دون وجود ضابط زمني لصدورها، ومثال عليها تقرير حول مشكله إدارية أو ماليه أو فنيه محدد
 3
 تقارير المراقبة والمتابعة 
@@ -3998,7 +4012,7 @@ GISطريقه
 
 
 
-#
+#q#
 تهدف إلى الحكم على الكفاءة أو إعطاء درجات أو تقديرات تعبر عن مستوى الأداء خلال فتره التقييم
 3
 تقارير الأنشطة 
@@ -4008,7 +4022,7 @@ GISطريقه
 
 
 
-#
+#q#
 تركز على وضع المؤسسة أو المشروع ماليا من حيث المصروفات والإيرادات والمركز المالي، وتظهرهذه التقارير العجز أو الربح المتحقق
 4
 تقارير الأنشطة 
@@ -4018,7 +4032,7 @@ GISطريقه
 
 
 
-#
+#q#
 يصنف التقرير السنوي ضمن التقارير . . . . 
 3
 حسب المحتوى 
@@ -4028,7 +4042,7 @@ GISطريقه
 
 
 
-#
+#q#
 تصنف تقارير المراقبة والمتابعة من ضمن تقارير . . . . 
 1
 حسب المحتوى 
@@ -4038,7 +4052,7 @@ GISطريقه
 
 
 
-#
+#q#
 تصنف التقارير الخارجية من ضمن التقارير . . . . 
 2
 حسب المحتوى 
@@ -4048,7 +4062,7 @@ GISطريقه
 
 
 
-#
+#q#
 تصنف تقارير تقييم الأداء من ضمن تقارير . . . . 
 1
 حسب المحتوى 
@@ -4058,7 +4072,7 @@ GISطريقه
 
 
 
-#
+#q#
 تصنف تقارير الأنشطة من ضمن تقارير . . . . 
 1
 حسب المحتوى 
@@ -4068,7 +4082,7 @@ GISطريقه
 
 
 
-#
+#q#
 تصنف التقارير النهائية من ضمن التقارير . . . . 
 3
 حسب المحتوى 
@@ -4078,7 +4092,7 @@ GISطريقه
 
 
 
-#
+#q#
 تصنف التقارير المالية والمحاسبية من ضمن التقارير . . . . 
 1
 حسب المحتوى 
@@ -4088,7 +4102,7 @@ GISطريقه
 
 
 
-#
+#q#
 تصنف التقارير الداخلية من ضمن التقارير . . . . 
 2
 حسب المحتوى 
@@ -4098,7 +4112,7 @@ GISطريقه
 
 
 
-#
+#q#
 يصنف التقرير النصفي من ضمن التقارير . . . . 
 3
 حسب المحتوى 
@@ -4106,10 +4120,11 @@ GISطريقه
 حسب مدتها 
 من حيث تكرارها
 
+#qg#
+#matching#
+#qt#
 
-
-
-#
+#q#
 الرصد
 1
 عملية مستمرة من جمع وتحليل البيانات ومقارنتها مع ما هو مخطط ومتوقع،لمعرفة مدي كفاءة أداء المشروع أو البرنامج اعتمادا على قياس مؤشرات محددة، ويستمر الرصد طوال فترة تنفيذ المشروع
@@ -4117,7 +4132,7 @@ GISطريقه
 
 
 
-#
+#q#
 التقييم
 1
 تقدير منهجي موضوعي لتصميم وتنفيذ ونتائج مشروع أو برنامج، ويتم تنفيذه عند نقط زمنية محددة مثل منتصف المدة وختام المشروع
@@ -4125,7 +4140,7 @@ GISطريقه
 
 
 
-#
+#q#
 البيانات الأولية
 1
 تجمع مباشرة من قبل المؤسسة من خلال المسوحات أو المشاهدة المباشرة والمقابلات
@@ -4133,7 +4148,7 @@ GISطريقه
 
 
 
-#
+#q#
 البيانات الثانوية
 1
 تستمد من بيانات سبق جمعها من قبل جهة أخري
@@ -4141,7 +4156,7 @@ GISطريقه
 
 
 
-#
+#q#
 المقيم الخارجي
 1
 شخص قادر علي رؤية البرنامج بنظرة جديدة باعتباره غير مشارك فيه
@@ -4149,7 +4164,7 @@ GISطريقه
 
 
 
-#
+#q#
 المقيم الداخلي
 1
 شخص من داخل البرنامج أو ممن يعرفون البرنامج جيدا يعرف فعليا اتجاه عمل البرنامج وكذلك أهدافه ومشاكله ونقاط ضعفه
@@ -4157,7 +4172,7 @@ GISطريقه
 
 
 
-#
+#q#
 خريطة للموارد والخدمات والفرص
 1
 تستخدم للحصول على معلومات عن الموارد والخدمات المتاحة في المجتمع وتشمل الموارد، الخدمات، الأوضاع الاجتماعية، الاقتصادية، السكانية والجغرافية عن المنطقة التي يعيش فيها المجتمع
@@ -4166,7 +4181,7 @@ GISطريقه
 
 
 
-#
+#q#
 الخريطة الاجتماعية
 1
 تستخدم في جمع وتحليل المعلومات المتعلقة بأفراد المجتمع وهي من الطرق ذات المردود الجيد لأن نتائجها تعتبر مدخل لتوضيح التدرج حسب الثروة، حيث تستخدم للحصول على البيانات المتعلقة بطبيعة المساكن والسكان والمهن التي يمارسها أفراد المجتمع
@@ -4174,7 +4189,7 @@ GISطريقه
 
 
 
-#
+#q#
 التقرير الأسبوعي
 1
 يوضح أهم الأنشطة التي يتم تنفيذها في المؤسسة خلال الأسبوع وتكون تفصيلية مثل تقارير دوائر وأقسام المؤسسة الإنتاجية
@@ -4182,7 +4197,7 @@ GISطريقه
 
 
 
-#
+#q#
 التقرير الربعي
 1
 يوجز أنشطة المؤسسة خلال فترة ثلاث شهور ويعكس في طياته الإنجازات والأداء والمعوقات
@@ -4190,7 +4205,7 @@ GISطريقه
 
 
 
-#
+#q#
 تقارير دورية
 1
 يتم إصدارها بشكل متكرر ضمن فترات زمنية محددة
@@ -4198,7 +4213,7 @@ GISطريقه
 
 
 
-#
+#q#
 تقارير أولية
 1
 تقارير تقدم عند بدء المشروع أو النشاط أو المهمة وتتضمن معلومات عن الطاقم وخطة ومنهجية العمل
@@ -4206,7 +4221,7 @@ GISطريقه
 
 
 
-#
+#q#
 تقارير مرحلية
 1
 تقارير تقدم بفترة تنفيذ المشروع وقبل الانتهاء منه وتتضمن معلومات وبيانات فنية ومالية حول الأنشطة المنفذة وخطة العمل والمعيقات التي تواجه عملية التنفيذ
@@ -4214,7 +4229,7 @@ GISطريقه
 
 
 
-#
+#q#
 تقارير نهائية
 1
 تقارير تقدم بنهاية المشروع وتعرض سردا تفصيليا (ماليا وفنيا) عن الأنشطة المنفذة خلال فترة المشروع
@@ -4222,7 +4237,7 @@ GISطريقه
 
 
 
-#
+#q#
 تقارير الأنشطة
 1
 يتم التركيز بهذا النوع من التقارير على الأنشطة من حيث عناصرها وآليات تنفيذها والمعيقات في سبيل القيام بها
@@ -4230,7 +4245,7 @@ GISطريقه
 
 
 
-#
+#q#
 المشروع
 1
 مشكلة أو حاجة معينة يتم تحديدها ضمن إطار منظم وتتضمن الاستثمار الأمثل للموارد في ظل وجود أهداف محددة وندرة في الموارد
@@ -4238,7 +4253,7 @@ GISطريقه
 
 
 
-#
+#q#
 البرنامج
 1
 يتكون من مجموعة مشاريع مبنية ضمن خطة واضحة المعالم ومشتركة  مع بعضها البعض في (جانب أو أكثر )موضوعيا، مكانيا، سكانيا، تنظيميا
@@ -4246,7 +4261,7 @@ GISطريقه
 
 
 
-#
+#q#
 النشاط
 1
 جزء من المشروع يتمثل في الإجراءات التي تحقق أهداف المشروع
@@ -4254,7 +4269,7 @@ GISطريقه
 
 
 
-#
+#q#
 دراسة الجدوى
 1
 تحليل لعناصر المشروعات الاقتصادية لتقرير الاستمرار فيه أو إلغاء الفكرة
@@ -4262,7 +4277,7 @@ GISطريقه
 
 
 
-#
+#q#
 الإطار المنطقي
 1
 وصف لكيفية استخدام الموارد (المدخلات) من خلال تنفيذ إجراءات وأنشطة للحصول على مجموعه من النتائج
@@ -4270,7 +4285,7 @@ GISطريقه
 
 
 
-#
+#q#
 تحليل المخاطر
 1
 تحديد كل العوامل التي يمكن أن تنشأ وتعترض المشروع وتؤثر سلبا على تنفيذه ومعدلات نجاحه
@@ -4278,7 +4293,7 @@ GISطريقه
 
 
 
-#
+#q#
 تحليل الوضع القائم
 1
 تحديد مدي احتياج الفئات المستهدفة للمشروع ومكوناته وأوليات هذه الاحتياجات، وتحديد الاحتياجات ذات الأولوية الأعلى
@@ -4286,13 +4301,14 @@ GISطريقه
 
 
 
-#
+#q#
 المؤشرات
 1
 متغيرات كمية أو نوعية توفر وسيلة موثقة لقياس الأداء أو الإنجاز
 
-`,le=t=>{let[,s,e]=/^!\[(.*)\]\((.*)\)$/.exec(t)||[];return[!!e,s,e]},ue=ce.split("#").map((t,s)=>{var d;let e=t.trim().split(`
-`).filter(p=>p.trim().length>0),r=e.shift()||"failed to parse question",i=Number((d=e.shift())==null?void 0:d.trim()),[n,a,c]=le(e[0]);n&&e.shift();const l=e.map((p,f)=>({id:m(),text:p,correct:f+1===i}));return g({questionText:r,answers:l,image:c,imageAlt:a})}),de=`
+`,Re=h("تقييم مشروعات — 1",De),Be=`
+#multichoice#
+#qt#
 
 العلاقة بين البيئة والمشروع هي علاقة . . . . 
 2
@@ -4302,7 +4318,7 @@ GISطريقه
 طرديه
 
 
-#
+#q#
 
 مناخ الاستثمار الذي يعمل من خلاله المشروع، بالإضافة إلى الناحية القانونية التي تتعلق ببيئة المشروع
 1
@@ -4312,7 +4328,7 @@ GISطريقه
 اثار البيئة السياسية
 
 
-#
+#q#
 
 يعبر . . . . عن البيئة التي يعمل فيها المشروع بكل مكوناتها الاقتصادية والسياسية والاجتماعية .
 2
@@ -4322,7 +4338,7 @@ GISطريقه
 غير ذلك
 
 
-#
+#q#
 
 لأثار المشروع على البيئة توجد . . . . احتمالات تنشأ من طبيعة المنتجات التي يقدمها المشروع.
 1
@@ -4332,7 +4348,7 @@ GISطريقه
 ست
 
 
-#
+#q#
 
 احتمال وجود آثار ضارة بالبيئة لا يمكن معالجتها ولا السيطرة عليها، يؤدى إلى
 2
@@ -4342,7 +4358,7 @@ GISطريقه
 تركيب معدات خاصة
 
 
-#
+#q#
 
 احتمال وجود آثار ضارة بالبيئة يمكن معالجتها يؤدى إلى
 4
@@ -4353,7 +4369,7 @@ GISطريقه
 
 
 
-#
+#q#
 
 من أهم المصطلحات الأساسية لتقييم الأثر البيئي .
 2
@@ -4363,7 +4379,7 @@ GISطريقه
 الموارد الاقتصادية
 
 
-#
+#q#
 
 سلسلة من المواصفات القياسية لتقييم الأداء البيئي للمؤسسة لتصبح المؤسسة أكثر فاعلية تجاه المحافظة على البيئة والحدمن التلوث والوصول الأداء بيئي متميز يحافظ على أمن الأرض.
 4
@@ -4373,7 +4389,7 @@ GISطريقه
 المواصفات القياسية
 
 
-#
+#q#
 
 كل ما يلي يوضح الآثار البيئية الرئيسية التي قد تنتج عن بعض المشاريع بالنسبة للهواء ما عدا . . . . 
 2
@@ -4383,7 +4399,7 @@ GISطريقه
 تغيرات في ديناميكية الهواء
 
 
-#
+#q#
 
 كل ما يلي يوضح الآثار البيئية الرئيسية التي قد تنتج عن بعض المشاريع بالنسبة للمياه ما عدا . . . . 
 1
@@ -4393,7 +4409,7 @@ GISطريقه
 إعاقة مسارات مياه الفيضان
 
 
-#
+#q#
 
 كل ما يلي يوضح الآثار البيئية الرئيسية التي قد تنتج عن بعض المشاريع بالنسبة للتربة ما عدا . . . . 
 4
@@ -4403,7 +4419,7 @@ GISطريقه
 الانبعاثات الضارة
 
 
-#
+#q#
 
 من الآثار البيئية الرئيسية التي قد تنتج عن بعض المشاريع على البيئة البيولوجية بالنسبة (للحياة النباتية) ما عدا . . . . 
 3
@@ -4414,7 +4430,7 @@ GISطريقه
 
 
 
-#
+#q#
 
 من الآثار البيئية الرئيسية التي قد تنتج عن بعض المشاريع على البيئة البيولوجية بالنسبة (للحياة الحيوانية) ما عدا . . . . 
 1
@@ -4424,7 +4440,7 @@ GISطريقه
 تغييرات في الأنواع السمكية
 
 
-#
+#q#
 
 من الآثار الاجتماعية والاقتصادية التي قد تنتج عن بعض المشاريع . . . . 
 2
@@ -4434,7 +4450,7 @@ GISطريقه
 الوصول للخدمات الطبية
 
 
-#
+#q#
 
 من الآثار البيئية الرئيسية التي قد تنتج عن بعض المشاريع بالنسبة لحركه المرور والانتقال . . . . 
 3
@@ -4444,7 +4460,7 @@ GISطريقه
 تحسين خدمات إطفاء الحرائق
 
 
-#
+#q#
 
 من الآثار البيئية الرئيسية التي قد تنتج عن بعض المشاريع بالنسبة للخدمات العامة والمرافق . . . . 
 1
@@ -4454,7 +4470,7 @@ GISطريقه
 انتشار الطحالب
 
 
-#
+#q#
 
 من الآثار البيئية الرئيسية التي قد تنتج عن بعض المشاريع بالنسبة لصحه الأنسان . . . . 
 4
@@ -4464,7 +4480,7 @@ GISطريقه
 B&C معا
 
 
-#
+#q#
 
 هي مجموعة الأطر المؤسسية والنظم الاقتصادية والاجتماعية والقانونية المؤثرة على توجهات القرارات الاستثمارية
 2
@@ -4475,7 +4491,7 @@ B&C معا
 
 
 
-#
+#q#
 
 هي الدراسة التي يتم إجراؤها للمشروع لتحديد الآثار المحتملة أو الناجمة عن المشروع، والإجراءات والوسائل المناسبة لمنع الآثار السلبية أو تخفيضها وتحقيق أو زيادة المردودات الإيجابية للمشروع على البيئة بما يتوافق مع المقاييس البيئية المعمول بها.
 3
@@ -4486,7 +4502,7 @@ B&C معا
 
 
 
-#
+#q#
 
 هو الفحص المنظم للآثار غير المتعمدة التي تنجم عن مشروع أو برنامج تنموي، وذلك بهدف تقليص أو تخفيف حدة الآثار السلبية وتعظيم الآثار الإيجابية
 1
@@ -4497,7 +4513,7 @@ B&C معا
 
 
 
-#
+#q#
 
 جميع ما يلي يعد من أهداف تقييم الأثر البيئي ما عدا . . . . 
 4
@@ -4508,7 +4524,7 @@ B&C معا
 
 
 
-#
+#q#
 
 قانون حماية البيئة يستند في تعريفه للمنشآت التي تخضع لتقييم الآثار البيئية على المبادئ الرئيسية التالية ما عدا . . . . 
 2
@@ -4518,7 +4534,7 @@ B&C معا
 نوعية الطاقة المستخ دمة لتشغيل المنشأة
 
 
-#
+#q#
 
 تصنف المشروعات تبعا لتأثيرها على البيئة ل . . . . 
 2
@@ -4528,7 +4544,7 @@ B&C معا
 خمس فئات
 
 
-#
+#q#
 
 فئة لا تحتاج إلى إعداد دراسات التقييم البيئي وإنما يجب الالتزام بالتنظيمات والاشتراطات الفنية والصحية لهذه الأنشطة التي تم أخذها في الاعتبار في أثناء مرحله إعداد المخطط العام للمدينة أو القرية منها . . . . 
 3
@@ -4538,7 +4554,7 @@ B&C معا
 مدافن النفايات البلدية
 
 
-#
+#q#
 
 فئة تحتاج إلى تعبئه استمارة التقييم البيئي للمشاريع التي تُعد من قِبل أحد المكاتب الاستشارية المعتمدة والمؤهلة من قبل الرئاسة العامة للأرصاد وحماية البيئة منها . . . . 
 1
@@ -4550,7 +4566,7 @@ B&C معا
 
 
 
-#
+#q#
 
 فئة (مشاريع) تحتاج إلى إعداد دراسة تقييم بيئي شامل واقتراح الحلول الكفيلة لتجنب أو تخفيف الآثار البيئية في أثناء اختيار الموقع والتصميم والتنفيذ والتشغيل منها . . . . 
 4
@@ -4561,7 +4577,7 @@ B&C معا
 من خطوات تقييم الأثر البيئي ويتطلب اعداد قائمة توضح هذا النشاط بكافة عناصره من حيث التخطيط والاعداد والمواد 
 
 
-#
+#q#
 
 المستخدمة وكيفية التخلص من المخلفات 
 2
@@ -4571,7 +4587,7 @@ B&C معا
 الإشراف
 
 
-#
+#q#
 
 من خطوات تقييم الأثر البيئي التي تركز على المكونات البيئية وأهميتها وتأثيرها بالمشروع.
 1
@@ -4581,7 +4597,7 @@ B&C معا
 التدقيق
 
 
-#
+#q#
 
 تحديد الحقائق وتقييمها من حيث قوة هذا الأثر وأهمية قيمته وحقيقته .
 4
@@ -4591,7 +4607,7 @@ B&C معا
 تقييم الأثر
 
 
-#
+#q#
 
 إجراء يتم ممارسته خلال العمل بالنشاط التطويري لمنع أو لتقليل او إصلاح الأثر البيئي السلبي من خلال استبدال او إيجاد مصدر بديل (الإجراء التخفيفي)
 1
@@ -4601,7 +4617,7 @@ B&C معا
 تقييم الأثر
 
 
-#
+#q#
 
 هي عملية الحد او التخفيف من المؤثرات البالغة على البيئة، وكيفية التعرض للمؤثرات التي لا يمكن تجنبها، مع الوضع في الاعتبار بان التعويض يؤدي الى زيادة التكلفة
 2
@@ -4611,7 +4627,7 @@ B&C معا
 البحث عن البدائل
 
 
-#
+#q#
 
 تكون باتباع خطة ادارية تستند الى تقرير تقييم الأثار البيئية والذي يبين مسؤولية كل من مقدم المشروع والحكومة
 3
@@ -4625,7 +4641,7 @@ B&C معا
 
 
 
-#
+#q#
 
 هو ضمان ان جميع الجوانب الهامة المتعلقة بالمشروع ذكرت في الشروط المرجعية(متطلبات وزارة البيئة)
 4
@@ -4635,7 +4651,7 @@ B&C معا
 تقييم الدراسات الخاصه بالآثار البيئيه
 
 
-#
+#q#
 
 القيام بنشاطات الترخيص واتمام عملية عقود البناء وتكون مقترحة في تقرير تقييم الأثر البيئي 
 1
@@ -4645,7 +4661,7 @@ B&C معا
 تقييم الدراسات الخاصه بالآثار البيئيه
 
 
-#
+#q#
 
 عبارة عن نشاط حكومي تقوم به الوزارة او سلطة البيئة للتاكد من مطابقة الشروط للترخيص
 2
@@ -4655,7 +4671,7 @@ B&C معا
 تحديد الأهداف المؤثرة والشروط المرجعية
 
 
-#
+#q#
 
 مهم في كل مراحله من بداية التفكير بالمشروع حتى اقامته
 4
@@ -4665,7 +4681,7 @@ B&C معا
 التدقيق
 
 
-#
+#q#
 
 هي تلك المشروعات التي توفر خدمة أو سلعة تعد حاجة أو رغبة اجتماعية حيوية دون أن تقصد تحقيق الأرباح من وراء ذلك
 1
@@ -4675,7 +4691,7 @@ B&C معا
 المشروعات العامة
 
 
-#
+#q#
 
 من أنواع المشروعات الاجتماعية
 4
@@ -4685,7 +4701,7 @@ B&C معا
 مشاريع الاستثمار المادي
 
 
-#
+#q#
 
 من أنواع المشروعات الاجتماعية
 3
@@ -4695,7 +4711,7 @@ B&C معا
 مشاريع الاستثمار القطاعى
 
 
-#
+#q#
 
 من امثله المشروعات التي تنصب على الاستثمار المادي
 2
@@ -4705,7 +4721,7 @@ B&C معا
 مشروعات البحث العلمي
 
 
-#
+#q#
 
 من امثله المشروعات التي تنصب على الاستثمار البشري
 1
@@ -4715,7 +4731,7 @@ B&C معا
 مشروعات الصرف الزراعي
 
 
-#
+#q#
 
 من خصائص المشروعات الاجتماعية
 4
@@ -4725,7 +4741,7 @@ B&C معا
 عدم وجود سوق لمخرجاتها
 
 
-#
+#q#
 
 من خصائص المشروعات الاجتماعية
 2
@@ -4733,7 +4749,7 @@ B&C معا
 عدم وجود تنافس في استهلاك منتجاتها
 
 
-#
+#q#
 
 من خصائص المشروعات الاجتماعية
 3
@@ -4743,7 +4759,7 @@ B&C معا
 وجود سوق لمخرجاتها
 
 
-#
+#q#
 
 من خصائص المشروعات الاجتماعية
 1
@@ -4753,7 +4769,7 @@ B&C معا
 وجود سوق لمخرجاتها
 
 
-#
+#q#
 
 تعد من الطرق الشائعة في تقييم المشروعات الاجتماعية
 4
@@ -4763,7 +4779,7 @@ B&C معا
 الإحساسات والأحكام العامة
 
 
-#
+#q#
 
 تعد من الطرق الشائعة في تقييم المشروعات الاجتماعية
 3
@@ -4773,7 +4789,7 @@ B&C معا
 الاستعانة بمؤشرات تقديريه
 
 
-#
+#q#
 
 تعد من الطرق الشائعة في تقييم المشروعات الاجتماعية
 1
@@ -4783,7 +4799,7 @@ B&C معا
 الطريقة الكمية
 
 
-#
+#q#
 
 تعد من الطرق الشائعة في تقييم المشروعات الاجتماعية
 4
@@ -4793,7 +4809,7 @@ B&C معا
 المنافع والتكاليف الاجتماعية
 
 
-#
+#q#
 
 طريقه الإحساسات والأحكام العامة من الطرق الشائعة في تقييم المشروعات الاجتماعية، غالبا ما تكون غير قائمة على أسس
 1
@@ -4803,7 +4819,7 @@ B&C معا
 علميه
 
 
-#
+#q#
 
 طريقه الإسناد الى أحكام مبنيه على الخبرة، غالبا ما تكون
 3
@@ -4813,7 +4829,7 @@ B&C معا
 حسابيه
 
 
-#
+#q#
 
 طريقه الإسناد الى أحكام مبنيه على الخبرة، وذلك من جانب الافرا د
 2
@@ -4823,7 +4839,7 @@ B&C معا
 المتدربين
 
 
-#
+#q#
 
 المنافع والتكاليف المباشرة تتعلق ب
 1
@@ -4835,7 +4851,7 @@ B&C معا
 
 
 
-#
+#q#
 
 المنافع والتكاليف غير المباشرة تتعلق ب
 2
@@ -4845,7 +4861,7 @@ B&C معا
 كيفية تمويل المشروع
 
 
-#
+#q#
 
 المنافع والتكاليف الملموسة يمكن تقييمها من خلال السوق اي
 2
@@ -4855,7 +4871,7 @@ B&C معا
 تدخل في انتاج خدمه وسطيه
 
 
-#
+#q#
 
 من خطوات معيار فعالية التكاليف
 1
@@ -4865,7 +4881,7 @@ B&C معا
 تحديد التكاليف
 
 
-#
+#q#
 
 مقياس من مقاييس الفعالية، وهو يعبر عنه بالمهارات والمعارف المكتسبة من برامج تدريب العاملين على تكنولوجيا حديثه
 3
@@ -4875,7 +4891,7 @@ B&C معا
 أثر محقق
 
 
-#
+#q#
 
 مقياس من مقاييس الفعالية، وهو يعبر عنه الذي يحدثه تشغيل المتعلمين العاطلين من أثر على المجتمع، نتيجة انخفاض معدلات الجريمة، وزيادة الديمقراطية، وكذلك الاستفادة بخبراتهم .
 4
@@ -4885,7 +4901,7 @@ B&C معا
 أثر محقق
 
 
-#
+#q#
 
 تقوم الأسس الفلسفية/ الأيديولوجية على
 1
@@ -4897,7 +4913,7 @@ B&C معا
 
 
 
-#
+#q#
 
 يعتبر من أسس تقييم المشروعات، يصلح هذا الأسلوب لتقييم المشروعات الحكومية والعامة التي تستهدف تحقيق مصلحة عامة
 1
@@ -4907,7 +4923,7 @@ B&C معا
 تقييم المنافع أو المخرجات النهائية للمشروع
 
 
-#
+#q#
 
 يعتبر من أسس تقييم المشروعات، يهتم بما حققته بعض الفئات أو بعض أصحاب المصالح من مكاسب
 4
@@ -4917,7 +4933,7 @@ B&C معا
 تقييم المنافع أو المخرجات النهائية للمشروع
 
 
-#
+#q#
 
 منهج ينصب على ما إذا كانت هذه الأهداف قد تحققت أم لا؟
 2
@@ -4927,7 +4943,7 @@ B&C معا
 مناهج قائمه على الخبرة
 
 
-#
+#q#
 
 مناهج تقوم على أساس توفير معلومات التقييم للمساعدة في اتخاذ القرارات
 1
@@ -4937,7 +4953,7 @@ B&C معا
 مناهج قائمه على الخبرة
 
 
-#
+#q#
 
 مناهج تعكس اهتمام المستخدمين النهائيين عموما للسلع والخدمات التي يوفرها المشرو ع
 3
@@ -4947,7 +4963,7 @@ B&C معا
 مناهج قائمه على الخبرة
 
 
-#
+#q#
 
 تعد من أقدم مناهج التقييم وتقوم على الأحكام الشخصية المهنية، وتؤدي عملية التقييم إما بشكل رسمي أو غير رسمي سواء قام بها شخص واحد أو فريق عمل .
 4
@@ -4958,7 +4974,7 @@ B&C معا
 
 
 
-#
+#q#
 
 مناهج أهم عيوبها الاعتماد الكبير على الخبرات الشخصية، وعدم توافر معايير قياسية سواء ضمنية أو منشورة
 3
@@ -4968,7 +4984,7 @@ B&C معا
 مناهج قائمه على أساس التعلم
 
 
-#
+#q#
 
 مشاركة أي شخص في منافعها لن يؤدى إلى حرمان أو تخفيض منافع أشخاص آخرين إذ أن تلك المنافع تكون متاحة للجميع وبدون تعارض.. يطلق على هذا المبدأ
 1
@@ -4978,7 +4994,7 @@ B&C معا
 مبدأ التمييز
 
 
-#
+#q#
 
 من مجالات قياس فعالية البرامج للمشاريع التي لا تهدف للربح
 3
@@ -4988,7 +5004,7 @@ B&C معا
 منتجات بديله
 
 
-#
+#q#
 
 مناهج تقييم المشروعات وفقا للأسس النظرية والعلمية
 3
@@ -4998,7 +5014,7 @@ B&C معا
 ثمانية مناهج
 
 
-#
+#q#
 
 إجمالي التغييرات الإيجابية والسلبية الناشئة عن أحد المشروعات التي تهدف لصنعه على فئة مستهدفة من المجتمع
 2
@@ -5008,7 +5024,7 @@ B&C معا
 الأثر المالى
 
 
-#
+#q#
 
 يركز على التأثيرات الخاصة بمقترحات المشروعات ومعرفة عواقب المشروعات المقترحة على الإنسان، ولفت الانتباه إلى تخفيف تلك العواقب
 1
@@ -5019,7 +5035,7 @@ B&C معا
 
 
 
-#
+#q#
 
 يرى البعض التأثيرات الاجتماعية في علاقتها بتغيرات البيئية ذات طابع
 2
@@ -5029,7 +5045,7 @@ B&C معا
 غير محدود
 
 
-#
+#q#
 
 من الخصائص الرئيسية والمرتبطة بالتأثيرات الاجتماعية ويعبر عنها النماذج الجديدة للتوظيف/ الدخل
 2
@@ -5039,7 +5055,7 @@ B&C معا
 التغيير المؤسسى
 
 
-#
+#q#
 
 من الخصائص الرئيسية والمرتبطة بالتأثيرات الاجتماعية ويعبر عنها التغيير في هيكل الحكومة المحلية أو القيادة التقليدية، تقسيم الناطق بالقوانين، امتلاك الأر ض
 4
@@ -5049,7 +5065,7 @@ B&C معا
 التغيير المؤسسى
 
 
-#
+#q#
 
 يمكن أن تقسم الأنواع الأساسية للتأثيرات الاجتماعية الى
 2
@@ -5059,7 +5075,7 @@ B&C معا
 عشر فئات متداخله
 
 
-#
+#q#
 
 من الأنواع الأساسية للتأثيرات الاجتماعية وهي تؤثر على طريقة تصرفات الإنسان وعلاقة العائلة، الأصدقاء
 1
@@ -5069,7 +5085,7 @@ B&C معا
 تأثيرات الترفيه
 
 
-#
+#q#
 
 من الأنواع الأساسية للتأثيرات الاجتماعية وهي تؤثر على البنية الأساسية، الخدمات، المنظمات المتطوعة وأنشطة الشبكا ت
 3
@@ -5080,7 +5096,7 @@ B&C معا
 
 
 
-#
+#q#
 
 من الأنواع الأساسية للتأثيرات الاجتماعية وهي تؤثر على الحالة النفسية والبدنية والاجتماعية
 3
@@ -5090,7 +5106,7 @@ B&C معا
 تأثيرات الترفيه
 
 
-#
+#q#
 
 من الأنواع الأساسية للتأثيرات الاجتماعية وهي تؤثر على العادات المرتبطة، واللغة، المعتقدات الدينية وعناصر أخرى لتي بها التميز العرقي أو الاجتماعي . 
 2
@@ -5100,7 +5116,7 @@ B&C معا
 تأثيرات الترفيه
 
 
-#
+#q#
 
 مرحلة من دورة حياة المشروع تبدأ بالإعلان عن المشروع والذي يمكن أن يكون له تأثيرات اجتماعية
 4
@@ -5110,7 +5126,7 @@ B&C معا
 التخطيط أو السياسة المتطورة
 
 
-#
+#q#
 
 مرحلة من دورة حياة المشروع دائما ما تأخذ التأثير الاجتماعي الأكبر، من وجهة النظر الاجتماعية هو عمل تمزيقى
 2
@@ -5120,7 +5136,7 @@ B&C معا
 التخطيط أو السياسة المتطورة
 
 
-#
+#q#
 
 هذه المرحلة تتعلق بتجهيز وتهيئة الأرض ثم بناء المنشأة وشق الطرق والمنافع، وينتج عنها مخاطر تؤثر على جودة الحياة للسكان المحليين
 2
@@ -5130,7 +5146,7 @@ B&C معا
 التخطيط أو السياسة المتطورة
 
 
-#
+#q#
 
 هذه المرحلة غالبا تشكل توترا في البنية الأساسية للمجتمع ويمكن أن تشير بانفجار ودورة انكسارية
 2
@@ -5140,7 +5156,7 @@ B&C معا
 التخطيط أو السياسة المتطورة
 
 
-#
+#q#
 
 هذه المرحلة من المشروع تستمر لسنوات عديدة. في كثير من الحالات، تكون فترة نسبيا ثابتة مقارنة بالتغيير الاجتماعي الذي يحدث أثناء الإنشاء، يحتاج لعمالة إضافية وهناك وافدون جدد
 3
@@ -5150,7 +5166,7 @@ B&C معا
 التخطيط أو السياسة المتطورة
 
 
-#
+#q#
 
 هذه المرحلة لها تأثير اجتماعي مميز، وخاصة عندما تكون المنشأة هي الدعامة الأساسية لقاعدة الاقتصاد المحلى أو لمستخدم الوحيد لمجتمع منقب عن الهدف الواحد
 1
@@ -5160,7 +5176,7 @@ B&C معا
 التخطيط أو السياسة المتطورة
 
 
-#
+#q#
 
 تتضمن الفائدة التي تعود من عمل تقييم تأثير اجتماعي منتظم
 2
@@ -5170,7 +5186,7 @@ B&C معا
 عدم تعزيز الفوائد للمتضررين
 
 
-#
+#q#
 
 تتضمن الفائدة التي تعود من عمل تقييم تأثير اجتماعي منتظم
 3
@@ -5180,7 +5196,7 @@ B&C معا
 عدم تحسين العلاقات بالمجتمع وزيادة الخوف
 
 
-#
+#q#
 
 تتضمن الفائدة التي تعود من عمل تقييم تأثير اجتماعي منتظم
 1
@@ -5190,7 +5206,7 @@ B&C معا
 عدم تعزيز الفوائد للمتضررين
 
 
-#
+#q#
 
 من خطوات عمليه تقييم التأثير الاجتماعي، ويتم بها تحليل وتوقع التأثيرات المحتملة المشروع المقترح والبدائل
 4
@@ -5200,7 +5216,7 @@ B&C معا
 تقدير التأثيرات المحتملة
 
 
-#
+#q#
 
 من خطوات عمليه تقييم التأثير الاجتماعي، ويتم بها تطوير وتنفيذ خطة لاشتراك العامة بفعالية ولاشتراك كل المعنيين والمهتمين والمتأثرين
 1
@@ -5210,7 +5226,7 @@ B&C معا
 تقدير التأثيرات المحتملة
 
 
-#
+#q#
 
 من خطوات عمليه تقييم التأثير الاجتماعي، ويتم بها توثيق تأثير المشروع المقترح على ترابط البيئة البشرية/ المساحة، والشروط والاتجاهات الاجتماعية الحالية
 4
@@ -5220,7 +5236,7 @@ B&C معا
 ظروف دراسة خط الاساس
 
 
-#
+#q#
 
 يعتبر حاسم لكسب فهم أفضل للتأثيرات الاجتماعية وكيفية إدارتها مع ذلك بالممارسة.
 2
@@ -5230,7 +5246,7 @@ B&C معا
 انشاء المشروع
 
 
-#
+#q#
 
 يرون ان مخاطره الغلق البكر يفوق أهمية الفائدة الكامنة من عمل الدراسة
 3
@@ -5240,7 +5256,7 @@ B&C معا
 المجتمعات
 
 
-#
+#q#
 
 من خطوات عمليه تقييم التأثير الاجتماعي، ويتم بها تحديد الأهمية للتأثيرات الاجتماعية المعرفة إلى أولئك المتأثرين بها .
 4
@@ -5250,7 +5266,7 @@ B&C معا
 التنبؤ وتقييم ردود الأفعال على التأثيرات
 
 
-#
+#q#
 
 من خطوات عمليه تقييم التأثير الاجتماعي، ويتم بها تطوير وتطبيق خطته بهدف التفادي أولا ، وثانيا للتقليل، وثالثا للتعويض عن الآثار المعاكسة
 1
@@ -5260,7 +5276,7 @@ B&C معا
 التنبؤ وتقييم ردود الأفعال على التأثيرات
 
 
-#
+#q#
 
 من خطوات عمليه تقييم التأثير الاجتماعي، ويتم بها تمييز التأثيرات اللاحقة للمشروع المقترح، متضمنا الرتبة الثانية/ ثالثة للتأثيرات .
 4
@@ -5270,7 +5286,7 @@ B&C معا
 تقدير التأثيرات الغير مباشره والمتراكمة
 
 
-#
+#q#
 
 تخضع عمليه تقييم الأثار البيئية للمشروعات ل
 2
@@ -5281,7 +5297,7 @@ B&C معا
 
 
 
-#
+#q#
 
 استنادا الى مبادئ تقييم الأثار البيئية للمشروعات، تم تصنيف المشروع الى
 1
@@ -5291,7 +5307,7 @@ B&C معا
 سبع قوائم
 
 
-#
+#q#
 
 احدى تصنيفات المشروعات، وتضم المنشآت والمشروعات ذات التأثيرات البيئية الضئيلة
 1
@@ -5302,7 +5318,7 @@ B&C معا
 
 
 
-#
+#q#
 
 احدى تصنيفات المشروعات، وتضم المنشآت والمشروعات التي يمكن أن تحدث آثار بيئية مهمة
 2
@@ -5312,7 +5328,7 @@ B&C معا
 القائمة السوداء
 
 
-#
+#q#
 
 احدى تصنيفات المشروعات، وتضم المنشآت والمشروعات التي يمكن أن تحدث آثار بيئية خطيرة وتحتاج إلى دراسة بيئية متكاملة
 3
@@ -5322,7 +5338,7 @@ B&C معا
 القائمة الرمادية
 
 
-#
+#q#
 
 من مراحل تقييم الأثر البيئي، ويعرف الجمع المخطط والمنهجي للبيانات البيئية من اجل الوفاء بأهداف واحتياجات بيئية محددة
 3
@@ -5333,7 +5349,7 @@ B&C معا
 
 
 
-#
+#q#
 
 من خطوات تقييم الأثر البيئي، يتولى جهاز شئون البيئة أو الفرع الإقليمي مراجعة وتقييم المستندات أو إبداء ملاحظاته وإرسالها إلى إدارة شئون البيئة بالمحافظة متضمنة الاقتراحات الممكنة لأجراء ما يلزم اتخاذها لضمان حماية البيئة وذلك خلال . . . . يوما من استلام المستندات كاملة
 2
@@ -5343,7 +5359,7 @@ B&C معا
 66
 
 
-#
+#q#
 
 هو المسئول عن إدارة نظام تقييم الأثر البيئي ومراجعة الدراسات وتقديم الرأي والمشورة للجهات الإدارية المختصة
 3
@@ -5352,8 +5368,9 @@ B&C معا
 جهاز شئون البيئة
 رئاسة المدينة الصناعية
 
-`,pe=t=>{let[,s,e]=/^!\[(.*)\]\((.*)\)$/.exec(t)||[];return[!!e,s,e]},fe=de.split("#").map((t,s)=>{var d;let e=t.trim().split(`
-`).filter(p=>p.trim().length>0),r=e.shift()||"failed to parse question",i=Number((d=e.shift())==null?void 0:d.trim()),[n,a,c]=pe(e[0]);n&&e.shift();const l=e.map((p,f)=>({id:m(),text:p,correct:f+1===i}));return g({questionText:r,answers:l,image:c,imageAlt:a})}),me=`
+`,_e=h("تقييم مشروعات — 2",Be),Fe=`
+#multichoice#
+#qt#
 
 جودة الغذاء
 1
@@ -5363,105 +5380,105 @@ B&C معا
 
 هي جميع الإجراءات المخططة والمنطقية اللازمة لتوفير الثقة المناسبة للمنتج لتلبية احتياجات محددة
 
-#
+#q#
 مراقبة الجودة
 1
 هي المحافظة على الجودة في مستوى قبولها لدى المستهلك 
 هي وثيقة تفصيلية للإجراءات العملية النوعية للجودة والموارد المخصصة لها وترتيب تسلسل أنشطتها لتحق يق جودة منتج معين
 هي تسلسل مفهوم الجودة من خلال جميع الأشخاص والعمليات بالمصنع بدءا من الموردين إلى العملاء ونهاية بالمستهلك
 
-#
+#q#
 سياسة الجودة
 1
 هي الشروط والتوجيهات التي تحددها المنشأة أو المؤسسة في مجال الجودة والمعدة مسبقا بواسطة الإدارة العليا
 وهى تعنى الفحص الدوري المنتظم للوقوف على مدى الالتزام بأنشطة الجودة كما هو مخطط لها من ترتيبات وهل هذه الترتيبات تحقق الغرض منها
 هي الشروط والتوجيهات التي تحددها المنشأة أو المؤسسة في مجال الجودة والمعدة مسبقا بواسطة الإدارة العليا
 
-#
+#q#
 توكيد الجودة
 1
 هي جميع الإجراءات المخططة والمنطقية اللازمة لتوفير الثقة المناسبة للمنتج لتلبية احتياجات محددة
 هي جميع الإجراءات اللازمة لإنتاج غذاء صحى غير ضار بصحة الإنسان
 الهيئة المصرية العامة للمواصفات والجودة
 
-#
+#q#
 خطة الجودة
 1
 هي وثيقة تفصيلية للإجراءات العملية النوعية للجودة والموارد المخصصة لها وترتيب تسلسل أنشطتها لتحقيق جودة منتج معين
 لجنة دستور الغذاء 
 هو التاريخ الذى يحدد نهاية فترة الصلاحية
 
-#
+#q#
 نظام الجودة
 1
 هو الهيكل التنظيمي والمسئوليات والطرق والعمليات وإجراءات العمل والموارد المخصصة لتوضيح مسئوليات
 هي تحقيق رغبات المستهلك في المنتج الغذائي
 هي عملية اعتماد الشركة على أنها مطابقة لمتطلبات المواصفات الدولية حيث تمو الجهات المرخص لها بذا لك والمعتمدة من هيئة ال الجودة مط بق فعليا فتعتمد الشركة ويتم منحها شهادة تسمى بال شهادة الجودة (ISO) بتقييم الشركة للتأكد من أن نظام
 
-#
+#q#
 المواصفة
 1
 هي وثيقة معتمدة لتطب يق اشتراطات وخصائص وأنواع لمنتج معين وهى تصدر لتحديد التعامل مع الأخرين 
 هي تسلسل مفهوم الجودة من خلال جميع الأشخاص والعمليات بالمصنع بدءا من الموردين إلى العملاء ونهاية بالمستهلك
 هو التاريخ الذى يحدد نهاية فترة الصلاحية
 
-#
+#q#
 سلسلة الجودة
 1
 هي تسلسل مفهوم الجودة من خلال جميع الأشخاص والعمليات بالمصنع بدءا من الموردين إلى العملاء ونهاية بالمستهلك
 هي جميع الإجراءات المخططة والمنطقية اللازمة لتوفير الثقة المناسبة للمنتج لتلبية احتياجات محددة
 وهى تعنى الفحص الدوري المنتظم للوقوف على مدى الالتزام بأنشطة الجودة كما هو مخطط لها من ترتيبات وهل هذه الترتيبات تحقق الغرض منها
 
-#
+#q#
 مراجعة الجودة
 1
 وهى تعنى الفحص الدوري المنتظم للوقوف على مدى الالتزام بأنشطة الجودة كما هو مخطط لها من ترتيبات وهل هذه الترتيبات حق الغرض منها
 هي الوثيقة الأساسية المستخدمة للإرشاد والتطبيق لنظام إدارة الجودة وت صف هذه الوثيقة كل عناصر نظام الجودة الذى يحتاجه المشروع لتلبية احتياجات الجودة
 هي جميع الإجراءات اللازمة لأنتاج غذاء صحى غير ضار بصحة الإنسان
 
-#
+#q#
 ممارسة التصنيع الجيد
 1
 وهى وثيقة لوصف طريقة الصناعة القياسية وكيفية التحكم في ظروفها من حيث خطوات الصناعة، المصنع الآلات ، العمال ، الاختبارات المعملية في مصانع الأغذية لإنتاج غذاء آمن صحيا
 هو وصول أي من الملوثات السابق ذكرها إلى الغذاء أو البيئة المحيطة بالغذاء
 من نظم التشفير الخطى والأكثر شيوعا ويتم استخدامه في الدول الأوروبية وكثير من دول العالم كما أنه من المتبع في مصر
 
-#
+#q#
 الاعتماد
 1
 هي عملية اعتماد الشركة على أنها مطابقة لمتطلبات المواصفات الدولية حيث تمو الجهات المرخص لها بذالك والمعتمدة من هيئة ال تسمى بال شهادة الجودة (ISO) بتقييم الشركة للتأكد من أن نظام الجودة مط بق فعليا فتعتمد الشركة ويتم منحها شهادة
 هي وثيقة لنظام إدارة الجودة يوضح فيها احتياجات تدريب العاملين في المجالات التي تحتاج إلى مهارة معينة
 هو التاريخ الذى يحدد نهاية فترة الصلاحية
 
-#
+#q#
 دليل الجودة
 2
 هي وثيقة لنظام إدارة الجودة يوضح فيها احتياجات تدريب العاملين في المجالات التي تحتاج إلى مهارة معينة
 هي الوثيقة الأساسية المستخدمة للإرشاد والتطبيق لنظام إدارة الجودة وتصف هذه الوثي قة كل عناصر نظام الجودة الذى يحتاجه المشروع لتلبية احتياجات الجودة
 من نظم التشفير الخطى والأكثر شيوعا ويتم استخدامه في الدول الأوروبية وكثير من دول العالم كما أنه من المتبع في مصر
 
-#
+#q#
 سجلات الجودة
 3
 هي وثي قة لنظام إدارة الجودة يوضح فيها احتياجات تدريب العاملين في المجالات التي تحتاج إلى مهارة معينة
 هي وثيقة لنظام إدارة الجودة يوضح فيها احتياجات تدريب العاملين في المجالات التي تحتاج إلى مهارة معينة
 هي سجلات مصممة لتوضيح نتائج الجودة المحددة للمنتج النهائي وأثناء التصنيع وللتحقق من التنفيذ الفعال لنظام إدارة الجودة كما توفر السجلات أيضآ وصول المنتج إلى المستوى المطلوب
 
-#
+#q#
 وثائق التدريب
 1
 هى وثيقة لنظام إدارة الجودة يوضح فيها احتياجات تدريب العاملين في المجالات التي تحتاج إلى مهارة معينة
 هو فعل لاستبعاد سبب عدم المطابقة الذى تم اكتشافه أو أي وضع غير مرغوب فيه
 هي جميع الإجراءات المخططة والمنطقية اللازمة لتوفير الثقة المناسبة للمنتج لتلبية احتياجات محددة
 
-#
+#q#
 غذاء أمن
 3
 هي جميع الإجراءات المخططة والمنطقية اللازمة لتوفير الثقة المناسبة للمنتج لتلبية احتياجات محددة 
 هو وصول أي من الملوثات السابق ذكرها إلى الغذاء أو البيئة المحيطة بالغذاء 
 هو الغذاء الخالي من الملوثات والمخاطر والذي لا يسبب أذى أو مرض للأنسان على المدى البعيد أو القريب وذالك بناء على نتائج تحاليل معملية وتجارب على الحيوانات
 
-#
+#q#
 أمان الغذاء
 3
 هو وصول أي من الملوثات السابق ذكرها إلى الغذاء أو البيئة المحيطة بالغذاء
@@ -5470,68 +5487,68 @@ B&C معا
 
 
 
-#
+#q#
 تلوث الغذاء
 1
 هو وصول أي من الملوثات السابق ذكرها إلى الغذاء أو البيئة المحيطة بالغذاء
 هو الغذاء الخالي من الملوثات والمخاطر والذى لا يسبب أذى أو مرض للأنسان على المدى البعيد أو القريب وذالك بناء على نتائج تحاليل معملية وتجارب على الحيوانات
 هي جميع الإجراءات اللازمة لأنتاج غذاء صحى غير ضار بصحة الإنسان
 
-#
+#q#
 فترة الصلاحية
 1
 هي فترة زمنية يحتفظف يها المنتج الغذائي بصفاته الأساسية ويظل حتى نهايتها مستساغا ومقبولا وصالحا للاستهلاك الآدمي وذلك تحت ظروف محددة للتعبئة والن قل والتخزين
 هو التاريخ الذى يحدد نهاية فترة الصلاحية
 هي جميع الإجراءات اللازمة لأنتاج غذاء صحى غير ضار بصحة الإنسان
 
-#
+#q#
 تاريخ انتهاء الصلاحية
 2
 هي فترة زمنية يحتفظ فيها المنتج الغذائي بصفاته الأساسية ويظل حتى نهايتها مستساغا ومقبو لا وصالحا للاستهلاك الآدمي وذلك تحت ظروف محددة للتعبئة والنقل والتخزين
 هو التاريخ الذى يحدد نهاية فترة الصلاحية
 هو وصول أي من الملوثات السابق ذكرها إلى الغذاء أو البيئة المحيطة بالغذاء
 
-#
+#q#
 مراكز الاتصال
 3
 لجنة دستور الغذاء 
 الهيئة المصرية العامة للمواصفات والجودة
 وتعتبر مراكز الاتصال أماكن جيدة لجمع المعلومات عن رضاء العملاء وكذالك عن العملاء المحتملين حيث يمكن سؤالهم عن احتياجاتهم وتوقعاتها
-#
+#q#
 
 W. H. O اختصار ل
 3
 لجنة دستور الغذاء
 وهى وثيقة لو صف طريقة الصناعة القياسية وكيفية التحكم في ظروفها من حيث خطوات الصناعة ، المصنع ، الآلات ، العمال ، الاختبارات المعملية في مصانع الأغذية لإنتاج غذاء آمن صحيا
 منظمة الصحة العالمية
-#
+#q#
 (E. O. S)
 3
 منظمة الصحة العالمية 
 لجنة دستور الغذاء 
 الهيئة المصرية العامة للمواصفات والجودة
-#
+#q#
 اختصارل : (CODEX)
 1
 لجنة دستور الغذاء 
 منظمة الصحة العالمية 
 منظمة الصحة العالمية
 
-#
+#q#
 النظام الأوروبي 13 – EAN
 1
 من نظم التشفير الخطى والأكثر شيوعا ويتم استخدامه في الدول الأوروبية وكثير من دول العالم كما أنه من المتبع في مصر
 من نظم التشفير الدائري والأكثر شيوعا ويتم استخدامه في الدول الأوروبية وكثير من دولالعالم كما أنه من المتبع في مصر
 من نظم التشفير المنقط والأكثر شيوعا ويتم استخدامه في الدول الأوروبية وكثير من دول العالم كما أنه من المتبع في مصر
 
-#
+#q#
 الفعل التصحيحي
 3
 هو فعل التصحيح سبب عدم المطابقة الذى تم اكتشافه أو أي وضع غير مرغوب فيه
 هو فعل القبول سبب عدم المطابقة الذى تم اكتشافه أو أيوضع غير مرغوب فيه
 هو فعل لاستبعاد سبب عدم المطابقة الذى تم اكتشافه أو أي وضع غير مرغوب فيه
 
-#
+#q#
 الرسم التوضيحي لدائرة . . . . 
 3
 ![](a.png)
@@ -5540,7 +5557,7 @@ W. H. O اختصار ل
 ديمنج 
 جمديج
 
-#
+#q#
 المربع واحد يدل على
 1
 ![](b.png)
@@ -5549,7 +5566,7 @@ P
 C
 A
 
-#
+#q#
 المربع الثاني يدل على
 2
 ![](b.png)
@@ -5557,7 +5574,7 @@ D
 P
 C
 A
-#
+#q#
 المربع الثاني يدل على
 3
 ![](b.png)
@@ -5565,7 +5582,7 @@ D
 P
 C
 A
-#
+#q#
 المربع الرابع يدل على
 4
 ![](b.png)
@@ -5574,16 +5591,16 @@ P
 C
 A
 
-#
+#q#
 يدل هذا الشكل على المعاملة الغذاء بواسطة 
 3
-![](c.png)
+![test alt](c.png)
 البسترة
 التعميم
 الإشعاع
 الكيماوي
 
-#
+#q#
 هي اختصار EAN ال
 1
 European Article Number ل 
@@ -5593,7 +5610,7 @@ Epean Article Number ل
 
 
 
-#
+#q#
 رقم 13 تعنى أنه مكون من 13 رقم مقسمة إلى . . . . مجموعات
 2
 5 مجموعات
@@ -5601,7 +5618,7 @@ Epean Article Number ل
 6 مجموعات
 2 مجموعات
 
-#
+#q#
 أول ثلاثة أرقام على الشمال تمثل كود
 1
 كود البلد
@@ -5609,21 +5626,21 @@ Epean Article Number ل
 كود المنطقة
 كود المنتج
 
-#
+#q#
 الأربعة أرقام التالية تمثل كود
 2
 كود البلد
 كود المصنع
 كود المنطقة
 كود المنتج
-#
+#q#
 الخمسة أرقام التالية تمثل كود
 4
 كود البلد
 كود المصنع
 كود المنطقة
 كود المنتج
-#
+#q#
 أخر رقم يعبر عن كود
 4
 كود البلد
@@ -5631,7 +5648,7 @@ Epean Article Number ل
 كود المراجعة
 كود المنتج
 
-#
+#q#
 توكيد الجودة
 1
 نظام إدارة بيروقراطي
@@ -5641,41 +5658,41 @@ Epean Article Number ل
 
 
 
-#
+#q#
 توكيد الجودة
 1
 إجراءات غير مرنة
 إجراءات مرنة
 إجراءات متوازنة
 
-#
+#q#
 الإدارة الشاملة للجودة
 2
 إجراءات غير مرنة
 إجراءات مرنة
 إجراءات متوازنة.
 
-#
+#q#
 الإدارة الشاملة للجودة
 1
 يهتم بالتحسين المستمر
 لا يهتم بالتحسين المستمر
 مطلوب بدرجة متوسطة بالتحسين المستمر
-#
+#q#
 توكيد الجودة
 2
 يهتم بالتحسين المستمر
 لا يهتم بالتحسين المستمر
 مطلوب بدرجة متوسطة بالتحسين المستمر
 
-#
+#q#
 الإدارة الشاملة للجودة
 2
 نظام إدارة بيروقراطي
 نظام إدارة ديموقراطى
 نظام إدارة رأس مالي
 
-#
+#q#
 الباركود للمنتجات الغذائية في مصر هو
 1
 622
@@ -5683,7 +5700,7 @@ Epean Article Number ل
 366
 362
 
-#
+#q#
 استخدام مصطلح "حلال" لا يطلق على
 1
 الضفادع
@@ -5693,7 +5710,7 @@ Epean Article Number ل
 
 
 
-#
+#q#
 هيئة الأيزو هي وكالة متخصصة في التقييس مقرها
 2
 مصر
@@ -5701,20 +5718,20 @@ Epean Article Number ل
 كوبا
 أمريكا
 
-#
+#q#
 تتكون لجنة دستور الأغذية من
 1
 اللجنة التنفيذية: تتكون من رئيس اللجنة ونواب الرئيس الثلاثة ، 6 أعضاء تنتخبهم اللجنة من بين أعضائها
 اللجنة التنفيذية: تتكون من رئيس اللجنة ونواب الرئيس الاثنين ، 4 أعضاء تنتخبهم اللجنة من بين أعضائها
 اللجنة التنفيذية: تتكون من رئيس اللجنة ونواب الرئيس الثلاثة، 8 أعضاء تنتخبهم اللجنة من بين أعضائها
 
-#
+#q#
 عند استعمال الترتيب الأبجدي يتبع الترتيب التالي
 1
 أبجد هوز حطي كلمن سعفص قرشت ثخد ضظغ
 أبجد هوز حطي كلمن
 سعفص قرشت ثخد ضظغ
-#
+#q#
 Monitoring الرصيد: 
 1
 هو تنفيذ مجموعة مخططة من الملاحظات أو القياسات للتأكد من أن مقاييس التحكم تعمل كما هو مخطط لها
@@ -5722,8 +5739,10 @@ Monitoring الرصيد:
 الموجودة في خطة الهاسب Control measures هي الدليل المتحصل عليه على "سلامة الغذاء" والذى يدل على أن مقاييس التحكم 
 
 
-`,he=t=>{let[,s,e]=/^!\[(.*)\]\((.*)\)$/.exec(t)||[];return[!!e,s,e]},ge=me.split("#").map((t,s)=>{var d;let e=t.trim().split(`
-`).filter(p=>p.trim().length>0),r=e.shift()||"failed to parse question",i=Number((d=e.shift())==null?void 0:d.trim()),[n,a,c]=he(e[0]);n&&e.shift();const l=e.map((p,f)=>({id:m(),text:p,correct:f+1===i}));return g({questionText:r,answers:l,image:c,imageAlt:a})}),xe=`
+`,Le=h("إدارة جودة — 1",Fe),He=`
+
+#multichoice#
+#qt#
 
 الحوادث المتعلقة بسلامة الغذاء قد ترجع الي
 3
@@ -5732,7 +5751,7 @@ Monitoring الرصيد:
 جميع ما سبق
 
 
-#
+#q#
 تشير المخاطر الكيميائية لسلامة الغذاء الي
 3
 بقايا مواد التنظيف والتطهير
@@ -5740,7 +5759,7 @@ Monitoring الرصيد:
 جميع ما سبق
 
 
-#
+#q#
 تلوث الغذاء هو
 1
 وصول أي من الملوثات إلى الغذاء أو البيئة المحيطة بالغذاء
@@ -5748,7 +5767,7 @@ Monitoring الرصيد:
 أي تغير يحدث في الغذاء يؤثر علي خواصه
 
 
-#
+#q#
 يحدد من المسئول عن عملية التنظيف والتطهير ومدي تكراريتها والمواد المستخدمة
 1
 برنامج التنظيف والتطهير
@@ -5756,7 +5775,7 @@ Monitoring الرصيد:
 دليل الجودة
 
 
-#
+#q#
 من وسائل مكافحة الحشرات الطائرة داخل مصانع الأغذية
 2
 الصواعق الكهربائية
@@ -5764,7 +5783,7 @@ Monitoring الرصيد:
 مساحق التعفير
 
 
-#
+#q#
 نظام تحليل المخاطر ونقاط التحكم الحرجة هو
 1
 نظام وقائي ورقابي لتأكيد سلامة الغذاء
@@ -5772,7 +5791,7 @@ Monitoring الرصيد:
 جميع ما سبق
 
 
-#
+#q#
 يتكون فريق سلامة الغذاء من
 4
 إدارة الجودة
@@ -5783,7 +5802,7 @@ Monitoring الرصيد:
 
 
 
-#
+#q#
 من البرامج التمهيدية لسلامة الغذاء
 3
 التنظيف والتطهير
@@ -5791,7 +5810,7 @@ Monitoring الرصيد:
 جميع ما سبق
 
 
-#
+#q#
 يعتبر وجود قطع زجاج أو أشياء غريبة في الغذاء من مصادر الخطر
 1
 الفيزيائية
@@ -5799,7 +5818,7 @@ Monitoring الرصيد:
 الكيميائية
 
 
-#
+#q#
 من البرامج الأولية المتعلقة بالتشريعات الخاصة بنظام الهاسب والتي يجب تطويرها بالمنشأة قبل تطبيق نظام الهاسب بها وهي
 4
 إجراءات تتعلق بالمنشأة وإجراءات مراقبة الموردين
@@ -5808,7 +5827,7 @@ Monitoring الرصيد:
 جميع ما سبق
 
 
-#
+#q#
 يجب أن تلتزم إدارة الشركة باتخاذ كل الاحتياطيات اللازمة للتأكد من تطبيق العناصر الأتية لبرنامج الممارسات الشخصية الجيدة
 4
 السيطرة على الأمرا ض
@@ -5817,7 +5836,7 @@ Monitoring الرصيد:
 جميع ما سبق
 
 
-#
+#q#
 يجب أن تكون الأرضيات في صالات الإنتاج
 4
 من مواد غير سامة وغير ممتصة ومن النوع المقاوم للماء
@@ -5826,7 +5845,7 @@ Monitoring الرصيد:
 جميع ما سبق
 
 
-#
+#q#
 	مناطق الإنتاج التي يتم بها تجهيز منتجات الأغذية عالية الخطورة يجب أن تكون ذات
 1
 ضغط إيجابي
@@ -5839,7 +5858,7 @@ Monitoring الرصيد:
 
 
 
-#
+#q#
 الخواص الواجب توافرها في مواد التنظيف المستخدمة في مصانع الأغذية
 3
 سهلة الامتزاج بالماء
@@ -5847,7 +5866,7 @@ Monitoring الرصيد:
 جميع ما سبق
 
 
-#
+#q#
 العوامل التي تحدد اختيار مادة التنظيف في مصانع الأغذية
 3
 نوعيه المياه المستخدمة
@@ -5855,7 +5874,7 @@ Monitoring الرصيد:
 جميع ما سبق
 
 
-#
+#q#
 نظام تنظيف يتم من خلاله عمل دورة مغلقة لمحاليل التنظيف والتطهير دون تفكيك خطوط الإنتاج
 1
 CIP
@@ -5863,7 +5882,7 @@ COP
 SOP
 
 
-#
+#q#
 للتحقق من كفاءة تنظيف وتطهير الأسطح يتم
 3
 اخد مسحة من السطح وتحليلها ميكروبيولوجيا
@@ -5871,7 +5890,7 @@ SOP
 جميع ما سبق
 
 
-#
+#q#
 في مناطق التخزين يجب أن تكون هناك مسافة . . . . سم بين الرف السفلي والأرضيات
 2
 100 سم
@@ -5879,7 +5898,7 @@ SOP
 يمكن التخزين علي الأرضيات مباشرة
 
 
-#
+#q#
 اشتراطات يجب تطبيقها على العاملين في التصنيع الغذائي
 3
 تغطية الشعر بغطاء راس - لا يسمح باستخدام طلاء الأظافر
@@ -5887,7 +5906,7 @@ SOP
 جميع ما سبق
 
 
-#
+#q#
 يجب أن تتوافر مع المواد الكيميائية المستخدمة في عمليات التنظيف
 1
 (MSDS) بطاقة المادة الكيميائية
@@ -5895,7 +5914,7 @@ SOP
 جميع ما سبق
 
 
-#
+#q#
 يجب تدوير المخزون في مخازن الأغذية علي أساس
 3
 ما تم تخزينه أولاً يتم إخراجه أولا
@@ -5904,7 +5923,7 @@ Aاو B يمكن استخدام
 
 
 
-#
+#q#
 من الاشتراطات الأساسية لغرف التبريد والتجميد ما يلى
 4
 -18م) ≥مؤشرات بيان درجة الحرارة ظاهرة ( التبريد +1:+4م /التجميد   
@@ -5913,7 +5932,7 @@ Aاو B يمكن استخدام
 جميع ما سبق
 
 
-#
+#q#
 يجب أن يترك حول المحيط الداخلي لكل مخزن مسافة . . . . سم ويطلق على هذه المسافة خط محيط التفتيش
 1
 50
@@ -5922,7 +5941,7 @@ Aاو B يمكن استخدام
 25
 
 
-#
+#q#
 عبارة عن إزالة لأسباب التلوث المرئية
 1
 التنظيف
@@ -5931,7 +5950,7 @@ Aاو B يمكن استخدام
 التهوية
 
 
-#
+#q#
 يحدد جدول التنظيف والتطهير في المنشآت الغذائية
 4
 مكان التنظيف ومن المسئول
@@ -5940,7 +5959,7 @@ Aاو B يمكن استخدام
 جميع ما سبق
 
 
-#
+#q#
 تقوم مراقبة المخازن بالتفتيش على المخازن للتأكد من
 4
 وجود كارت التعريف ( كارت الصنف) علي الأصناف بالمخازن طبقا لنوعها
@@ -5949,7 +5968,7 @@ Aاو B يمكن استخدام
 جميع ما سبق
 
 
-#
+#q#
 هو الحالة المرضية التي تحث نتيجة تناول غذاء إما لكونه ملوثا بالميكروبات الممرضة أو نواتجها السامة أو نتيجة تناول ملوثات كيميائية
 1
 تسمم الغذاء
@@ -5960,7 +5979,7 @@ Aاو B يمكن استخدام
 
 
 
-#
+#q#
 الحوادث المتعلقة بسلامة الأغذية على المستوي العالمي لوجود مصادر خطر بيولوجية أو كيميائية أو طبيعية ترجع الي واحد أو أكثر من العوامل التالية
 4
 تلوث المواد الخام
@@ -5969,7 +5988,7 @@ Aاو B يمكن استخدام
 جميع ما سبق
 
 
-#
+#q#
 مكونات طبيعية تض ر بصحة الإنسان مثل أجزاء الحشرات أو مخلفات الإنسان )كالشعر( أو المجوهرات، أو خشب، أو حصى، أو شظايا معدنية، أو قطع زجاج . . . . إلخ
 1
 مصادر خطر فيزيائية
@@ -5978,7 +5997,7 @@ Aاو B يمكن استخدام
 مصادر خطر إشعاعية
 
 
-#
+#q#
 مواد كيميائية تضر بصحة الإنسان مثل بقايا المبيدات والأسمدة ومواد التنظيف والتطهير والشحوم والمواد المضافة أو الحافظة وبقايا المضادات الحيوية والأدوية البيطرية . . . . إلخ
 2
 مصادر خطر فيزيائية
@@ -5987,7 +6006,7 @@ Aاو B يمكن استخدام
 مصادر خطر إشعاعية
 
 
-#
+#q#
 كائنات حية ممرضة أو منتجة للسموم وتشمل البكتريا والفطريات والفيروسات والطفيليات وغيرها . . . . إلخ
 3
 مصادر خطر فيزيائية
@@ -5996,7 +6015,7 @@ Aاو B يمكن استخدام
 مصادر خطر إشعاعية
 
 
-#
+#q#
 إجراء أو نشاط أو فعل يمكن استخدامه لمنع أو إزالة مخاطر سلامه الغذاء أو خفضها الى المستوي المقبول
 1
 اجراء سيطرة
@@ -6005,7 +6024,7 @@ Aاو B يمكن استخدام
 إجراء تصحيحي
 
 
-#
+#q#
 مستوي مخاطر سلامة الغذاء والذي يجب ألا يتم تجاوزه في المنتج النهائي
 1
 المستوي المقبول
@@ -6014,7 +6033,7 @@ Aاو B يمكن استخدام
 إجراء السيطرة
 
 
-#
+#q#
 وجود عامل بيولوجي أو كيميائي أو فيزيائي بالغذاء (أو يتعلق بالغذاء ) ويمكن أن يسبب تأثير ضار بصحة الإنسان(بما فيها الحساسية)
 1
 مصدر خطر
@@ -6022,7 +6041,7 @@ Aاو B يمكن استخدام
 حد حرج
 
 
-#
+#q#
 والتي تفصل بين ما هو مقبول وغير مقبول  Measurable value القيمة القابلة للقياس
 1
 الحد الحرج
@@ -6031,7 +6050,7 @@ Aاو B يمكن استخدام
 الإجراءات القياسية للتشغيل
 
 
-#
+#q#
 الحد الحرج لعمليه التبريد
 2
 15 م
@@ -6041,7 +6060,7 @@ Aاو B يمكن استخدام
 
 
 
-#
+#q#
 
 يحدث التلوث العرضى من
 4
@@ -6052,7 +6071,7 @@ Aاو B يمكن استخدام
 جميع ما سبق
 
 
-#
+#q#
 
 تعتبر الافلاتوكسين
 3
@@ -6063,7 +6082,7 @@ Aاو B يمكن استخدام
 مسببات حساسية 
 
 
-#
+#q#
 
 اى مما يلى يعتبر حد حرج
 4
@@ -6077,7 +6096,7 @@ Aاو B يمكن استخدام
 
 
 
-#
+#q#
 
 يمكن تقسيم المخاطر سلامة الغذاء الى
 4
@@ -6088,7 +6107,7 @@ Aاو B يمكن استخدام
 بيولوجية , كميائية , فيزيائية , مسببات حساسية
 
 
-#
+#q#
 
 ترتبط سلامة الغذاء بحماية المستهلك من 
 3
@@ -6099,7 +6118,7 @@ Aاو B يمكن استخدام
 جميع ما سبق
 
 
-#
+#q#
 
 اى من المعايير  التالية لا يمكن اعتبار حد حرج عند انشاء خطة الهاسب
 4
@@ -6110,7 +6129,7 @@ PH
 التقييم الحسى
 
 
-#
+#q#
 
 الخطوات الاساسية لنظام الهاسب . . . . خطوات
 1
@@ -6120,7 +6139,7 @@ PH
 12
 
 
-#
+#q#
 
 المبدا الثالث من مبادئ نظام الهاسب الاساسية
 3
@@ -6131,7 +6150,7 @@ CCPs تحديد
 التحقق
 
 
-#
+#q#
 
 الاجراءات التى يجب اتباعها عند حدوث انحرافات تهدد سلامة الغذاء
 2
@@ -6146,7 +6165,7 @@ CCPs تحديد
 
 
 
-#
+#q#
 
 تعد الاختبارات الميكروبيولوجية التى تجرى على نقاط مختليفة من التصنيع مثالا على
 2
@@ -6157,7 +6176,7 @@ CCPs تحديد
 تحليل المخاطر
 
 
-#
+#q#
 
 يتطلب نظام تحليل المخاطر ونقاط التحكم الحرجة
 4
@@ -6168,7 +6187,7 @@ CCPs تحديد
 جميع ما سبق
 
 
-#
+#q#
 
 تسلسل مراحل انتاج وتجهيز وتوزيع وتخزين ومعالجة الاغذية ومكوناتها بدءا من الانتاج الاولى وحتى الاستهلاك
 2
@@ -6179,7 +6198,7 @@ CCPs تحديد
 خطة المراجعة 
 
 
-#
+#q#
 
 يطلق على الخطوة التصنيعية والتى يمكن فيها تطبيق اجراءت النحكم الضرورى لمنع او تقليل خطر معنوى على سلامة الغذاء الى المستوى المقبول كذلك لا يوجد خطوة لاحقة لمنع او تقليل هذا الخطر
 1
@@ -6190,7 +6209,7 @@ CPRP
 POA
 
 
-#
+#q#
 
 يجب ان تتوافر فى وحدات غسيل الايدى فى مصانع الاغذية 
 4
@@ -6201,7 +6220,7 @@ POA
 جميع ما سبق
 
 
-#
+#q#
 
 نظام لتجديد وتقييم والتحكم فى المخاطر التى تهدد سلامة الاغذية بهدف انتاج غذاء امن صحيأ
 1
@@ -6212,5 +6231,4 @@ ISO 14001
 ISO45001
  
 
-`,be=t=>{let[,s,e]=/^!\[(.*)\]\((.*)\)$/.exec(t)||[];return[!!e,s,e]},we=xe.split("#").map((t,s)=>{var d;let e=t.trim().split(`
-`).filter(p=>p.trim().length>0),r=e.shift()||"failed to parse question",i=Number((d=e.shift())==null?void 0:d.trim()),[n,a,c]=be(e[0]);n&&e.shift();const l=e.map((p,f)=>({id:m(),text:p,correct:f+1===i}));return g({questionText:r,answers:l,image:c,imageAlt:a})}),Q={"إرشاد زراعي":X,"إدارة جودة — 1":ge,"إدارة جودة — 2":we,"تجارة دولية — 1":re,"تجارة دولية — 2":ae,"سياسة رزاعية — 1":Y,"سياسة رزاعية — 2":te,"تقييم مشروعات — 1":ue,"تقييم مشروعات — 2":fe},ve=()=>{},C=u.createContext(Q),A=u.createContext([]),w=u.createContext(()=>{}),x=u.createContext($),v=u.createContext(ve),je=({children:t})=>{const[s,e]=u.useState($),[r,i]=u.useReducer(V,[]);return o.jsx(v.Provider,{value:e,children:o.jsx(w.Provider,{value:i,children:o.jsx(C.Provider,{value:Q,children:o.jsx(x.Provider,{value:s,children:o.jsx(A.Provider,{value:r,children:t})})})})})},ye=""+new URL("burger.svg",import.meta.url).href;async function Ce(){let t="https://icsltn2qastore.table.core.windows.net/?sv=2022-11-02&ss=t&srt=sco&sp=rwdlacu&se=2123-05-17T10:14:54Z&st=2023-05-17T02:14:54Z&spr=https&sig=D1FbXTuBcFKeEJ5lUw14FlIFRb4kl2C84uU9c90aqEA%3D",s="BlobEndpoint=https://icsltn2qastore.blob.core.windows.net/;QueueEndpoint=https://icsltn2qastore.queue.core.windows.net/;FileEndpoint=https://icsltn2qastore.file.core.windows.net/;TableEndpoint=https://icsltn2qastore.table.core.windows.net/;SharedAccessSignature=sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-06-18T00:28:14Z&st=2023-05-17T16:28:14Z&spr=https,http&sig=%2F0%2FcHEiRTcKSwpRtQnKsy0mTf3sL%2BXuDwEc90ZL%2BpEo%3D";await D.fromConnectionString(s,{}).createTable("test");const r=new k(t,"test"),i={partitionKey:"hometasks",rowKey:"1",description:"take out the trash",dueDate:new Date(2015,6,20)};let n=await r.createEntity(i);console.log(n)}function Ae(){const t=u.useContext(x),s=u.useContext(v);function e(){s({...t,sidebarOn:!t.sidebarOn})}return o.jsxs("div",{className:"burger-btn sticky top-0 min-h-[50px] px-4 flex items-center justify-between bg-green-700 ",children:[o.jsx("div",{children:o.jsx("img",{className:"cursor-pointer",onClick:e,src:ye,alt:"Menu"})}),o.jsx("div",{onClick:()=>{Ce()},className:"text-slate-200 border-double border-b-4 text-xl cursor-pointer",children:t.subject}),o.jsx("div",{})]})}function Ie(){const t=u.useContext(x),s=u.useContext(A),e=u.useContext(w),r=t.testModeOn&&t.correctAnswers,i=u.useMemo(()=>t.testModeOn?(console.log("calculating..."),s.reduce((n,a)=>n+(a.correct?1:0),0)):0,[s]);return o.jsxs("div",{className:`bottombar ${r?"":"none"}`,children:[o.jsxs("div",{className:"score",children:[o.jsx("span",{className:"score__label",children:"Score: "}),o.jsxs("span",{className:"score__value",children:[i,"/",s.length]})]}),o.jsx("div",{className:"actions",children:o.jsx("button",{className:"",onClick:()=>e(O()),children:"مسح الإجابات"})})]})}const b={};function Ne(t,s,e=!0,r=100){u.useDebugValue(b);const[i,n]=u.useState(!1),a=l=>{var d;return(b[t]={...b[t],captured:l??((d=b[t])==null?void 0:d.captured)??!1}).captured};return i||a()||(s&&!e&&s(),!b[t].skip&&(s&&e&&s(),n(()=>a(!0)),setTimeout(()=>n(!1),r))),!i&&a()&&a(!1),[i,()=>t in b?b[t].skip=!0:!1]}const Se=(t=35)=>("vibrate"in navigator&&navigator.vibrate(t),!0);function Pe({id:t,index:s,question:e,answers:r}){const i=u.useContext(v),n=u.useContext(x),a=l=>{i({...n,unbluredQuestion:l}),Se()},[c]=Ne(t,()=>"",!0,300);return o.jsxs("div",{className:"quest-container",children:[o.jsxs("h2",{className:`quest-text ${c&&"bg-slate-600"||""}`,children:[o.jsx("span",{className:"quest-span",children:s}),e]}),o.jsxs("div",{className:"quest-answers",children:[n.unbluredQuestion!==t&&n.blurAnswers&&!n.testModeOn&&o.jsx("div",{className:"blur",onDoubleClick:()=>a(t)}),r]})]})}const qe=u.memo(Pe),N=(t=35)=>("vibrate"in navigator&&navigator.vibrate(t),!0);function Oe({question:t}){const s=u.useContext(x),e=u.useContext(w),r=f=>{if(!s.testModeOn)return console.log("testMode is off");if(s.correctAnswers&&t.selectedId)return N(60);e(q(t.id,f)),N()},i="bg-amber-700",n="bg-green-700",a="bg-red-700",c="bg-slate-800";function l(f){return s.testModeOn?s.correctAnswers?t.selectedId?f.selected?f.correct?n:a:f.correct?n:c:c:f.selected?i:c:f.correct?n:c}function d(f){return"answers"in f}const p=d(t)?t.answers:[t.answer];return o.jsx(o.Fragment,{children:p.map((f,I)=>f?o.jsxs("div",{className:`quest-answer ${l(f)}`,children:[o.jsx("input",{type:"radio",onClick:Ke=>r(f.id),name:"answer",id:`answer${t.id}${I}`,className:"hidden"}),o.jsx("label",{htmlFor:`answer${t.id}${I}`,className:"quest-answerlable p-2",children:f.text})]},f.id):"")})}function $e({question:t,index:s}){const e=Oe({question:t}),r=o.jsxs(o.Fragment,{children:[o.jsx("span",{children:t.questionText}),t.image&&o.jsx("img",{src:"./assets/"+t.image,alt:t.imageAlt,className:"quest-image w-full h-auto my-2 "})]}),i={id:t.id,index:s,question:r,answers:e};return o.jsx(qe,{...i})}function Qe({questPanel:t}){const s=u.useContext(A),e=u.useContext(x),r=u.useContext(v),i=u.useContext(C),n=u.useContext(w);return u.useEffect(()=>{if(!s.length){let a="إرشاد زراعي";r({...e,sidebarOn:!1,subject:a,questions:i[a]}),n(y(i[a],e.shuffleQuestions))}},[]),o.jsxs("div",{ref:t,className:"questions p-4 flex-1 overflow-y-auto",children:[s==null?void 0:s.map((a,c)=>o.jsxs("div",{children:[o.jsx($e,{question:a,index:c+1}),o.jsx("br",{})]},a.id)),o.jsx(Te,{questPanel:t})]})}function Te({questPanel:t}){const s=u.useContext(x),e=s.testModeOn&&s.correctAnswers?"raise":"",r=s.sidebarOn?"none":"",[i,n]=u.useState("");return o.jsx("div",{className:`scroll-top ${e} ${r} ${i}`,onClick:()=>{var a;return(a=t.current)==null?void 0:a.scrollTo({top:0,behavior:"smooth"})},onPointerMoveCapture:()=>n("hover"),onPointerDownCapture:()=>n("hover"),onPointerOutCapture:()=>n(""),onPointerUp:()=>n("")})}function Ee({defaultValue:t=!1,enabled:s=!0,onChange:e,setToggle:r,...i}){const n=u.useId(),a=u.useRef(null),c=d=>{var p;return e?e(((p=d.target)==null?void 0:p.checked)||!1):null};return r&&r(()=>{var d;return(d=a.current)==null?void 0:d.click()}),o.jsxs("label",{style:{},htmlFor:n,className:`toggle-switch ${s?"":"disabled"}`,children:[o.jsx("input",{id:n,ref:a,type:"checkbox",onChange:c,disabled:!s,onClick:d=>d.stopPropagation(),defaultChecked:t,...i}),o.jsx("span",{className:"slider"})]})}function Me({questPanel:t}){const s=u.useContext(x),e=u.useContext(v),r=u.useContext(C),i=u.useContext(w),{sidebarOn:n}=s,a=(c,l)=>{var d;switch(c){case"selectedSubject":return(d=t.current)==null||d.scrollTo({top:0,behavior:"smooth"}),e({...s,sidebarOn:!1,subject:l,questions:r[l]}),i(y(r[l],s.shuffleQuestions));case"testModeOn":return e({...s,testModeOn:l});case"correctAnswers":return e({...s,correctAnswers:l});case"blurAnswers":return e({...s,blurAnswers:l});case"shuffleQuestions":return e({...s,shuffleQuestions:l}),i(P([...r[s.subject]],l));case"shuffleAnswers":return e({...s,shuffleAnswers:l});default:return}};return o.jsxs("div",{className:"absolutez",children:[o.jsxs("nav",{onClick:c=>c.stopPropagation(),className:`${n?"":"off"} sidebar`,children:[o.jsxs("div",{className:"subjects",children:[o.jsx("h2",{className:"title",children:"البنك"}),o.jsx("div",{className:"sep"}),Object.keys(r).map(c=>o.jsx("div",{className:`item ${s.subject===c?"active":""}`,onClick:()=>a("selectedSubject",c),children:c},c))]}),o.jsxs("div",{className:"settings",children:[o.jsx("div",{className:"sep"}),o.jsx("div",{className:"title",children:"الاعدادات"}),o.jsx("div",{className:"sep"}),o.jsx(j,{title:"وضع الإختبار",defaultValue:s.testModeOn,action:c=>a("testModeOn",c)}),o.jsx(j,{title:"تصحيح الإجابات",enabled:s.testModeOn,defaultValue:s.correctAnswers,action:c=>a("correctAnswers",c)}),o.jsx("p",{}),o.jsx(j,{title:"تغشية الإجابات",enabled:!s.testModeOn,defaultValue:s.blurAnswers,action:c=>a("blurAnswers",c)}),o.jsx(j,{title:"مزج الأسئلة",defaultValue:s.shuffleQuestions,action:c=>a("shuffleQuestions",c)})]}),o.jsxs("div",{className:"credits",children:[o.jsx("div",{className:"sep"}),o.jsx("div",{className:"title",children:"الحقوق"}),o.jsx("div",{className:"sep"}),o.jsx("div",{className:"item",children:"motifyee@gmail.com"}),o.jsx("div",{className:"item",children:"م/ مليك روماني"})]})]}),o.jsx("div",{onPointerMove:c=>c.stopPropagation(),onPointerDownCapture:c=>c.stopPropagation(),onPointerDown:c=>c.stopPropagation(),onClick:()=>e({...s,sidebarOn:!1}),className:`${n?"":"off"} sidebar-overlay`})]})}function j({title:t,defaultValue:s,action:e,enabled:r=!0}){let i=()=>{};const n=a=>i=a;return o.jsxs("div",{onClick:a=>{a.preventDefault(),i()},className:"flex justify-between items-center item",children:[o.jsx("div",{className:`${r?"":"text-gray-500 xline-through"}`,children:t}),o.jsx(Ee,{defaultValue:s,enabled:r,onChange:e,setToggle:n})]})}const De=F({apiKey:"AIzaSyBWmWIAPvA97sn2RpVx0mfTBmCcgX-98o4",authDomain:"fir-computers-ip.firebaseapp.com",databaseURL:"https://fir-computers-ip.firebaseio.com",projectId:"fir-computers-ip",storageBucket:"fir-computers-ip.appspot.com",messagingSenderId:"369476238484",appId:"1:369476238484:web:f214ed67d25cdb30178881",measurementId:"G-05Z9EBZ84Z"}),T=R(De),E="agri-asu.web.app";S(T,E);const ke=async t=>(console.log("addFirebaseAction:"),console.table(t),await _(S(T,E),{date:L(),...t}));let Be=Fe();localStorage.getItem("install-date")||localStorage.setItem("install-date",new Date().toISOString());function Fe(){return localStorage.getItem("user")||""}async function Re(){return await fetch("https://api.ipify.org").then(t=>t.text())}async function _e(t,s){if(Be=="admin")return;console.log("saveAction",t,s);let e=await ke({action:t||"DEFAULT",value:s||"",deviceInfo:await Ue()});return console.log("saveAction",e),e}function Le(){return{width:window.screen.width,height:window.screen.height,availWidth:window.screen.availWidth,availHeight:window.screen.availHeight,colorDepth:window.screen.colorDepth,pixelDepth:window.screen.pixelDepth,orientation:{angle:window.screen.orientation.angle,type:window.screen.orientation.type}}}async function Ue(){let t=new B().parse(navigator.userAgent),s=Le(),e=await Re(),r=He();return{ip:e,screen:s,detector:t,deviceId:r}}function He(){let t=localStorage.getItem("machineId");return t||(t=m(),localStorage.setItem("machineId",t)),t}function Ze(){const t=u.useRef(null);return u.useEffect(()=>{window.location.href.includes("http://localhost")||_e()},[]),o.jsxs(je,{children:[o.jsx(Ae,{}),o.jsx(Me,{questPanel:t}),o.jsx(Qe,{questPanel:t}),o.jsx(Ie,{})]})}const Ge=document.getElementById("root");M.createRoot(Ge).render(o.jsx(Ze,{}));
+`,Ve=h("إدارة جودة — 2",He),j=[Ge,Le,Ve,$e,ke,Qe,Me,Re,_e],We=()=>{},N=u.createContext(j),G=u.createContext(j[0]),C=u.createContext(()=>{}),x=u.createContext(F),A=u.createContext(We),Ke=({children:e})=>{const[t,s]=u.useState(F),[n,r]=u.useReducer(te,j[0]);return o.jsx(A.Provider,{value:s,children:o.jsx(C.Provider,{value:r,children:o.jsx(N.Provider,{value:j,children:o.jsx(x.Provider,{value:t,children:o.jsx(G.Provider,{value:n,children:e})})})})})},ze=""+new URL("burger.svg",import.meta.url).href;function Ze(){var n;const e=u.useContext(x),t=u.useContext(A);function s(){t({...e,sidebarOn:!e.sidebarOn})}return o.jsxs("div",{className:"burger-btn sticky top-0 min-h-[50px] px-4 flex items-center justify-between bg-green-700 ",children:[o.jsx("div",{children:o.jsx("img",{className:"cursor-pointer",onClick:s,src:ze,alt:"Menu"})}),o.jsx("div",{onClick:()=>{},className:"text-slate-200 border-double border-b-4 text-xl cursor-pointer",children:(n=e.test)==null?void 0:n.title}),o.jsx("div",{})]})}function Xe(){const e=u.useContext(x),t=u.useContext(G),s=u.useContext(C),n=e.testModeOn&&e.correctAnswers,r=u.useMemo(()=>e.testModeOn?t.correctAnswersCount():0,[t]);return o.jsxs("div",{className:`bottombar ${n?"":"none"}`,children:[o.jsxs("div",{className:"score",children:[o.jsx("span",{className:"score__label",children:"Score: "}),o.jsxs("span",{className:"score__value",children:[r,"/",t.countables()]})]}),o.jsx("div",{className:"actions",children:o.jsx("button",{className:"",onClick:()=>s(_()),children:"مسح الإجابات"})})]})}const w={};function Ye(e,t,s=!0,n=100){u.useDebugValue(w);const[r,q]=u.useState(!1),i=a=>{var l;return(w[e]={...w[e],captured:a??((l=w[e])==null?void 0:l.captured)??!1}).captured};return r||i()||(t&&!s&&t(),!w[e].skip&&(t&&s&&t(),q(()=>i(!0)),setTimeout(()=>q(!1),n))),!r&&i()&&i(!1),[r,()=>e in w?w[e].skip=!0:!1]}function Je({id:e,index:t,questionEl:s,answersEl:n,question:r,blurred:q,unblur:i,correctAnswers:c}){const[a]=Ye(e,()=>"",!0,300),l=!!r.selectedId(),m=c,b=r.isCorrect(),p=l&&m?b?"correct":"incorrect":"";return o.jsxs("div",{className:"quest-container",children:[o.jsxs("h2",{className:`quest-text ${a&&"bg-slate-600"||""}`,children:[o.jsx("span",{className:`quest-span ${p}`,children:t}),s]}),o.jsxs("div",{className:"quest-answers",children:[q&&o.jsx("div",{className:"blur",onDoubleClick:()=>i(e)}),n]})]})}const $=(e=35)=>("vibrate"in navigator&&navigator.vibrate(e),!0);function et({question:e,qgId:t,settings:s}){var b;const n=u.useContext(C),r=p=>{if(!s.testModeOn)return console.log("testMode is off");if(s.correctAnswers&&e.selectedId())return $(60)&&console.log("already selected");console.log("selecting answer",p),n(B(t,e.id,p)),$()},q="bg-amber-700",i="bg-green-700",c="bg-red-700",a="bg-slate-800";function l(p){return s.testModeOn?s.correctAnswers?e.selectedId()?p.selected?p.correct?i:c:p.correct?i:a:a:p.selected?q:a:p.correct?i:a}const m=((b=e.answerGroup)==null?void 0:b.answers)??[e.answer];return o.jsx(o.Fragment,{children:m.map((p,P)=>p?o.jsxs("div",{className:`quest-answer ${e.selectedId()} ${l(p)}`,children:[o.jsx("input",{type:"radio",onClick:xt=>r(p.id),name:"answer",id:`answer-${e.id}${P}`,className:"hidden"}),o.jsx("label",{htmlFor:`answer-${e.id}${P}`,className:"quest-answerlable p-2",children:p.value})]},p.id):"")})}const tt=u.memo(({qgId:e,question:t,index:s,blurred:n,unblur:r,correctAnswers:q,settings:i})=>{const c=u.useMemo(()=>o.jsx(et,{settings:i,question:t,qgId:e}),[t,e]),a=o.jsxs(o.Fragment,{children:[o.jsx("span",{children:t.questionText}),t.image&&o.jsx("img",{src:"./assets/"+t.image,alt:t.imageAlt,className:"quest-image w-full h-auto my-2 "})]}),l={id:t.id,index:s,questionEl:a,answersEl:c,question:t,correctAnswers:q,blurred:n,unblur:r};return o.jsx(Je,{...blur,...l})});function st({questionGroup:e,index:t}){const s=u.useContext(x),n=u.useContext(A),r=a=>s.unblurredQuestion!==a&&s.blurAnswers&&!s.testModeOn,q=u.useCallback(a=>n(l=>({...l,unblurredQuestion:a})),[]),i=u.useMemo(()=>({testModeOn:s.testModeOn,correctAnswers:s.correctAnswers}),[s.testModeOn,s.correctAnswers]),{questions:c}=e;return o.jsxs("div",{className:"question-group",children:[o.jsx("div",{className:"question-group-title",children:e.title}),c.map((a,l)=>o.jsxs("div",{children:[o.jsx(tt,{qgId:e.id,question:a,index:t+l+1,blurred:r(a.id),unblur:q,correctAnswers:s.correctAnswers,settings:i}),o.jsx("br",{})]},a.id))]})}function nt({questPanel:e}){const t=u.useContext(G),s=u.useContext(x),n=u.useContext(A),r=u.useContext(N),q=u.useContext(C);u.useEffect(()=>{n({...s,sidebarOn:!1,test:r[0]}),q(S(r[0],s.shuffleQuestions))},[]);function i(c,a){switch(c.type){case"MULTICHOICEQUESTIONGROUP":return o.jsx(st,{questionGroup:c,index:a+1});default:return null}}return o.jsx("div",{ref:e,className:"questions p-4 flex-1 overflow-y-auto",children:t==null?void 0:t.questionGroups.map((c,a)=>o.jsxs("div",{children:[i(c,a),o.jsx("br",{})]},c.id))})}function rt({defaultValue:e=!1,enabled:t=!0,onChange:s,setToggle:n,...r}){const q=u.useId(),i=u.useRef(null),c=l=>{var m;return s?s(((m=l.target)==null?void 0:m.checked)||!1):null};return n&&n(()=>{var l;return(l=i.current)==null?void 0:l.click()}),o.jsxs("label",{style:{},htmlFor:q,className:`toggle-switch ${t?"":"disabled"}`,children:[o.jsx("input",{id:q,ref:i,type:"checkbox",onChange:c,disabled:!t,onClick:l=>l.stopPropagation(),defaultChecked:e,...r}),o.jsx("span",{className:"slider"})]})}function ot({questPanel:e}){const t=u.useContext(x),s=u.useContext(A),n=u.useContext(N),r=u.useContext(C),{sidebarOn:q}=t,i=(c,a)=>{var l;switch(c){case"selectedSubject":const m=n.find(b=>b.id===a);return(l=e.current)==null||l.scrollTo({top:0,behavior:"smooth"}),s({...t,sidebarOn:!1,test:m}),r(S(m,t.shuffleQuestions));case"testModeOn":return s({...t,testModeOn:a});case"correctAnswers":return s({...t,correctAnswers:a});case"blurAnswers":return s({...t,blurAnswers:a});case"shuffleQuestions":return s({...t,shuffleQuestions:a}),r(R(a));case"shuffleAnswers":return s({...t,shuffleAnswers:a});default:return}};return o.jsxs("div",{className:"absolutez",children:[o.jsxs("nav",{onClick:c=>c.stopPropagation(),className:`${q?"":"off"} sidebar`,children:[o.jsx("h2",{className:"title",children:"البنك"}),o.jsxs("div",{className:"subjects",children:[o.jsx("div",{className:"sep"}),n.map(c=>{var a;return o.jsx("div",{className:`item ${((a=t.test)==null?void 0:a.id)===c.id?"active":""}`,onClick:()=>i("selectedSubject",c.id),children:c.title},c.id)})]}),o.jsxs("div",{className:"settings",children:[o.jsx("div",{className:"sep"}),o.jsx("div",{className:"title",children:"الاعدادات"}),o.jsx("div",{className:"sep"}),o.jsx(v,{title:"وضع الإختبار",defaultValue:t.testModeOn,action:c=>i("testModeOn",c)}),o.jsx(v,{title:"تصحيح الإجابات",enabled:t.testModeOn,defaultValue:t.correctAnswers,action:c=>i("correctAnswers",c)}),o.jsx("p",{}),o.jsx(v,{title:"تغشية الإجابات",enabled:!t.testModeOn,defaultValue:t.blurAnswers,action:c=>i("blurAnswers",c)}),o.jsx(v,{title:"مزج الأسئلة",defaultValue:t.shuffleQuestions,action:c=>i("shuffleQuestions",c)})]}),o.jsxs("div",{className:"credits",children:[o.jsx("div",{className:"sep"}),o.jsx("div",{className:"title",children:"الحقوق"}),o.jsx("div",{className:"sep"}),o.jsx("div",{className:"item",children:"motifyee@gmail.com"}),o.jsx("div",{className:"item",children:"م/ مليك روماني"})]})]}),o.jsx("div",{onPointerMove:c=>c.stopPropagation(),onPointerDownCapture:c=>c.stopPropagation(),onPointerDown:c=>c.stopPropagation(),onClick:()=>s({...t,sidebarOn:!1}),className:`${q?"":"off"} sidebar-overlay`})]})}function v({title:e,defaultValue:t,action:s,enabled:n=!0}){let r=()=>{};const q=i=>r=i;return o.jsxs("div",{onClick:i=>{i.preventDefault(),r()},className:"flex justify-between items-center item",children:[o.jsx("div",{className:`${n?"":"text-gray-500 xline-through"}`,children:e}),o.jsx(rt,{defaultValue:t,enabled:n,onChange:s,setToggle:q})]})}const qt=K({apiKey:"AIzaSyBWmWIAPvA97sn2RpVx0mfTBmCcgX-98o4",authDomain:"fir-computers-ip.firebaseapp.com",databaseURL:"https://fir-computers-ip.firebaseio.com",projectId:"fir-computers-ip",storageBucket:"fir-computers-ip.appspot.com",messagingSenderId:"369476238484",appId:"1:369476238484:web:f214ed67d25cdb30178881",measurementId:"G-05Z9EBZ84Z"}),L=z(qt),H="agri-asu.web.app";D(L,H);const U=async e=>(console.log("addFirebaseAction:"),console.table(e),await Z(D(L,H),{date:X(),...e}));let it=ct();localStorage.getItem("install-date")||localStorage.getItem("install-date*")||localStorage.setItem("install-date*",new Date().toISOString());function ct(){return localStorage.getItem("user")||""}async function at(){return await fetch("https://api.ipify.org").then(e=>e.text())}function ut(e){localStorage.removeItem(e)}function lt(e){return Object.keys(localStorage).filter(t=>t.startsWith(`${e}-`)).map(t=>({key:t,idx:Number(t.replace(`${e}-`,"")),value:localStorage.getItem(t)||""}))}function dt(e,t){const s=lt(e);let n=s.reduce((r,{idx:q})=>Math.max(r,q),0)+1;return localStorage.setItem(`${e}-${n}`,t||""),s.push({key:`${e}-${n}`,idx:n,value:t||""}),s}async function pt(e,t){if(it=="admin")return;e=e||"DEFAULT",t=t||new Date().toISOString();let s=dt(e,t);for(let r of s)try{await U({action:r.key,value:r.value,deviceInfo:await k()}),ut(r.key)}catch{}let n=localStorage.getItem("install-date*");if(n)try{await U({action:"install-date",value:n,deviceInfo:await k()}),localStorage.setItem("install-date",n),localStorage.removeItem("install-date*")}catch{}}function ft(){return{width:window.screen.width,height:window.screen.height,availWidth:window.screen.availWidth,availHeight:window.screen.availHeight,colorDepth:window.screen.colorDepth,pixelDepth:window.screen.pixelDepth,orientation:{angle:window.screen.orientation.angle,type:window.screen.orientation.type}}}async function k(){let e=new W().parse(navigator.userAgent),t=ft(),s=await at(),n=mt();return{ip:s,screen:t,detector:e,deviceId:n}}function mt(){let e=localStorage.getItem("machineId");return e||(e=d(),localStorage.setItem("machineId",e)),e}function ht({questPanel:e}){const t=u.useContext(x),s=t.testModeOn&&t.correctAnswers?"raise":"",n=t.sidebarOn?"none":"",[r,q]=u.useState("");return o.jsx("div",{className:`scroll-top ${s} ${n} ${r}`,onClick:()=>{var i;return(i=e.current)==null?void 0:i.scrollTo({top:0,behavior:"smooth"})},onPointerMoveCapture:()=>q("hover"),onPointerDownCapture:()=>q("hover"),onPointerOutCapture:()=>q(""),onPointerUp:()=>q("")})}function gt(){const e=u.useRef(null);return u.useEffect(()=>{window.location.href.includes("http://localhost")||pt()},[]),o.jsxs(Ke,{children:[o.jsx(Ze,{}),o.jsx(ot,{questPanel:e}),o.jsx(nt,{questPanel:e}),o.jsx(ht,{questPanel:e}),o.jsx(Xe,{})]})}const wt=document.getElementById("root");V.createRoot(wt).render(o.jsx(gt,{}));

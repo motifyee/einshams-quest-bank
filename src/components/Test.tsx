@@ -7,6 +7,7 @@ import {
     TestsActionsContext,
 } from '../lib/context';
 import MultiChoiceQuestion from './MultiChoiceQuestion';
+import MatchingQuestionGroup from './MatchingQuestion';
 import { setTest } from '../lib/reducer';
 
 function Test({ questPanel }: { questPanel: React.RefObject<HTMLDivElement> }) {

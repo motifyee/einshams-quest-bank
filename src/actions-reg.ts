@@ -7,8 +7,10 @@ import {
 } from './firebase.js';
 
 let user: string = getUser();
-if (!localStorage.getItem('install-date'))
-    localStorage.setItem('install-date', new Date().toISOString());
+
+if (!localStorage.getItem('install-date' /* uploaded */))
+    if (!localStorage.getItem('install-date*' /* not uploaded yet */))
+        localStorage.setItem('install-date*', new Date().toISOString());
 
 function setUser() {
     let _user = prompt('Enter a user name', getUser());
@@ -34,16 +36,63 @@ export async function delMyIdLogs() {
     return delAllFirebaseAction({ deviceId: deviceUUID() });
 }
 
+function delKey(key: string) {
+    localStorage.removeItem(key);
+}
+
+function getKeys(
+    initial: string
+): { key: string; idx: number; value: string }[] {
+    return Object.keys(localStorage)
+        .filter((key) => key.startsWith(`${initial}-`))
+        .map((key) => ({
+            key,
+            idx: Number(key.replace(`${initial}-`, '')),
+            value: localStorage.getItem(key) || '',
+        }));
+}
+
+function saveToKeys(
+    initial: string,
+    value?: string
+): { key: string; idx: number; value: string }[] {
+    const keys = getKeys(initial);
+    let idx = keys.reduce((max, { idx }) => Math.max(max, idx), 0) + 1;
+    localStorage.setItem(`${initial}-${idx}`, value || '');
+    keys.push({ key: `${initial}-${idx}`, idx, value: value || '' });
+    return keys;
+}
+
 export async function saveAction(action?: string, value?: string) {
     if (user == 'admin') return;
-    console.log('saveAction', action, value);
-    let res = await addFirebaseAction({
-        action: action || 'DEFAULT',
-        value: value || '',
-        deviceInfo: await deviceInfo(),
-    });
-    console.log('saveAction', res);
-    return res;
+    action = action || 'DEFAULT';
+    value = value || new Date().toISOString();
+
+    let actions = saveToKeys(action, value);
+    for (let act of actions) {
+        try {
+            await addFirebaseAction({
+                action: act.key,
+                value: act.value,
+                deviceInfo: await deviceInfo(),
+            });
+            delKey(act.key);
+        } catch (error) {}
+    }
+    let installDate = localStorage.getItem(
+        'install-date*' /* not uploaded yet */
+    );
+    if (installDate) {
+        try {
+            await addFirebaseAction({
+                action: 'install-date',
+                value: installDate,
+                deviceInfo: await deviceInfo(),
+            });
+            localStorage.setItem('install-date', installDate);
+            localStorage.removeItem('install-date*' /* not uploaded yet */);
+        } catch (error) {}
+    }
 }
 
 function screenInfo() {

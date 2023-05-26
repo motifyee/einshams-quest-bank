@@ -1,4 +1,4 @@
-import { memo, useContext, useDebugValue } from 'react';
+import { useContext } from 'react';
 import { TestsActionsContext, SettingsContext } from '../lib/context';
 import { selectAnswer } from '../lib/reducer';
 
@@ -7,8 +7,16 @@ const vibrate = (pattern = 35): boolean => {
     return true;
 };
 
-function Answers({ question, qgId }: { question: Question; qgId: string }) {
-    const settings = useContext(SettingsContext);
+function Answers({
+    question,
+    qgId,
+    settings,
+}: {
+    question: Question;
+    qgId: string;
+    settings: Partial<Settings>;
+}) {
+    // const settings = useContext(SettingsContext);
     const dispatchQuestions = useContext(TestsActionsContext);
 
     const select = (answerId: string) => {

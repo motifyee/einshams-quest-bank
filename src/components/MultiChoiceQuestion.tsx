@@ -11,6 +11,7 @@ const MultiSelectQuestion = memo(
         blurred,
         unblur,
         correctAnswers,
+        settings,
     }: {
         qgId: string;
         question: MultiChoiceQuestion;
@@ -18,8 +19,14 @@ const MultiSelectQuestion = memo(
         blurred: boolean;
         unblur: (questionId: string) => void;
         correctAnswers: boolean;
+        settings: Partial<Settings>;
     }) => {
-        const answersEl = <Answers question={question} qgId={qgId} />;
+        const answersEl = useMemo(
+            () => (
+                <Answers settings={settings} question={question} qgId={qgId} />
+            ),
+            [question, qgId]
+        );
 
         const questionEl = (
             <>
@@ -78,6 +85,14 @@ export default function MultiSelectQuestionGroup({
             })),
         []
     );
+
+    const _settings = useMemo(
+        () => ({
+            testModeOn: settings.testModeOn,
+            correctAnswers: settings.correctAnswers,
+        }),
+        [settings.testModeOn, settings.correctAnswers]
+    );
     const { questions } = qg;
 
     return (
@@ -92,6 +107,7 @@ export default function MultiSelectQuestionGroup({
                         blurred={blurred(q.id)}
                         unblur={unblur}
                         correctAnswers={settings.correctAnswers}
+                        settings={_settings}
                     />
                     <br />
                 </div>

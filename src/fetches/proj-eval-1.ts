@@ -667,7 +667,7 @@ GISطريقه
 من حيث تكرارها
 
 #qg#
-#matching#
+#multichoice#
 #qt#
 
 #q#

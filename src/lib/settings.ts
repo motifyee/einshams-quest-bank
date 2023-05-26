@@ -11,5 +11,5 @@ export const defaultSettings: Settings = {
 
     shuffleQuestions: false,
     shuffleAnswers: false,
-    blurAnswers: true,
+    blurAnswers: false,
 };
