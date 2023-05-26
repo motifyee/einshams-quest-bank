@@ -25,7 +25,7 @@ const MultiSelectQuestion = memo(
             () => (
                 <Answers settings={settings} question={question} qgId={qgId} />
             ),
-            [question, qgId]
+            [question, qgId, settings]
         );
 
         const questionEl = (
