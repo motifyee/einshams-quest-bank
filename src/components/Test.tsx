@@ -6,8 +6,8 @@ import {
     SettingsActionsContext,
     TestsActionsContext,
 } from '../lib/context';
-import MultiChoiceQuestion from './MultiChoiceQ';
-import MatchingQuestionGroup from './MatchingQ';
+import MultiChoiceQ from './MultiChoiceQ';
+import MatchingQG from './MatchingQ';
 import { setTest } from '../lib/reducer';
 
 function Test({ questPanel }: { questPanel: React.RefObject<HTMLDivElement> }) {
@@ -26,12 +26,12 @@ function Test({ questPanel }: { questPanel: React.RefObject<HTMLDivElement> }) {
         dispatchQuestions(setTest(tests[0], settings.shuffleQuestions));
     }, []);
 
-    function questionGroup(q: QuestionGroup, i: number) {
+    function questionGroup(q: QG, i: number) {
         switch (q.type) {
             case 'MULTICHOICE_QG':
-                return <MultiChoiceQuestion qg={q} index={i + 1} />;
-            // case 'MATCHING_QG':
-            //     return <MultiChoiceQuestion qg={q} index={i + 1} />;
+                return <MultiChoiceQ qg={q} index={i + 1} />;
+            case 'MATCHING_QG':
+                return <MatchingQG qg={q} index={i + 1} />;
             default:
                 return null;
         }
@@ -39,7 +39,7 @@ function Test({ questPanel }: { questPanel: React.RefObject<HTMLDivElement> }) {
 
     return (
         <div ref={questPanel} className="questions p-4 flex-1 overflow-y-auto">
-            {test?.questionGroups.map((q, i) => (
+            {test?.qg.map((q, i) => (
                 <div key={q.id}>
                     {questionGroup(q, i)}
                     <br />

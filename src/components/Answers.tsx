@@ -33,7 +33,7 @@ function Answers({
         wrongColor = 'bg-red-700',
         defaultColor = 'bg-slate-800';
 
-    function answerStyle(answer: Answer) {
+    function answerStyle(answer: A) {
         if (!settings.testModeOn)
             return answer.correct ? correctColor : defaultColor;
 
@@ -48,7 +48,7 @@ function Answers({
         return answer.correct ? correctColor : wrongColor;
     }
 
-    const answers = question.answerGroup?.answers ?? [question.answer];
+    const answers = question.ag?.answers ?? [question.answer];
 
     return (
         <>

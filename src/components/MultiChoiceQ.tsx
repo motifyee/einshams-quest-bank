@@ -3,7 +3,7 @@ import Answers from './Answers';
 import { memo, useCallback, useContext, useMemo } from 'react';
 import { SettingsActionsContext, SettingsContext } from '../lib/context';
 
-const MultiSelectQuestion = memo(
+const MultiSelectQ = memo(
     ({
         qgId,
         question,
@@ -62,7 +62,7 @@ const MultiSelectQuestion = memo(
     }
 );
 
-export default function MultiSelectQuestionGroup({
+export default function MultiSelectQG({
     qg,
     index,
 }: {
@@ -100,7 +100,7 @@ export default function MultiSelectQuestionGroup({
             <div className="question-group-title">{qg.title}</div>
             {questions.map((q, i) => (
                 <div key={q.id}>
-                    <MultiSelectQuestion
+                    <MultiSelectQ
                         qgId={qg.id}
                         question={q}
                         index={index + i + 1}

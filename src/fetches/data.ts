@@ -1,19 +1,19 @@
 import { v4 as uuid } from 'uuid';
 import {
-    questionIsCountable,
-    questionGroupCorrectAnswersCount,
-    questionGroupCountablesCount,
-    questionIsCorrect,
-    questionSelecedAnswerId,
-    testCorrectAnswersCount,
-    testCountablesCount,
-    questionGroupShuffleQuestions,
-    testShuffleQuestions,
-    testSelectAnswer,
-    questionGroupSelectAnswer,
-    questionSelectAnswer,
-    questionGroupUnselectAll,
-    testUnselectAll,
+    qIsCountable,
+    qgCorrectAnswersCount,
+    qgCountablesCount,
+    qIsCorrect,
+    qSelecedAnswerId,
+    tCorrectAnswersCount,
+    tCountablesCount,
+    qgShuffleQuestions,
+    tShuffleQuestions,
+    tSelectAnswer,
+    qgSelectAnswer,
+    qSelectAnswer,
+    qgUnselectAll,
+    tUnselectAll,
 } from '../lib/state-methods';
 const l = console.log;
 export function answer({
@@ -23,7 +23,7 @@ export function answer({
     selected,
     image,
     imageAlt,
-}: Answer): Answer {
+}: A): A {
     return {
         id: id || uuid(),
         value,
@@ -34,10 +34,7 @@ export function answer({
     };
 }
 
-export function answerGroup({
-    id,
-    answers = [],
-}: Partial<AnswerGroup>): AnswerGroup {
+export function answerGroup({ id, answers = [] }: Partial<AG>): AG {
     return {
         id: id || uuid(),
         answers,
@@ -62,31 +59,31 @@ export function answerGroup({
 }
 
 const questionBase = {
-    countable: questionIsCountable,
-    isCorrect: questionIsCorrect,
-    selectedId: questionSelecedAnswerId,
-    selectAnswer: questionSelectAnswer,
+    countable: qIsCountable,
+    isCorrect: qIsCorrect,
+    selectedId: qSelecedAnswerId,
+    selectAnswer: qSelectAnswer,
 };
 
 const questionGroupBase = {
-    countablesCount: questionGroupCountablesCount,
-    correctAnswersCount: questionGroupCorrectAnswersCount,
-    shuffled: questionGroupShuffleQuestions,
-    selectAnswer: questionGroupSelectAnswer,
-    unselectAll: questionGroupUnselectAll,
+    countablesCount: qgCountablesCount,
+    correctAnswersCount: qgCorrectAnswersCount,
+    shuffled: qgShuffleQuestions,
+    selectAnswer: qgSelectAnswer,
+    unselectAll: qgUnselectAll,
 };
 
 export function multiChoiceQuestion({
     id,
     questionText,
-    answerGroup: answers,
+    ag: answers,
     image,
     imageAlt,
 }: Partial<MultiChoiceQ>): MultiChoiceQ {
     return {
         id: id || uuid(),
         questionText,
-        answerGroup: answers,
+        ag: answers,
         type: 'MULTICHOICE_Q',
         image,
         imageAlt,
@@ -184,7 +181,7 @@ export function matchingQuestion({
     id = '',
     questionText,
     answer,
-    answerGroup: answers,
+    ag: answers,
     image,
     imageAlt,
 }: Partial<MatchingQ>): MatchingQ {
@@ -192,7 +189,7 @@ export function matchingQuestion({
         id: id || uuid(),
         questionText,
         answer,
-        answerGroup: answers, // TODO wether to inherit from parent questions or keep it
+        ag: answers, // TODO wether to inherit from parent questions or keep it
         image,
         imageAlt,
         type: 'MATCHING_Q',
@@ -246,7 +243,7 @@ export function parseMultiChoiceQuestion(text: string): MultiChoiceQ {
         questionText: question,
         image,
         imageAlt,
-        answerGroup: answerGroup({
+        ag: answerGroup({
             answers: answersTxt.map((answerTxt, i) =>
                 answer({
                     id: uuid(),
@@ -352,7 +349,7 @@ export function parseValueQuestionGroup(text: string): ValueQG {
 }
 
 export function parseTest(title: string, text: string): Test {
-    const groups: QuestionGroup[] = [];
+    const groups: QG[] = [];
     const questionGroups = text.split('#qg#');
     questionGroups.forEach((questionText) => {
         const [questionType, questionGroup] = questionText
@@ -381,13 +378,13 @@ export function parseTest(title: string, text: string): Test {
     return {
         id: uuid(),
         title: title,
-        questionGroups: groups,
-        correctAnswersCount: testCorrectAnswersCount,
-        countables: testCountablesCount,
-        shuffled: testShuffleQuestions,
-        selectAnswer: testSelectAnswer,
-        unselectAll: testUnselectAll,
-        cache: { questionGroups: groups } as Test,
+        qg: groups,
+        correctAnswersCount: tCorrectAnswersCount,
+        countables: tCountablesCount,
+        shuffled: tShuffleQuestions,
+        selectAnswer: tSelectAnswer,
+        unselectAll: tUnselectAll,
+        cache: { qg: groups } as Test,
     };
 }
 

@@ -4,10 +4,9 @@ import { ReducerWithoutAction } from 'react';
 
 // ############################### Questions ###############################
 const l = console.log;
-export const addQuestion = createAction(
-    'questions/add',
-    (question: QuestionGroup) => ({ payload: { question } })
-);
+export const addQuestion = createAction('questions/add', (question: QG) => ({
+    payload: { question },
+}));
 // export const removeQuestion = createAction<string>('remove');
 export const removeQuestion = createAction(
     'questions/remove',
@@ -17,7 +16,7 @@ export const removeQuestion = createAction(
 );
 export const updateQuestion = createAction(
     'questions/update',
-    (questionId: string, properties: Partial<QuestionGroup>) => ({
+    (questionId: string, properties: Partial<QG>) => ({
         payload: { questionId, ...properties },
     })
 );
@@ -122,13 +121,13 @@ export const reducer = (state: Test, action: Action): Test => {
     if (action.type === addQuestion.type)
         return {
             ...state,
-            questionGroups: [...state.questionGroups, action.payload.question],
+            qg: [...state.qg, action.payload.question],
         };
 
     if (action.type === removeQuestion.type)
         return {
             ...state,
-            questionGroups: state.questionGroups.filter(
+            qg: state.qg.filter(
                 (question) => question.id !== action.payload.questionId
             ),
         };
@@ -136,7 +135,7 @@ export const reducer = (state: Test, action: Action): Test => {
     if (action.type === updateQuestion.type)
         return {
             ...state,
-            ...state.questionGroups.map((question) =>
+            ...state.qg.map((question) =>
                 question.id === action.payload.questionId
                     ? { ...question, ...action.payload }
                     : question

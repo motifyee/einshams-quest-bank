@@ -1,21 +1,40 @@
+/**
+ * @shorthands:
+ * q:   Question
+ * qg:  QuestionGroup
+ * a:   Answer
+ * ag:  AnswerGroup
+ * al:  AnswerList
+ * t:   Test
+ * s:   Subject
+ * sg:  SubjectGroup
+ */
+
 type ReturnTypes<U> = U extends () => any ? ReturnType<U> : never;
 
 type QTypes =
-    | 'MULTICHOICE_Q'
-    | 'TRUEORFALSE_Q'
-    | 'VALUE_Q'
-    | 'MATCHING_Q'
-    | 'MULTICHOICE_QG'
-    | 'TRUEORFALSE_QG'
-    | 'VALUE_QG'
-    | 'MATCHING_QG'
-    | 'TEST'
-    | 'ANSWER'
-    | 'ANSWERGROUP'
-    | 'SAVEDANSWER'
-    | 'SCORE'
-    | 'SUBJECT'
-    | 'SUBJECTS';
+    | 'QUESTION' // question
+    | 'MULTICHOICE_Q' // mcq
+    | 'TRUEORFALSE_Q' // tofq
+    | 'VALUE_Q' // vq
+    | 'MATCHING_Q' // mq
+    | 'MULTICHOICE_QG' // mcqg
+    | 'TRUEORFALSE_QG' // tofqg
+    | 'VALUE_QG' // vqg
+    | 'MATCHING_QG' // mqg
+    | 'TEST' // test
+    | 'SCORE' // score
+    | 'SUBJECT' // subject
+    | 'SUBJECTS'; // subjects
+
+type ATypes =
+    | 'ANSWER' // Answer
+    | 'AG' // ag
+    | 'SAVED_A' // sa
+    | 'MULTICHOICE_A' // mca
+    | 'TRUEORFALSE_A' // tofa
+    | 'VALUE_A' // va
+    | 'MATCHING_A'; // ma
 
 type QBase = {
     id: string;
@@ -28,8 +47,8 @@ type QBase = {
 
     countable: () => boolean;
 
-    answer?: Answer;
-    answerGroup?: AnswerGroup;
+    answer?: A;
+    ag?: AG;
     selectAnswer: (string) => QBase;
 
     // properties
@@ -100,19 +119,19 @@ interface MatchingQG extends QGBase {
 
 type Question = MultiChoiceQ | MatchingQ | TrueOrFalseQ | ValueQ;
 
-type QuestionGroup = MultiChoiceQG | MatchingQG | TrueOrFalseQG | ValueQG;
+type QG = MultiChoiceQG | MatchingQG | TrueOrFalseQG | ValueQG;
 
 interface Test extends Shuffleable {
     id: string;
     title: string;
-    questionGroups: QuestionGroup[];
+    qg: QG[];
     correctAnswersCount: () => number;
     countables: () => number;
     selectAnswer: (string, string, string) => Test;
     unselectAll: () => Test;
 }
 
-type Answer = {
+type A = {
     id: string;
     value: string | number | boolean;
     correct?: boolean; // this is the correct answer, should be selected
@@ -124,9 +143,9 @@ type Answer = {
 // value
 // true or false
 // matching
-type AnswerGroup = {
+type AG = {
     id: string;
-    answers: Answer[];
+    answers: A[];
     // ic?: boolean; // is correctly answered by the user
     get isCorrect(): boolean; // is correct
 };
