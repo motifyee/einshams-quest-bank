@@ -91,14 +91,14 @@ export const unselectAllQuestionsAnswers = createAction(
 
 export const shuffleAnswers = createAction(
     'questions/answers/shuffleOne',
-    (questionId: string, question: MultiChoiceQuestion, shuffle: boolean) => ({
+    (questionId: string, question: MultiChoiceQ, shuffle: boolean) => ({
         payload: { questionId, question, shuffle },
     })
 );
 
 export const shuffleAllQuestionsAnswers = createAction(
     'questions/answers/shuffleAll',
-    (questions: MultiChoiceQuestion[], shuffle: boolean) => ({
+    (questions: MultiChoiceQ[], shuffle: boolean) => ({
         payload: { questions, shuffle },
     })
 );

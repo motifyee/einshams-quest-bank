@@ -14,7 +14,7 @@ const MultiSelectQuestion = memo(
         settings,
     }: {
         qgId: string;
-        question: MultiChoiceQuestion;
+        question: MultiChoiceQ;
         index: number;
         blurred: boolean;
         unblur: (questionId: string) => void;
@@ -63,10 +63,10 @@ const MultiSelectQuestion = memo(
 );
 
 export default function MultiSelectQuestionGroup({
-    questionGroup: qg,
+    qg,
     index,
 }: {
-    questionGroup: MultiChoiceQuestionGroup;
+    qg: MultiChoiceQG;
     index: number;
 }) {
     const settings = useContext(SettingsContext);

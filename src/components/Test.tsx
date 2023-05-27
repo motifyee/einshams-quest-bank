@@ -6,8 +6,8 @@ import {
     SettingsActionsContext,
     TestsActionsContext,
 } from '../lib/context';
-import MultiChoiceQuestion from './MultiChoiceQuestion';
-import MatchingQuestionGroup from './MatchingQuestion';
+import MultiChoiceQuestion from './MultiChoiceQ';
+import MatchingQuestionGroup from './MatchingQ';
 import { setTest } from '../lib/reducer';
 
 function Test({ questPanel }: { questPanel: React.RefObject<HTMLDivElement> }) {
@@ -28,8 +28,10 @@ function Test({ questPanel }: { questPanel: React.RefObject<HTMLDivElement> }) {
 
     function questionGroup(q: QuestionGroup, i: number) {
         switch (q.type) {
-            case 'MULTICHOICEQUESTIONGROUP':
-                return <MultiChoiceQuestion questionGroup={q} index={i + 1} />;
+            case 'MULTICHOICE_QG':
+                return <MultiChoiceQuestion qg={q} index={i + 1} />;
+            // case 'MATCHING_QG':
+            //     return <MultiChoiceQuestion qg={q} index={i + 1} />;
             default:
                 return null;
         }
