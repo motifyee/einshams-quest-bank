@@ -14,16 +14,24 @@ import {
     qSelectAnswer,
     qgUnselectAll,
     tUnselectAll,
+    tSetAnswer,
+    qUnselectAnswer,
+    qAddAnswer,
+    qCorrectAnswerId,
+    qgSetAnswer,
+    qgUnselectAnswer,
+    tUnselectAnswer,
+    qgSelectingId,
 } from '../lib/state-methods';
 const l = console.log;
 export function answer({
     id,
-    value,
+    value = '',
     correct,
     selected,
     image,
     imageAlt,
-}: A): A {
+}: Partial<Answer>): Answer {
     return {
         id: id || uuid(),
         value,
@@ -34,56 +42,49 @@ export function answer({
     };
 }
 
-export function answerGroup({ id, answers = [] }: Partial<AG>): AG {
+export function answerGroup({
+    id,
+    answers = [],
+}: Partial<AnswerGroup>): AnswerGroup {
     return {
         id: id || uuid(),
         answers,
-        get isCorrect() {
-            let c = this.answers.some((e) => e.selected);
-            // // multichoice, trueorfalse and match questions
-            // this.answers.some((e) => e.correct && e.selected) ||
-            // // value questions
-            // this.answers.find((e) => e.selected)?.value ===
-            //     this.answers.find((e) => e.correct)?.value;
-            return c;
-        },
-        // ic: function () {
-        //     return (
-        //         this.answers.some((e) => e.correct === e.selected) ||
-        //         // value questions
-        //         this.answers.find((e) => e.selected)?.value ===
-        //             this.answers.find((e) => e.correct)?.value
-        //     );
-        // },
     };
 }
-
+// : Partial<Question>
 const questionBase = {
     countable: qIsCountable,
     isCorrect: qIsCorrect,
     selectedId: qSelecedAnswerId,
+    correctId: qCorrectAnswerId,
     selectAnswer: qSelectAnswer,
+    unselectAnswer: qUnselectAnswer,
+    addAnswer: qAddAnswer,
 };
 
+// :Partial<QuestionGroup>
 const questionGroupBase = {
     countablesCount: qgCountablesCount,
     correctAnswersCount: qgCorrectAnswersCount,
     shuffled: qgShuffleQuestions,
     selectAnswer: qgSelectAnswer,
+    setAnswer: qgSetAnswer,
     unselectAll: qgUnselectAll,
+    unselectAnswer: qgUnselectAnswer,
+    selectingId: qgSelectingId,
 };
 
 export function multiChoiceQuestion({
     id,
     questionText,
-    ag: answers,
+    ag,
     image,
     imageAlt,
 }: Partial<MultiChoiceQ>): MultiChoiceQ {
     return {
         id: id || uuid(),
         questionText,
-        ag: answers,
+        ag: ag || answerGroup({}),
         type: 'MULTICHOICE_Q',
         image,
         imageAlt,
@@ -111,14 +112,21 @@ export function multiChoiceQuestionGroup({
 export function trueOrFalseQuestion({
     id,
     questionText,
-    answer,
+    answerValue = true,
     image,
     imageAlt,
 }: Partial<TrueOrFalseQ>): TrueOrFalseQ {
     return {
         id: id || uuid(),
         questionText,
-        answer,
+        ag: answerGroup({
+            answers: [
+                answer({
+                    value: answerValue,
+                    correct: true,
+                }),
+            ],
+        }),
         type: 'TRUEORFALSE_Q',
         image,
         imageAlt,
@@ -145,14 +153,21 @@ export function trueOrFalseQuestionGroup({
 export function valueQuestion({
     id,
     questionText,
-    answer,
+    answerValue = 0,
     image,
     imageAlt,
 }: Partial<ValueQ>): ValueQ {
     return {
         id: id || uuid(),
         questionText,
-        answer,
+        ag: answerGroup({
+            answers: [
+                answer({
+                    value: answerValue,
+                    correct: true,
+                }),
+            ],
+        }),
         type: 'VALUE_Q',
         image,
         imageAlt,
@@ -178,18 +193,16 @@ export function valueQuestionGroup({
 }
 
 export function matchingQuestion({
-    id = '',
+    id = uuid(),
     questionText,
-    answer,
-    ag: answers,
+    ag = answerGroup({}),
     image,
     imageAlt,
 }: Partial<MatchingQ>): MatchingQ {
     return {
-        id: id || uuid(),
+        id,
         questionText,
-        answer,
-        ag: answers, // TODO wether to inherit from parent questions or keep it
+        ag,
         image,
         imageAlt,
         type: 'MATCHING_Q',
@@ -277,11 +290,18 @@ export function parseMatchingQuestion(text: string): MatchingQ {
     const [_, image, imageAlt, clean] = parseImageData(text);
     const [question, answerText] = clean.split('\n');
     return matchingQuestion({
-        id: uuid(),
         questionText: question,
         image,
         imageAlt,
-        answer: answer({ id: uuid(), value: answerText }),
+        ag: answerGroup({
+            answers: [
+                answer({
+                    id: uuid(),
+                    value: answerText,
+                    correct: true,
+                }),
+            ],
+        }),
     } as MatchingQ);
 }
 
@@ -302,12 +322,25 @@ export function parseTrueOrFalseQuestion(text: string): TrueOrFalseQ {
     text = text.trim();
     if (!text.length) return trueOrFalseQuestion({});
     const [_, image, imageAlt, clean] = parseImageData(text);
-    const [question, _answer] = clean.split('\n');
+    const [question, _answer] = clean.split('\n').map((e) => e.trim());
     return trueOrFalseQuestion({
         questionText: question,
         image,
         imageAlt,
-        answer: answer({ id: uuid(), value: _answer === '1' }),
+        ag: answerGroup({
+            answers: [
+                answer({
+                    id: uuid(),
+                    value: 'True',
+                    correct: _answer === '1',
+                }),
+                answer({
+                    id: uuid(),
+                    value: 'False',
+                    correct: _answer === '0',
+                }),
+            ],
+        }),
     });
 }
 
@@ -333,7 +366,14 @@ export function parseValueQuestion(text: string): ValueQ {
         questionText: question,
         image,
         imageAlt,
-        answer: answer({ id: uuid(), value: answerValue }),
+        ag: answerGroup({
+            answers: [
+                answer({
+                    id: uuid(),
+                    value: answerValue,
+                }),
+            ],
+        }),
     });
 }
 
@@ -349,7 +389,7 @@ export function parseValueQuestionGroup(text: string): ValueQG {
 }
 
 export function parseTest(title: string, text: string): Test {
-    const groups: QG[] = [];
+    const groups: QuestionGroup[] = [];
     const questionGroups = text.split('#qg#');
     questionGroups.forEach((questionText) => {
         const [questionType, questionGroup] = questionText
@@ -383,7 +423,9 @@ export function parseTest(title: string, text: string): Test {
         countables: tCountablesCount,
         shuffled: tShuffleQuestions,
         selectAnswer: tSelectAnswer,
+        setAnswer: tSetAnswer,
         unselectAll: tUnselectAll,
+        unselectAnswer: tUnselectAnswer,
         cache: { qg: groups } as Test,
     };
 }

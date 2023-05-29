@@ -1,10 +1,6 @@
 import { Component, useContext } from 'react';
-import {
-    TestsActionsContext,
-    SettingsContext,
-    testsContext,
-} from '../lib/context';
-import { SettingsActionsContext } from '../lib/context';
+import { TestsActCtx, SettingsCtx, testsCtx } from '../lib/context';
+import { SettingsActCtx } from '../lib/context';
 import Checkbox from './Checkbox';
 import { setTest, shuffleTest } from '../lib/reducer';
 
@@ -13,10 +9,10 @@ export default function Sidebar({
 }: {
     questPanel: React.RefObject<HTMLDivElement>;
 }) {
-    const settings = useContext(SettingsContext),
-        setSettings = useContext(SettingsActionsContext),
-        tests = useContext(testsContext),
-        dispatchQuestions = useContext(TestsActionsContext);
+    const settings = useContext(SettingsCtx),
+        setSettings = useContext(SettingsActCtx),
+        tests = useContext(testsCtx),
+        dispatchQuestions = useContext(TestsActCtx);
     const { sidebarOn } = settings;
 
     const onClick = (action: string, value: string | boolean | number) => {

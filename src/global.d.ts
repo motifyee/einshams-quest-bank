@@ -29,7 +29,7 @@ type QTypes =
 
 type ATypes =
     | 'ANSWER' // Answer
-    | 'AG' // ag
+    | 'ANSERGROUP' // ag
     | 'SAVED_A' // sa
     | 'MULTICHOICE_A' // mca
     | 'TRUEORFALSE_A' // tofa
@@ -47,20 +47,23 @@ type QBase = {
 
     countable: () => boolean;
 
-    answer?: A;
-    ag?: AG;
+    // answer?: Answer; //
+    answerValue?: string | boolean | number;
+    ag: AnswerGroup; // mcq, tofq, vq, mq
     selectAnswer: (string) => QBase;
+    addAnswer: (Answer) => QBase;
+    unselectAnswer: () => QBase;
 
     // properties
     isCorrect: () => boolean; // is correct
     selectedId: () => string;
-    providedAnswer?: string;
+    correctId: () => string;
 };
 
 type Shuffleable = {
     shuffle?: boolean;
     shuffled: (boolean) => Shuffleable;
-    cache: Shuffleable;
+    cache: Shuffleable; // cache of the original qg
 };
 
 interface QGBase extends Shuffleable {
@@ -72,7 +75,10 @@ interface QGBase extends Shuffleable {
     countablesCount: () => number; // counts as correct
     correctAnswersCount: () => number; // which are answerd correctly
     selectAnswer: (string, string) => QGBase;
+    setAnswer: (string, Answer) => QGBase;
     unselectAll: () => QGBase;
+    unselectAnswer: (qId: string) => QGBase;
+    selectingId: (ansId: string) => string;
 }
 
 interface MultiChoiceQ extends QBase {
@@ -119,19 +125,21 @@ interface MatchingQG extends QGBase {
 
 type Question = MultiChoiceQ | MatchingQ | TrueOrFalseQ | ValueQ;
 
-type QG = MultiChoiceQG | MatchingQG | TrueOrFalseQG | ValueQG;
+type QuestionGroup = MultiChoiceQG | MatchingQG | TrueOrFalseQG | ValueQG;
 
 interface Test extends Shuffleable {
     id: string;
     title: string;
-    qg: QG[];
+    qg: QuestionGroup[];
     correctAnswersCount: () => number;
     countables: () => number;
     selectAnswer: (string, string, string) => Test;
+    setAnswer: (string, string, Answer) => Test;
     unselectAll: () => Test;
+    unselectAnswer: (qgId: string, qId: string) => Test;
 }
 
-type A = {
+type Answer = {
     id: string;
     value: string | number | boolean;
     correct?: boolean; // this is the correct answer, should be selected
@@ -143,11 +151,11 @@ type A = {
 // value
 // true or false
 // matching
-type AG = {
+type AnswerGroup = {
     id: string;
-    answers: A[];
+    answers: Answer[];
     // ic?: boolean; // is correctly answered by the user
-    get isCorrect(): boolean; // is correct
+    // get isCorrect(): boolean; // is correct
 };
 
 type SavedAnswer = {

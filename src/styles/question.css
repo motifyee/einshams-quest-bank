@@ -1,13 +1,54 @@
+.qg {
+    counter-reset: qCount;
+    @apply flex flex-col gap-8;
+}
+.qg-title {
+    @apply text-xl text-gray-300 font-bold text-center sticky top-0 bg-green-800 p-2 z-[1];
+}
+.qg-questions {
+    @apply rounded-md sticky top-0;
+}
+
+.matching-answers-title {
+    @apply text-xl  font-bold text-gray-300 w-full rounded bg-slate-700 text-center sticky top-0 p-2 z-[20];
+}
+
+.matching-answers-container {
+    max-height: 30vh;
+    overflow-y: auto;
+    position: -webkit-sticky;
+    border-radius: 0;
+    @apply sticky bottom-0 border-4 z-[1] flex flex-col items-center rounded-none;
+}
+
+.matching-answers {
+    @apply bg-[#213547] p-4 flex flex-wrap gap-4 justify-center;
+}
+.matching-answer {
+    @apply shadow-ans rounded
+    text-gray-300 px-2 bg-slate-700 cursor-pointer;
+    /* flex  items-center; */
+}
+
+.matching-answer.selected {
+    @apply bg-amber-700;
+}
+
 .quest-container {
     @apply bg-slate-700 border border-slate-500 shadow-quest rounded-md w-full font-ibm;
 }
 
+.quest-container.selected {
+    @apply bg-slate-900  border-amber-500;
+}
+
 .quest-text {
-    @apply text-gray-300 p-4 text-xl text-justify leading-10;
+    @apply text-gray-300 p-4 text-xl rounded-lg text-justify leading-10;
+    @apply min-[600px]:cursor-pointer;
 }
 
 .questions {
-    counter-reset: qindex;
+    counter-reset: qCount;
 }
 .quest-span {
     @apply text-sm
@@ -19,19 +60,21 @@
     absolute left-0 w-full flex place-content-center items-center
     bg-number aspect-square border rounded-full border-slate-500
     m-auto top-0 bottom-0;
-    counter-increment: qindex;
-    content: counter(qindex);
+    counter-increment: qCount;
+    content: counter(qCount);
     /* ° */
 }
+
 .quest-span.correct::after {
     @apply bg-green-700;
 }
+
 .quest-span.incorrect::after {
     @apply bg-red-700;
 }
 
-.quest-answers {
-    @apply relative flex flex-wrap p-4 gap-4 justify-center content-center items-center;
+.quest-answers:has(.quest-answer) {
+    @apply p-4 relative flex flex-wrap gap-4 justify-center content-center items-center;
 }
 
 .quest-answers .blur {

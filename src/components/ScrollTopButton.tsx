@@ -1,12 +1,12 @@
 import { useContext, useState } from 'react';
-import { SettingsContext } from '../lib/context';
+import { SettingsCtx } from '../lib/context';
 
 export default function ScrollTopButton({
     questPanel,
 }: {
     questPanel: React.RefObject<HTMLDivElement>;
 }) {
-    const settings = useContext(SettingsContext);
+    const settings = useContext(SettingsCtx);
 
     const raise = settings.testModeOn && settings.correctAnswers ? 'raise' : '',
         show = !settings.sidebarOn ? '' : 'none';
