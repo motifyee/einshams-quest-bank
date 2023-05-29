@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { TestsActionsContext, SettingsContext } from '../lib/context';
+import { TestsActCtx } from '../lib/context';
 import { selectAnswer } from '../lib/reducer';
 
 const vibrate = (pattern = 35): boolean => {
@@ -17,14 +17,13 @@ function Answers({
     settings: Partial<Settings>;
 }) {
     // const settings = useContext(SettingsContext);
-    const dispatchQuestions = useContext(TestsActionsContext);
+    const dispatchQ = useContext(TestsActCtx);
 
     const select = (answerId: string) => {
         if (!settings.testModeOn) return console.log('testMode is off');
         if (settings.correctAnswers && question.selectedId())
             return vibrate(60) && console.log('already selected');
-        console.log('selecting answer', answerId);
-        dispatchQuestions(selectAnswer(qgId, question.id, answerId));
+        dispatchQ(selectAnswer(qgId, question.id, answerId));
         vibrate();
     };
 
@@ -45,21 +44,37 @@ function Answers({
         if (!answer.selected)
             return answer.correct ? correctColor : defaultColor;
 
+        if (question.isCorrect() && question.type === 'MATCHING_Q')
+            return correctColor;
+
         return answer.correct ? correctColor : wrongColor;
     }
 
-    const answers = question.answerGroup?.answers ?? [question.answer];
+    function isShowable(answer: Answer) {
+        // console.log(
+        //     'isShowable',
+        //     settings.testModeOn,
+        //     answer.selected,
+        //     answer.correct,
+        //     question.type
+        // );
+        if (question.type === 'MATCHING_Q')
+            if (settings.testModeOn && answer.selected) return true;
+            else if (!settings.testModeOn && answer.correct) return true;
+            else return false;
+
+        if (!!answer.id) return true;
+        return false;
+    }
 
     return (
         <>
             {/* Answers */}
-            {answers.map((answer, index) =>
-                !!answer ? ( // might be undefined for matching questions
+            {question.ag?.answers.map((answer, index) =>
+                isShowable(answer) ? ( // might be undefined for some matching questions
                     <div
                         key={answer.id}
-                        className={`quest-answer ${question.selectedId()} ${answerStyle(
-                            answer
-                        )}`}
+                        className={`quest-answer ${answerStyle(answer)}`}
                     >
                         <input
                             type="radio"
@@ -75,9 +90,7 @@ function Answers({
                             {answer.value}
                         </label>
                     </div>
-                ) : (
-                    ''
-                )
+                ) : null
             )}
         </>
     );

@@ -1,6 +1,6 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import burger from '/assets/burger.svg';
-import { SettingsActionsContext, SettingsContext } from '../lib/context';
+import { SettingsActCtx, SettingsCtx } from '../lib/context';
 import {
     TableClient,
     TableEntity,
@@ -8,7 +8,6 @@ import {
     AzureNamedKeyCredential,
     odata,
 } from '@azure/data-tables';
-import { InteractiveBrowserCredential } from '@azure/identity';
 async function azureTable() {
     let sasURL =
         'https://icsltn2qastore.table.core.windows.net/?sv=2022-11-02&ss=t&srt=sco&sp=rwdlacu&se=2123-05-17T10:14:54Z&st=2023-05-17T02:14:54Z&spr=https&sig=D1FbXTuBcFKeEJ5lUw14FlIFRb4kl2C84uU9c90aqEA%3D';
@@ -71,20 +70,68 @@ async function azureTable() {
 }
 
 function Header() {
-    const settings = useContext(SettingsContext);
-    const setSettings = useContext(SettingsActionsContext);
+    const settings = useContext(SettingsCtx);
+    const setSettings = useContext(SettingsActCtx);
     function toggleMenu() {
-        setSettings({ ...settings, sidebarOn: !settings.sidebarOn });
+        setSettings((settings) => ({
+            ...settings,
+            sidebarOn: true,
+        }));
     }
+    useEffect(() => {
+        console.log('installed kepress listener @Header');
+        // root.addEventListener('contextmenu', (e) => e.preventDefault());
+        document.addEventListener('keypress', (e) => {
+            // console.log('pressed code:', e.code, 'pressed key:', e.key);
+            if (e.key === 'a')
+                setSettings((settings) => ({
+                    ...settings,
+                    sidebarOn: !settings.sidebarOn,
+                }));
+            else if (e.key === 's')
+                setSettings((settings) => ({
+                    ...settings,
+                    shuffleQuestions: !settings.shuffleQuestions,
+                }));
+            else if (e.key === 'c')
+                setSettings((settings) => ({
+                    ...settings,
+                    blurAnswers: !settings.blurAnswers,
+                }));
+            else if (e.key === 'q')
+                setSettings((settings) => ({
+                    ...settings,
+                    testModeOn: !settings.testModeOn,
+                }));
+            else if (e.key === 'w')
+                setSettings((settings) => ({
+                    ...settings,
+                    correctAnswers: !settings.correctAnswers,
+                }));
+            else if (e.code === 'Space') {
+                setSettings((settings) => ({
+                    ...settings,
+                    shuffleAnswers: false,
+                    testModeOn: false,
+                    correctAnswers: false,
+                    blurAnswers: false,
+                    sidebarOn: false,
+                }));
+                e.preventDefault();
+            }
+        });
+    }, []);
     return (
         <div className="burger-btn sticky top-0 min-h-[50px] px-4 flex items-center justify-between bg-green-700 ">
             <div>
+                {/* <button> */}
                 <img
                     className="cursor-pointer"
                     onClick={toggleMenu}
                     src={burger}
                     alt="Menu"
                 />
+                {/* </button> */}
             </div>
             <div
                 onClick={() => {

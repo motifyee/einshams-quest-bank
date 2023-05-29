@@ -1,6 +1,14 @@
-import { memo, useCallback, useContext, useMemo } from 'react';
-import { SettingsActionsContext, SettingsContext } from '../lib/context';
+import {
+    memo,
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useRef,
+} from 'react';
+import { SettingsActCtx, SettingsCtx } from '../lib/context';
 import useCaptureUpdate from '../lib/CaptureComponentUpdateHook';
+import Answers from './Answers';
 
 const vibrate = (pattern = 35): boolean => {
     if ('vibrate' in navigator) navigator.vibrate(pattern);
@@ -8,66 +16,82 @@ const vibrate = (pattern = 35): boolean => {
 };
 
 function Question({
-    id,
+    qgId,
     index,
-    questionEl,
-    answersEl,
     question,
     blurred,
     unblur,
-    correctAnswers,
+    settings,
+    selected,
+    onClick,
+    setRef,
 }: {
-    id: string;
+    qgId: string;
     index: number;
-    questionEl: JSX.Element;
-    answersEl: JSX.Element;
     question: Question;
     blurred: boolean;
     unblur: (questionId: string) => void;
-    correctAnswers: boolean;
+    settings: Partial<Settings>;
+    selected?: boolean;
+    onClick?: (q: Question) => void;
+    setRef?: (ref: React.RefObject<HTMLElement>, q: Question) => void;
 }) {
     const [isCaptured] = useCaptureUpdate(
-        id,
+        question.id,
         () => '', //console.log('rendering ...', question.selectedId),
         true,
         300
     );
-    // const settings = useContext(SettingsContext);
-    // const setSettings = useContext(SettingsActionsContext);
+
+    const ref = useRef<HTMLElement>(null);
+    useEffect(() => {
+        if (setRef) setRef(ref, question);
+    }, [ref]);
 
     const answered = !!question.selectedId(),
-        correcting = correctAnswers,
         correct = question.isCorrect(),
-        spbg =
-            answered && correcting ? (correct ? 'correct' : 'incorrect') : '';
+        spanClr =
+            answered && settings.correctAnswers
+                ? correct
+                    ? 'correct'
+                    : 'incorrect'
+                : '';
 
-    // const unblur = useCallback(
-    //     (questionId: string) =>
-    //         setSettings((settings) => ({
-    //             ...settings,
-    //             unbluredQuestion: questionId,
-    //         })),
-    //     []
-    // );
     return (
-        <div className={`quest-container`}>
+        <div
+            ref={ref as React.Ref<HTMLDivElement>}
+            className={`quest-container ${selected ? 'selected' : ''}`}
+            onClick={() => (onClick ? onClick(question) : null)}
+        >
             <h2
                 className={`quest-text ${(isCaptured && 'bg-slate-600') || ''}`}
             >
-                <span className={`quest-span ${spbg}`}>{index}</span>
-                {questionEl}
+                <span className={`quest-span ${spanClr}`}>{index}</span>
+
+                <span>{question.questionText}</span>
+                {/* Image */}
+                {question.image && (
+                    <img
+                        src={'./assets/' + question.image}
+                        alt={question.imageAlt}
+                        className="quest-image w-full h-auto my-2 "
+                    />
+                )}
             </h2>
             <div className="quest-answers">
                 {/* Answers blur */}
                 {blurred && (
-                    <div className="blur" onDoubleClick={() => unblur(id)} />
+                    <div
+                        className="blur"
+                        onDoubleClick={() => unblur(question.id)}
+                    />
                 )}
 
                 {/* Answers */}
-                {answersEl}
+                <Answers settings={settings} question={question} qgId={qgId} />
             </div>
         </div>
     );
 }
 
-export default Question;
+export default memo(Question);

@@ -1,43 +1,41 @@
 // ######################################## Question ########################################
 
-import { useMemo } from 'react';
+import Answers from '../components/Answers';
 
-export function questionSelecedAnswerId(this: Question): string {
-    return (
-        this.answerGroup?.answers?.find((answer) => answer.selected)?.id ?? ''
-    );
+export function qSelecedAnswerId(this: Question): string {
+    return this.ag?.answers?.find((answer) => answer.selected)?.id ?? '';
 }
 
-export function questionIsCorrect(this: Question): boolean {
-    return (
-        this.answerGroup?.answers?.some(
-            (answer) => answer.correct && answer.selected
-        ) ?? false
-    );
+export function qCorrectAnswerId(this: Question): string {
+    return this.ag?.answers?.find((answer) => answer.correct)?.id ?? '';
 }
 
-export function questionIsAnswered(this: Question): boolean {
-    return (
-        this.answerGroup?.answers?.some((answer) => answer.selected) ?? false
-    );
+export function qIsCorrect(this: Question): boolean {
+    let correctId = this.correctId();
+    return !!correctId && correctId === this.selectedId();
+    // return this.type === 'MULTICHOICE_Q'
+    // ? this.ag?.answers?.some(
+    //       (answer) => answer.correct && answer.selected
+    //   ) ?? false
 }
 
-export function questionIsCountable(this: Question): boolean {
+export function qIsAnswered(this: Question): boolean {
+    return this.ag?.answers?.some((answer) => answer.selected) ?? false;
+}
+
+export function qIsCountable(this: Question): boolean {
     return (
         !!this.questionText &&
-        (!!this.answerGroup?.answers?.length || !!this.answer?.value)
+        (this.ag?.answers?.some((answer: Answer) => answer.correct) ?? false)
     );
 }
 
-export function questionSelectAnswer(
-    this: Question,
-    answerId: string
-): Question {
+export function qSelectAnswer(this: Question, answerId: string): Question {
     return {
         ...this,
-        answerGroup: {
-            ...this.answerGroup,
-            answers: this.answerGroup?.answers?.map((answer) => ({
+        ag: {
+            ...this.ag,
+            answers: this.ag?.answers?.map((answer) => ({
                 ...answer,
                 selected: answer.id === answerId,
             })),
@@ -45,17 +43,45 @@ export function questionSelectAnswer(
     } as Question;
 }
 
+export function qAddAnswer(this: Question, answer: Answer): Question {
+    const oldAg = (ag: AnswerGroup) =>
+        this.type === 'MATCHING_Q'
+            ? ag.answers.filter((e) => e.correct)
+            : ag.answers;
+
+    return {
+        ...this,
+        ag: {
+            ...this.ag,
+            answers: [...oldAg(this.ag), answer],
+        },
+    } as Question;
+}
+
+export function qUnselectAnswer(this: Question): Question {
+    // console.log('unselectAnswer', this.type, this.id);
+    if (this.type === 'MATCHING_Q')
+        return {
+            ...this,
+            ag: {
+                ...this.ag,
+                answers: this.ag?.answers?.filter((e) => e.correct),
+            },
+        } as Question;
+    return this.selectAnswer('') as Question;
+}
+
 // ######################################## QuestionGroup ########################################
 
-export function questionGroupCorrectAnswersCount(this: QuestionGroup): number {
+export function qgCorrectAnswersCount(this: QuestionGroup): number {
     return (this.questions as Question[]).filter((q) => q.isCorrect()).length;
 }
 
-export function questionGroupCountablesCount(this: QuestionGroup): number {
+export function qgCountablesCount(this: QuestionGroup): number {
     return (this.questions as Question[]).filter((q) => q.countable()).length;
 }
 
-export function questionGroupShuffleQuestions(
+export function qgShuffleQuestions(
     this: QuestionGroup,
     shuffle: boolean
 ): QuestionGroup {
@@ -76,7 +102,7 @@ export function questionGroupShuffleQuestions(
     } as QuestionGroup;
 }
 
-export function questionGroupSelectAnswer(
+export function qgSelectAnswer(
     this: QuestionGroup,
     questionId: string,
     answerId: string
@@ -92,55 +118,105 @@ export function questionGroupSelectAnswer(
     } as QuestionGroup;
 }
 
-export function questionGroupUnselectAll(this: QuestionGroup) {
+export function qgSetAnswer(this: QuestionGroup, qId: string, answer: Answer) {
+    // console.log('setting qg answer');
     return {
         ...this,
-        questions: this.questions.map((question) => question.selectAnswer('')),
+        questions: this.questions.map((question) =>
+            question.id === qId ? question.addAnswer(answer) : question
+        ),
     } as QuestionGroup;
 }
 
+export function qgUnselectAll(this: QuestionGroup) {
+    return {
+        ...this,
+        questions: this.questions.map((question) => question.unselectAnswer()),
+    } as QuestionGroup;
+}
+
+export function qgUnselectAnswer(
+    this: QuestionGroup,
+    questionId: string
+): QuestionGroup {
+    return {
+        ...this,
+        questions: this.questions.map((question) =>
+            question.id === questionId ? question.unselectAnswer() : question
+        ),
+    } as QuestionGroup;
+}
+
+// find the question with selected answer id
+export function qgSelectingId(this: QuestionGroup, ansId: string): string {
+    return (
+        (this.questions as QBase[]).find((q) => q.selectedId() === ansId)?.id ??
+        ''
+    );
+}
 // ######################################## Test ########################################
 
-export function testCorrectAnswersCount(this: Test): number {
-    return this.questionGroups.reduce(
+export function tCorrectAnswersCount(this: Test): number {
+    return this.qg.reduce(
         (acc, questionGroup) => acc + questionGroup.correctAnswersCount(),
         0
     );
 }
 
-export function testCountablesCount(this: Test): number {
-    return this.questionGroups.reduce(
+export function tCountablesCount(this: Test): number {
+    return this.qg.reduce(
         (acc, questionGroup) => acc + questionGroup.countablesCount(),
         0
     );
 }
 
-export function testShuffleQuestions(this: Test, shuffle: boolean): Test {
+export function tShuffleQuestions(this: Test, shuffle: boolean): Test {
     // console.log('testShuffleQuestions');
     return {
         ...this,
         shuffle: shuffle,
-        questionGroups: this.questionGroups.map((qg) => qg.shuffled(shuffle)),
+        qg: this.qg.map((qg) => qg.shuffled(shuffle)),
     } as Test;
 }
 
-export function testSelectAnswer(
+export function tSelectAnswer(
     this: Test,
     qgId: string,
-    questionId: string,
+    qId: string,
     answerId: string
 ): Test {
     return {
         ...this,
-        questionGroups: this.questionGroups.map((qg) =>
-            qg.id === qgId ? qg.selectAnswer(questionId, answerId) : qg
+        qg: this.qg.map((qg) =>
+            qg.id === qgId ? qg.selectAnswer(qId, answerId) : qg
         ),
     } as Test;
 }
 
-export function testUnselectAll(this: Test): Test {
+export function tSetAnswer(
+    this: Test,
+    qgId: string,
+    qId: string,
+    answer: Answer
+): Test {
     return {
         ...this,
-        questionGroups: this.questionGroups.map((qg) => qg.unselectAll()),
+        qg: this.qg.map((qg) =>
+            qg.id === qgId ? qg.setAnswer(qId, answer) : qg
+        ),
+    } as Test;
+}
+
+export function tUnselectAll(this: Test): Test {
+    return {
+        ...this,
+        qg: this.qg.map((qg) => qg.unselectAll()),
+    } as Test;
+}
+
+export function tUnselectAnswer(this: Test, qgId: string, qId: string): Test {
+    return {
+        ...this,
+        qg: this.qg.map((qg) => (qg.id === qgId ? qg.unselectAnswer(qId) : qg)),
     } as Test;
 }

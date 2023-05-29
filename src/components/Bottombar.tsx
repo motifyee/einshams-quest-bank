@@ -1,17 +1,13 @@
 import { useContext, useMemo } from 'react';
-import {
-    TestsActionsContext,
-    TestContext,
-    SettingsContext,
-} from '../lib/context';
+import { TestsActCtx, TestCtx, SettingsCtx } from '../lib/context';
 import { unselectAllQuestionsAnswers } from '../lib/reducer';
 
 // TODO optimize showing and hiding while maintaining the animations
 // TODO hint:start at pos:0 and add class to animate to pos:1
 function Bottombar() {
-    const settings = useContext(SettingsContext),
-        test = useContext(TestContext),
-        dispatchQuestions = useContext(TestsActionsContext);
+    const settings = useContext(SettingsCtx),
+        test = useContext(TestCtx),
+        dispatchQuestions = useContext(TestsActCtx);
 
     const show = settings.testModeOn && settings.correctAnswers;
 

@@ -1,45 +1,50 @@
 import { useContext, useEffect } from 'react';
 import {
-    testsContext,
-    SettingsContext,
-    TestContext,
-    SettingsActionsContext,
-    TestsActionsContext,
+    testsCtx,
+    SettingsCtx,
+    TestCtx,
+    SettingsActCtx,
+    TestsActCtx,
 } from '../lib/context';
-import MultiChoiceQuestion from './MultiChoiceQuestion';
-import MatchingQuestionGroup from './MatchingQuestion';
+import MultiChoiceQ from './MultiChoiceQ';
+import MatchingQG from './MatchingQ';
 import { setTest } from '../lib/reducer';
 
 function Test({ questPanel }: { questPanel: React.RefObject<HTMLDivElement> }) {
-    const test = useContext(TestContext),
-        settings = useContext(SettingsContext),
-        setSettings = useContext(SettingsActionsContext),
-        tests = useContext(testsContext),
-        dispatchQuestions = useContext(TestsActionsContext);
+    const test = useContext(TestCtx),
+        settings = useContext(SettingsCtx),
+        setSettings = useContext(SettingsActCtx),
+        tests = useContext(testsCtx),
+        dispatchQuestions = useContext(TestsActCtx);
 
     useEffect(() => {
-        setSettings({
-            ...settings,
-            sidebarOn: false,
-            test: tests[0],
-        });
-        dispatchQuestions(setTest(tests[0], settings.shuffleQuestions));
+        let init = tests.find((t) => t.title === settings.test?.title);
+        if (!init) {
+            console.log('init', init, settings);
+            setSettings({ ...settings, test: tests[0] });
+            init = tests[0];
+        }
+        dispatchQuestions(setTest(init, settings.shuffleQuestions));
     }, []);
 
-    function questionGroup(q: QuestionGroup, i: number) {
-        switch (q.type) {
-            case 'MULTICHOICEQUESTIONGROUP':
-                return <MultiChoiceQuestion questionGroup={q} index={i + 1} />;
+    function questionGroup(qg: QuestionGroup, i: number) {
+        switch (qg.type) {
+            case 'MULTICHOICE_QG':
+                return <MultiChoiceQ qg={qg} index={i + 1} />;
+            case 'MATCHING_QG':
+                return <MatchingQG qg={qg} index={i + 1} />;
             default:
                 return null;
         }
     }
 
     return (
-        <div ref={questPanel} className="questions p-4 flex-1 overflow-y-auto">
-            {test?.questionGroups.map((q, i) => (
-                <div key={q.id}>
-                    {questionGroup(q, i)}
+        <div ref={questPanel} className="questions px-4 overflow-y-auto">
+            {test?.qg.map((qg, i) => (
+                <div key={qg.id}>
+                    {/* {test ? console.log(qg) + '' : ''} */}
+
+                    {questionGroup(qg, i)}
                     <br />
                 </div>
             ))}
