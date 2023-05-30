@@ -1,5 +1,4 @@
 import React, {
-    Ref,
     useCallback,
     useContext,
     useEffect,
@@ -7,50 +6,15 @@ import React, {
     useRef,
     useState,
 } from 'react';
-import Answers from './Answers';
 import Question from './Question';
 import { SettingsActCtx, SettingsCtx, TestsActCtx } from '../lib/context';
-import { selectAnswer, setAnswer, unselectAnswer } from '../lib/reducer';
+import { setAnswer, unselectAnswer } from '../lib/reducer';
 
-function MatchingQ({ question }: { question: MatchingQ }) {
-    const questionElement = (
-        <>
-            <span>{question.questionText}</span>
-            {/* Image */}
-            {question.image && (
-                <img
-                    src={'./assets/' + question.image}
-                    alt={question.imageAlt}
-                    className="quest-image w-full h-auto my-2 "
-                />
-            )}
-            test
-        </>
-    );
-    // const answerElement = <Answers qgId={qgid} />;
+const vibrate = (pattern = 35): boolean => {
+    if ('vibrate' in navigator) navigator.vibrate(pattern);
+    return true;
+};
 
-    const props = {
-        id: question.id,
-        index: 1,
-        question: questionElement,
-        // answers: answerElement,
-    };
-
-    // return <Question {...props} />;
-}
-/**
- * Question:
- * - Answer: intra-selected
- * - Answer: inter-selected
- * - Answer: inter-selected
- * - Answer: inter-selected
- *
- *
- * Context:
- * - All Answers
- * - All Questions
- *
- */
 export default function MatchingQG({
     qg,
     index,
@@ -92,7 +56,7 @@ export default function MatchingQG({
 
     useEffect(() => {
         let answers: { [id: string]: Answer } = {};
-        const rand = () => 0; // Math.random() - 0.5;
+        const rand = () => Math.random() - 0.5;
         [...qg.questions].sort(rand).forEach((q) => {
             q.ag?.answers.forEach((ans) => {
                 answers[ans.id] = ans;
@@ -109,9 +73,10 @@ export default function MatchingQG({
     const onQClick = useCallback(
         (q: Question) => {
             if (!settings.testModeOn) return;
-            if (q.selectedId() && settings.correctAnswers) return;
+            if (q.selectedId() && settings.correctAnswers) return vibrate(60);
 
             setSelectedQ(q.id);
+            vibrate();
         },
         [settings.testModeOn, settings.correctAnswers]
     );
@@ -129,12 +94,14 @@ export default function MatchingQG({
         (qg: QuestionGroup, selectedQId: string, ans: Answer) => {
             let assocQId: string = qg.selectingId(ans.id);
             if (!selectedQId)
-                return qRefs[assocQId]?.current?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center',
-                });
+                return (
+                    qRefs[assocQId]?.current?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center',
+                    }) && vibrate()
+                );
             if (assocQId && settings.testModeOn && settings.correctAnswers)
-                return;
+                return vibrate(60);
 
             dispatchQ(unselectAnswer(qg.id, assocQId));
             dispatchQ(
@@ -145,6 +112,7 @@ export default function MatchingQG({
                 })
             );
             setSelectedQ('');
+            vibrate();
         },
         [selectedQ, settings.testModeOn, settings.correctAnswers]
     );

@@ -10,11 +10,6 @@ import { SettingsActCtx, SettingsCtx } from '../lib/context';
 import useCaptureUpdate from '../lib/CaptureComponentUpdateHook';
 import Answers from './Answers';
 
-const vibrate = (pattern = 35): boolean => {
-    if ('vibrate' in navigator) navigator.vibrate(pattern);
-    return true;
-};
-
 function Question({
     qgId,
     index,
@@ -64,7 +59,13 @@ function Question({
             onClick={() => (onClick ? onClick(question) : null)}
         >
             <h2
-                className={`quest-text ${(isCaptured && 'bg-slate-600') || ''}`}
+                className={`quest-text ${
+                    (isCaptured &&
+                        (question.type === 'MATCHING_Q'
+                            ? 'bg-slate-800'
+                            : 'bg-slate-600')) ||
+                    ''
+                }`}
             >
                 <span className={`quest-span ${spanClr}`}>{index}</span>
 
