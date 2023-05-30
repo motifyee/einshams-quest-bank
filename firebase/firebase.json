@@ -5,6 +5,6 @@
     "hosting": {
         "public": "public",
         "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-        "site": "agri-asu"
+        "site": "ein-shams"
     }
 }
