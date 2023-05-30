@@ -269,8 +269,8 @@ export function parseMultiChoiceQuestion(text: string): MultiChoiceQ {
 }
 
 export function parseMultiChoichQuestionGroup(text: string): MultiChoiceQG {
-    const [_, image, imageAlt, clean] = parseImageData(text);
-    const questions: MultiChoiceQ[] = clean
+    // const [_, image, imageAlt, clean] = parseImageData(text);
+    const questions: MultiChoiceQ[] = text
         .split('#q#')
         .map((e) => e.trim())
         .filter((e) => e.length)
@@ -279,8 +279,8 @@ export function parseMultiChoichQuestionGroup(text: string): MultiChoiceQG {
     return multiChoiceQuestionGroup({
         id: uuid(),
         questions,
-        image,
-        imageAlt,
+        // image,
+        // imageAlt,
     } as MultiChoiceQG);
 }
 

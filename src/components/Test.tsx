@@ -39,7 +39,7 @@ function Test({ questPanel }: { questPanel: React.RefObject<HTMLDivElement> }) {
     }
 
     return (
-        <div ref={questPanel} className="questions px-4 overflow-y-auto">
+        <div ref={questPanel} className="questions  overflow-y-auto">
             {test?.qg.map((qg, i) => (
                 <div key={qg.id}>
                     {/* {test ? console.log(qg) + '' : ''} */}

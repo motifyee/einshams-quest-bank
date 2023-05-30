@@ -39,19 +39,21 @@ export default function MultiSelectQG({
         <div className="qg question-group">
             <div className="qg-title">اختيار من متعدد</div>
             {/* <div className="question-group-title">{qg.title}</div> */}
-            {questions.map((q, i) => (
-                <div key={q.id}>
-                    <Question
-                        qgId={qg.id}
-                        question={q}
-                        index={index + i + 1}
-                        blurred={blurred(q.id)}
-                        unblur={unblur}
-                        settings={settingsPart}
-                    />
-                    {/* <br /> */}
-                </div>
-            ))}
+            <div className="questions">
+                {questions.map((q, i) => (
+                    <div key={q.id}>
+                        <Question
+                            qgId={qg.id}
+                            question={q}
+                            index={index + i + 1}
+                            blurred={blurred(q.id)}
+                            unblur={unblur}
+                            settings={settingsPart}
+                        />
+                        {/* <br /> */}
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }

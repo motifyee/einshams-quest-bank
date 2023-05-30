@@ -151,26 +151,28 @@ export default function MatchingQG({
 
     return (
         <div className="qg">
-            <div className="qg-title">صل بالإجابة الصحيحة</div>
-            {qg.questions.map((q, i) => (
-                <div key={q.id}>
-                    <Question
-                        qgId={qg.id}
-                        question={q}
-                        index={index + i + 1}
-                        blurred={isBlurred(q.id)}
-                        unblur={unblur}
-                        settings={settingsPart}
-                        onClick={onQClick}
-                        selected={selectedQ === q.id}
-                        setRef={setRefs}
-                    />
-                </div>
-            ))}
+            <div className="qg-title">صل الإجابة الصحيحة</div>
+            <div className="questions">
+                {qg.questions.map((q, i) => (
+                    <div key={q.id}>
+                        <Question
+                            qgId={qg.id}
+                            question={q}
+                            index={index + i + 1}
+                            blurred={isBlurred(q.id)}
+                            unblur={unblur}
+                            settings={settingsPart}
+                            onClick={onQClick}
+                            selected={selectedQ === q.id}
+                            setRef={setRefs}
+                        />
+                    </div>
+                ))}
+            </div>
 
             {settings.testModeOn && (
                 <div className="quest-container matching-answers-container relative ">
-                    <div className="matching-answers-title">صل الإجابة</div>
+                    <div className="matching-answers-title">اختر الإجابة</div>
                     <div className="quest-answers matching-answers">
                         {Object.values(answers).map((ans) => (
                             <div

@@ -1,16 +1,17 @@
 .qg {
     counter-reset: qCount;
-    @apply flex flex-col gap-8;
+    @apply flex flex-col;
 }
+.qg .questions {
+    @apply mx-4 mt-8 flex flex-col gap-8;
+}
+
 .qg-title {
-    @apply text-xl text-gray-300 font-bold text-center sticky top-0 bg-green-800 p-2 z-[1];
-}
-.qg-questions {
-    @apply rounded-md sticky top-0;
+    @apply text-xl text-gray-300 font-bold text-center sticky top-0 bg-blue-700 p-2 z-[1];
 }
 
 .matching-answers-title {
-    @apply text-xl  font-bold text-gray-300 w-full rounded bg-slate-700 text-center sticky top-0 p-2 z-[20];
+    @apply text-xl  font-bold text-gray-300 w-full rounded bg-orange-700 text-center sticky top-0 p-2 z-[20];
 }
 
 .matching-answers-container {
@@ -45,6 +46,9 @@
 .quest-text {
     @apply text-gray-300 p-4 text-xl rounded-lg text-justify leading-10;
     @apply min-[600px]:cursor-pointer;
+}
+.quest-text:has(~ .quest-answers div) {
+    @apply rounded-b-none;
 }
 
 .questions {
