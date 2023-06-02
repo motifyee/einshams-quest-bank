@@ -72,6 +72,7 @@ interface QGBase extends Shuffleable {
     imageAlt?: string;
     title?: string;
     type: QTypes;
+    questionIds: string[];
     countablesCount: () => number; // counts as correct
     correctAnswersCount: () => number; // which are answerd correctly
     selectAnswer: (string, string) => QGBase;
@@ -88,7 +89,7 @@ interface MultiChoiceQ extends QBase {
 
 interface MultiChoiceQG extends QGBase {
     type: 'MULTICHOICE_QG';
-    questions: MultiChoiceQ[];
+    questions?: MultiChoiceQ[];
 }
 
 interface TrueOrFalseQ extends QBase {
@@ -98,7 +99,7 @@ interface TrueOrFalseQ extends QBase {
 
 interface TrueOrFalseQG extends QGBase {
     type: 'TRUEORFALSE_QG';
-    questions: TrueOrFalseQ[];
+    questions?: TrueOrFalseQ[];
 }
 
 interface ValueQ extends QBase {
@@ -109,7 +110,7 @@ interface ValueQ extends QBase {
 
 interface ValueQG extends QGBase {
     type: 'VALUE_QG';
-    questions: ValueQ[];
+    questions?: ValueQ[];
 }
 
 interface MatchingQ extends QBase {
@@ -120,7 +121,7 @@ interface MatchingQ extends QBase {
 
 interface MatchingQG extends QGBase {
     type: 'MATCHING_QG';
-    questions: MatchingQ[];
+    questions?: MatchingQ[];
 }
 
 type Question = MultiChoiceQ | MatchingQ | TrueOrFalseQ | ValueQ;
@@ -130,7 +131,8 @@ type QuestionGroup = MultiChoiceQG | MatchingQG | TrueOrFalseQG | ValueQG;
 interface Test extends Shuffleable {
     id: string;
     title: string;
-    qg: QuestionGroup[];
+    qgs?: QuestionGroup[];
+    qgIds: string[];
     correctAnswersCount: () => number;
     countables: () => number;
     selectAnswer: (string, string, string) => Test;

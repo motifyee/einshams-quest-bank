@@ -1,52 +1,48 @@
 import Question from './Question';
 import { useCallback, useContext, useMemo } from 'react';
-import { SettingsActCtx, SettingsCtx } from '../lib/context';
+import { StoreCtx, useStore } from '../lib/context';
 
 export default function MultiSelectQG({
-    qg,
+    qgId,
     index,
 }: {
-    qg: MultiChoiceQG;
+    qgId: string;
     index: number;
 }) {
-    const settings = useContext(SettingsCtx);
-    const setSettings = useContext(SettingsActCtx);
+    const store = useStore();
 
     const blurred = (id: string) =>
-        !(settings.unblurredQuestion === id) &&
-        settings.blurAnswers &&
-        !settings.testModeOn;
+        (!(store.unblurredQuestion === id) &&
+            store.blurAnswers &&
+            !store.testModeOn) ??
+        false;
 
     const unblur = useCallback(
-        (questionId: string) =>
-            setSettings((settings) => ({
-                ...settings,
-                unblurredQuestion: questionId,
-            })),
+        (qId: string) => store.setUnblurredQuestion(qId),
         []
     );
 
     const settingsPart = useMemo(
         () => ({
-            testModeOn: settings.testModeOn,
-            correctAnswers: settings.correctAnswers,
+            testModeOn: store.testModeOn,
+            correctAnswers: store.correctAnswers,
         }),
-        [settings.testModeOn, settings.correctAnswers]
+        [store.testModeOn, store.correctAnswers]
     );
-    const { questions } = qg;
+
+    const qg = store.getQG(qgId);
+    const questions = qg?.questionIds;
 
     return (
         <div className="qg question-group">
             <div className="qg-title">اختيار من متعدد</div>
-            {/* <div className="question-group-title">{qg.title}</div> */}
             <div className="questions">
-                {questions.map((q, i) => (
-                    <div key={q.id}>
+                {questions?.map((qId, i) => (
+                    <div key={qId}>
                         <Question
-                            qgId={qg.id}
-                            question={q}
+                            question={store.getQ(qId)}
                             index={index + i + 1}
-                            blurred={blurred(q.id)}
+                            blurred={blurred(qId)}
                             unblur={unblur}
                             settings={settingsPart}
                         />

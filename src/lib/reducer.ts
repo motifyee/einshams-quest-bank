@@ -132,13 +132,13 @@ export const reducer = (state: Test, action: Action): Test => {
     if (action.type === addQuestion.type)
         return {
             ...state,
-            qg: [...state.qg, action.payload.question],
+            qgs: [...state.qgs, action.payload.question],
         };
 
     if (action.type === removeQuestion.type)
         return {
             ...state,
-            qg: state.qg.filter(
+            qgs: state.qgs.filter(
                 (question) => question.id !== action.payload.questionId
             ),
         };
@@ -146,7 +146,7 @@ export const reducer = (state: Test, action: Action): Test => {
     if (action.type === updateQuestion.type)
         return {
             ...state,
-            ...state.qg.map((question) =>
+            ...state.qgs.map((question) =>
                 question.id === action.payload.questionId
                     ? { ...question, ...action.payload }
                     : question

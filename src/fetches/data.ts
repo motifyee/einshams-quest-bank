@@ -23,6 +23,7 @@ import {
     tUnselectAnswer,
     qgSelectingId,
 } from '../lib/state-methods';
+import { q } from './agri-guiding-1';
 const l = console.log;
 export function answer({
     id,
@@ -104,6 +105,7 @@ export function multiChoiceQuestionGroup({
         image,
         imageAlt,
         questions,
+        questionIds: questions?.map((e) => e.id) || [],
         cache: { questions } as MultiChoiceQG,
         ...questionGroupBase,
     };
@@ -145,6 +147,7 @@ export function trueOrFalseQuestionGroup({
         imageAlt,
         type: 'TRUEORFALSE_QG',
         questions,
+        questionIds: questions?.map((e) => e.id) || [],
         cache: { questions } as TrueOrFalseQG,
         ...questionGroupBase,
     };
@@ -187,6 +190,7 @@ export function valueQuestionGroup({
         imageAlt,
         type: 'VALUE_QG',
         questions,
+        questionIds: questions?.map((e) => e.id) || [],
         cache: { questions } as ValueQG,
         ...questionGroupBase,
     };
@@ -212,7 +216,7 @@ export function matchingQuestion({
 
 export function matchingQuestionGroup({
     id,
-    questions: questions,
+    questions,
     image,
     imageAlt,
 }: MatchingQG): MatchingQG {
@@ -221,7 +225,8 @@ export function matchingQuestionGroup({
         image,
         imageAlt,
         type: 'MATCHING_QG',
-        questions: questions,
+        questions,
+        questionIds: questions?.map((e) => e.id) || [],
         cache: { questions } as MatchingQG,
         ...questionGroupBase,
     };
@@ -418,7 +423,8 @@ export function parseTest(title: string, text: string): Test {
     return {
         id: uuid(),
         title: title,
-        qg: groups,
+        qgs: groups,
+        qgIds: groups.map((e) => e.id),
         correctAnswersCount: tCorrectAnswersCount,
         countables: tCountablesCount,
         shuffled: tShuffleQuestions,
@@ -426,7 +432,7 @@ export function parseTest(title: string, text: string): Test {
         setAnswer: tSetAnswer,
         unselectAll: tUnselectAll,
         unselectAnswer: tUnselectAnswer,
-        cache: { qg: groups } as Test,
+        cache: { qgs: groups } as Test,
     };
 }
 

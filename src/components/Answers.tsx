@@ -1,6 +1,5 @@
 import { useContext } from 'react';
-import { TestsActCtx } from '../lib/context';
-import { selectAnswer } from '../lib/reducer';
+import { useSetQ, useTicScore } from '../lib/context';
 
 const vibrate = (pattern = 35): boolean => {
     if ('vibrate' in navigator) navigator.vibrate(pattern);
@@ -9,21 +8,21 @@ const vibrate = (pattern = 35): boolean => {
 
 function Answers({
     question,
-    qgId,
     settings,
 }: {
     question: Question;
-    qgId: string;
     settings: Partial<Settings>;
 }) {
-    // const settings = useContext(SettingsContext);
-    const dispatchQ = useContext(TestsActCtx);
+    const setQ = useSetQ(),
+        ticScore = useTicScore();
+    // const question = store[qId] as Question;
 
     const select = (answerId: string) => {
         if (!settings.testModeOn) return console.log('testMode is off');
         if (settings.correctAnswers && question.selectedId())
             return vibrate(60) && console.log('already selected');
-        dispatchQ(selectAnswer(qgId, question.id, answerId));
+        setQ(question.selectAnswer(answerId) as Question);
+        ticScore();
         vibrate();
     };
 

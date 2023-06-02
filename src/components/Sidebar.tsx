@@ -1,61 +1,57 @@
-import { Component, useContext } from 'react';
-import { TestsActCtx, SettingsCtx, testsCtx } from '../lib/context';
-import { SettingsActCtx } from '../lib/context';
+import {
+    useSidebarOn,
+    useSetSidebarOn,
+    useSetActiveTestId,
+    useSetTestModeOn,
+    useSetCorrectAnswers,
+    useSetBlurAnswers,
+    useSetShuffleQuestions,
+    useTestModeOn,
+    useGetAllTests,
+    useActiveTestId,
+    useCorrectAnswers,
+    useBlurAnswers,
+    useShuffleQuestions,
+} from '../lib/context';
 import Checkbox from './Checkbox';
-import { setTest, shuffleTest } from '../lib/reducer';
 
 export default function Sidebar({
     questPanel,
 }: {
     questPanel: React.RefObject<HTMLDivElement>;
 }) {
-    const settings = useContext(SettingsCtx),
-        setSettings = useContext(SettingsActCtx),
-        tests = useContext(testsCtx),
-        dispatchQuestions = useContext(TestsActCtx);
-    const { sidebarOn } = settings;
+    const tests = useGetAllTests()();
+
+    const sidebarOn = useSidebarOn(),
+        correctAnswers = useCorrectAnswers(),
+        blurAnswers = useBlurAnswers(),
+        shuffleQuestions = useShuffleQuestions(),
+        setSidebarOn = useSetSidebarOn(),
+        setCorrectAnswers = useSetCorrectAnswers(),
+        setBlurAnswers = useSetBlurAnswers(),
+        setShuffleQuestions = useSetShuffleQuestions(),
+        setTestModeOn = useSetTestModeOn(),
+        setActiveTestId = useSetActiveTestId(),
+        activeTestId = useActiveTestId(),
+        testModeOn = useTestModeOn();
 
     const onClick = (action: string, value: string | boolean | number) => {
         switch (action) {
             case 'selectedSubject':
-                const test = tests.find((e) => e.id === (value as string));
+                setActiveTestId(value as string);
                 questPanel.current?.scrollTo({ top: 0, behavior: 'smooth' });
-                setSettings({
-                    ...settings,
-                    sidebarOn: false,
-                    // subject: value as string,
-                    test,
-                });
-                return dispatchQuestions(
-                    setTest(test, settings.shuffleQuestions)
-                );
+                return setSidebarOn(false);
             case 'testModeOn':
-                return setSettings({
-                    ...settings,
-                    testModeOn: value as boolean,
-                });
+                return setTestModeOn(value as boolean);
             case 'correctAnswers':
-                return setSettings({
-                    ...settings,
-                    correctAnswers: value as boolean,
-                });
+                return setCorrectAnswers(value as boolean);
             case 'blurAnswers':
-                return setSettings({
-                    ...settings,
-                    blurAnswers: value as boolean,
-                });
+                return setBlurAnswers(value as boolean);
             case 'shuffleQuestions':
-                setSettings({
-                    ...settings,
-                    shuffleQuestions: value as boolean,
-                });
-                return dispatchQuestions(shuffleTest(value as boolean));
+                return setShuffleQuestions(value as boolean);
+            // return dispatchQuestions(shuffleTest(value as boolean));
 
-            case 'shuffleAnswers':
-                return setSettings({
-                    ...settings,
-                    shuffleAnswers: value as boolean,
-                });
+            // case 'shuffleQuestions':
             default:
                 return;
         }
@@ -78,15 +74,15 @@ export default function Sidebar({
                 <div className="subjects">
                     {/* <div className="sep" /> */}
                     <div className="sep" />
-                    {tests.map((test) => (
+                    {tests.map((t) => (
                         <div
-                            key={test.id}
+                            key={t.id}
                             className={`item ${
-                                settings.test?.id === test.id ? 'active' : ''
+                                activeTestId === t.id ? 'active' : ''
                             }`}
-                            onClick={() => onClick('selectedSubject', test.id)}
+                            onClick={() => onClick('selectedSubject', t.id)}
                         >
-                            {test.title}
+                            {t.title}
                         </div>
                     ))}
                 </div>
@@ -96,31 +92,31 @@ export default function Sidebar({
                     <div className="sep" />
                     <SettingsItem
                         title="وضع الإختبار"
-                        defaultValue={settings.testModeOn}
+                        defaultValue={testModeOn}
                         action={(v) => onClick('testModeOn', v)}
                     />
                     <SettingsItem
                         title="تصحيح الإجابات"
-                        enabled={settings.testModeOn}
-                        defaultValue={settings.correctAnswers}
+                        enabled={testModeOn}
+                        defaultValue={correctAnswers}
                         action={(v) => onClick('correctAnswers', v)}
                     />
                     <p />
                     <SettingsItem
                         title="تغشية الإجابات"
-                        enabled={!settings.testModeOn}
-                        defaultValue={settings.blurAnswers}
+                        enabled={!testModeOn}
+                        defaultValue={blurAnswers}
                         action={(v) => onClick('blurAnswers', v)}
                     />
                     <SettingsItem
                         title="مزج الأسئلة"
-                        defaultValue={settings.shuffleQuestions}
+                        defaultValue={shuffleQuestions}
                         action={(v) => onClick('shuffleQuestions', v)}
                     />
                     {/* <SettingsItem
                         title="Shuffle Answers"
-                        defaultValue={settings.shuffleAnswers}
-                        action={(v) => onClick('shuffleAnswers', v)}
+                        defaultValue={shuffleQuestions}
+                        action={(v) => onClick('shuffleQuestions', v)}
                     /> */}
                 </div>
                 <div className="credits">
@@ -135,7 +131,7 @@ export default function Sidebar({
                 onPointerMove={(e) => e.stopPropagation()}
                 onPointerDownCapture={(e) => e.stopPropagation()}
                 onPointerDown={(e) => e.stopPropagation()}
-                onClick={() => setSettings({ ...settings, sidebarOn: false })}
+                onClick={() => setSidebarOn(false)}
                 className={`${sidebarOn ? '' : 'off'} sidebar-overlay`}
             />
         </div>

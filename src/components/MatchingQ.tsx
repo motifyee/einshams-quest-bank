@@ -125,7 +125,7 @@ export default function MatchingQG({
                     <div key={q.id}>
                         <Question
                             qgId={qg.id}
-                            question={q}
+                            qId={q}
                             index={index + i + 1}
                             blurred={isBlurred(q.id)}
                             unblur={unblur}

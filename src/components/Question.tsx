@@ -1,19 +1,12 @@
-import {
-    memo,
-    useCallback,
-    useContext,
-    useEffect,
-    useMemo,
-    useRef,
-} from 'react';
-import { SettingsActCtx, SettingsCtx } from '../lib/context';
+import { memo, useContext, useEffect, useRef } from 'react';
+import { useGetQ, useSetUnblurredQuestion } from '../lib/context';
 import useCaptureUpdate from '../lib/CaptureComponentUpdateHook';
 import Answers from './Answers';
 
 function Question({
-    qgId,
     index,
     question,
+    // qId,
     blurred,
     unblur,
     settings,
@@ -21,9 +14,9 @@ function Question({
     onClick,
     setRef,
 }: {
-    qgId: string;
     index: number;
     question: Question;
+    // qId: string;
     blurred: boolean;
     unblur: (questionId: string) => void;
     settings: Partial<Settings>;
@@ -31,12 +24,16 @@ function Question({
     onClick?: (q: Question) => void;
     setRef?: (ref: React.RefObject<HTMLElement>, q: Question) => void;
 }) {
-    const [isCaptured] = useCaptureUpdate(
-        question.id,
-        () => '', //console.log('rendering ...', question.selectedId),
-        true,
-        300
-    );
+    const setUnblurredQuestion = useSetUnblurredQuestion();
+    // let question = getQ(qId);
+    if (!question?.id) return null;
+
+    // const [isCaptured] = useCaptureUpdate(
+    //     question.id,
+    //     () => '', //console.log('rendering ...', q.selectedId),
+    //     true,
+    //     300
+    // );
 
     const ref = useRef<HTMLElement>(null);
     useEffect(() => {
@@ -58,15 +55,14 @@ function Question({
             className={`quest-container ${selected ? 'selected' : ''}`}
             onClick={() => (onClick ? onClick(question) : null)}
         >
-            <h2
-                className={`quest-text ${
+            <h2 className={`quest-text `}>
+                {/* ${
                     (isCaptured &&
                         (question.type === 'MATCHING_Q'
                             ? 'bg-slate-800'
                             : 'bg-slate-600')) ||
                     ''
-                }`}
-            >
+                } */}
                 <span className={`quest-span ${spanClr}`}>{index}</span>
 
                 <span>{question.questionText}</span>
@@ -84,12 +80,12 @@ function Question({
                 {blurred && (
                     <div
                         className="blur"
-                        onDoubleClick={() => unblur(question.id)}
+                        onDoubleClick={() => setUnblurredQuestion(question.id)}
                     />
                 )}
 
                 {/* Answers */}
-                <Answers settings={settings} question={question} qgId={qgId} />
+                <Answers settings={settings} question={question} />
             </div>
         </div>
     );

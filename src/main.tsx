@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import './styles/App.css';
-import QuestionsProvider, { SettingsActCtx, SettingsCtx } from './lib/context';
+import StoreCtxProvider from './lib/context';
 import Header from './components/Header';
 import Bottombar from './components/Bottombar';
 import Test from './components/Test';
@@ -20,7 +20,7 @@ function App() {
     }, []);
 
     return (
-        <QuestionsProvider>
+        <StoreCtxProvider>
             <Header />
             <Sidebar questPanel={questPanelRef} />
 
@@ -28,7 +28,7 @@ function App() {
             <ScrollTopButton questPanel={questPanelRef} />
 
             <Bottombar />
-        </QuestionsProvider>
+        </StoreCtxProvider>
     );
 }
 

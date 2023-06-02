@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 import burger from '/assets/burger.svg';
-import { SettingsActCtx, SettingsCtx } from '../lib/context';
+import { StoreCtx, useStore } from '../lib/context';
 import {
     TableClient,
     TableEntity,
@@ -70,55 +70,34 @@ async function azureTable() {
 }
 
 function Header() {
-    const settings = useContext(SettingsCtx);
-    const setSettings = useContext(SettingsActCtx);
-    function toggleMenu() {
-        setSettings((settings) => ({
-            ...settings,
-            sidebarOn: true,
-        }));
-    }
+    const store = useStore(),
+        {
+            setSidebarOn,
+            setBlurAnswers,
+            setTestModeOn,
+            setCorrectAnswers,
+            setShuffleQuestions,
+        } = store,
+        title = store.getTest(store.activeTestId)?.title;
+
     useEffect(() => {
         console.log('installed kepress listener @Header');
         // root.addEventListener('contextmenu', (e) => e.preventDefault());
         document.addEventListener('keypress', (e) => {
             // console.log('pressed code:', e.code, 'pressed key:', e.key);
-            if (e.key === 'a')
-                setSettings((settings) => ({
-                    ...settings,
-                    sidebarOn: !settings.sidebarOn,
-                }));
-            else if (e.key === 's')
-                setSettings((settings) => ({
-                    ...settings,
-                    shuffleQuestions: !settings.shuffleQuestions,
-                }));
-            else if (e.key === 'c')
-                setSettings((settings) => ({
-                    ...settings,
-                    blurAnswers: !settings.blurAnswers,
-                }));
-            else if (e.key === 'q')
-                setSettings((settings) => ({
-                    ...settings,
-                    testModeOn: !settings.testModeOn,
-                }));
-            else if (e.key === 'w')
-                setSettings((settings) => ({
-                    ...settings,
-                    correctAnswers: !settings.correctAnswers,
-                }));
+            if (e.key === 'a') setSidebarOn((v) => !v);
+            else if (e.key === 's') setShuffleQuestions((v) => !v);
+            else if (e.key === 'c') setBlurAnswers((v) => !v);
+            else if (e.key === 'q') setTestModeOn((v) => !v);
+            else if (e.key === 'w') setCorrectAnswers((v) => !v);
             else if (e.code === 'Space') {
-                setSettings((settings) => ({
-                    ...settings,
-                    shuffleAnswers: false,
-                    testModeOn: false,
-                    correctAnswers: false,
-                    blurAnswers: false,
-                    sidebarOn: false,
-                }));
-                e.preventDefault();
+                setSidebarOn(false);
+                setShuffleQuestions(false);
+                setBlurAnswers(false);
+                setTestModeOn(false);
+                setCorrectAnswers(false);
             }
+            e.preventDefault();
         });
     }, []);
     return (
@@ -127,7 +106,7 @@ function Header() {
                 {/* <button> */}
                 <img
                     className="cursor-pointer"
-                    onClick={toggleMenu}
+                    onClick={() => setSidebarOn(true)}
                     src={burger}
                     alt="Menu"
                 />
@@ -139,7 +118,7 @@ function Header() {
                 }}
                 className="text-slate-200 border-double border-b-4 text-xl cursor-pointer"
             >
-                {settings.test?.title}
+                {title}
             </div>
             <div />
         </div>

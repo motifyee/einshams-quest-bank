@@ -86,13 +86,15 @@ export function qgShuffleQuestions(
     shuffle: boolean
 ): QuestionGroup {
     const answers: any = {};
-    this.questions.forEach(
+    this.questions?.forEach(
         (question) => (answers[question.id] = question.selectedId())
     );
     const ans = (q: Question) => q.selectAnswer(answers[q.id]);
     const rand = () => Math.random() - 0.5;
 
-    let questions = [...(this.cache as QuestionGroup).questions].map(ans);
+    let questions = [...((this.cache as QuestionGroup).questions ?? [])].map(
+        ans
+    );
     if (shuffle) questions = questions.sort(rand);
 
     return {
@@ -110,7 +112,7 @@ export function qgSelectAnswer(
     // console.log('questionGroupSelectAnswer', questionId, answerId, this.)
     return {
         ...this,
-        questions: this.questions.map((question) =>
+        questions: this.questions?.map((question) =>
             question.id === questionId
                 ? question.selectAnswer(answerId)
                 : question
@@ -122,7 +124,7 @@ export function qgSetAnswer(this: QuestionGroup, qId: string, answer: Answer) {
     // console.log('setting qg answer');
     return {
         ...this,
-        questions: this.questions.map((question) =>
+        questions: this.questions?.map((question) =>
             question.id === qId ? question.addAnswer(answer) : question
         ),
     } as QuestionGroup;
@@ -131,7 +133,7 @@ export function qgSetAnswer(this: QuestionGroup, qId: string, answer: Answer) {
 export function qgUnselectAll(this: QuestionGroup) {
     return {
         ...this,
-        questions: this.questions.map((question) => question.unselectAnswer()),
+        questions: this.questions?.map((question) => question.unselectAnswer()),
     } as QuestionGroup;
 }
 
@@ -141,7 +143,7 @@ export function qgUnselectAnswer(
 ): QuestionGroup {
     return {
         ...this,
-        questions: this.questions.map((question) =>
+        questions: this.questions?.map((question) =>
             question.id === questionId ? question.unselectAnswer() : question
         ),
     } as QuestionGroup;
@@ -157,16 +159,20 @@ export function qgSelectingId(this: QuestionGroup, ansId: string): string {
 // ######################################## Test ########################################
 
 export function tCorrectAnswersCount(this: Test): number {
-    return this.qg.reduce(
-        (acc, questionGroup) => acc + questionGroup.correctAnswersCount(),
-        0
+    return (
+        this.qgs?.reduce(
+            (acc, questionGroup) => acc + questionGroup.correctAnswersCount(),
+            0
+        ) || 0
     );
 }
 
 export function tCountablesCount(this: Test): number {
-    return this.qg.reduce(
-        (acc, questionGroup) => acc + questionGroup.countablesCount(),
-        0
+    return (
+        this.qgs?.reduce(
+            (acc, questionGroup) => acc + questionGroup.countablesCount(),
+            0
+        ) || 0
     );
 }
 
@@ -175,7 +181,7 @@ export function tShuffleQuestions(this: Test, shuffle: boolean): Test {
     return {
         ...this,
         shuffle: shuffle,
-        qg: this.qg.map((qg) => qg.shuffled(shuffle)),
+        qgs: this.qgs?.map((qg) => qg.shuffled(shuffle)),
     } as Test;
 }
 
@@ -187,7 +193,7 @@ export function tSelectAnswer(
 ): Test {
     return {
         ...this,
-        qg: this.qg.map((qg) =>
+        qgs: this.qgs?.map((qg) =>
             qg.id === qgId ? qg.selectAnswer(qId, answerId) : qg
         ),
     } as Test;
@@ -201,7 +207,7 @@ export function tSetAnswer(
 ): Test {
     return {
         ...this,
-        qg: this.qg.map((qg) =>
+        qgs: this.qgs?.map((qg) =>
             qg.id === qgId ? qg.setAnswer(qId, answer) : qg
         ),
     } as Test;
@@ -210,13 +216,15 @@ export function tSetAnswer(
 export function tUnselectAll(this: Test): Test {
     return {
         ...this,
-        qg: this.qg.map((qg) => qg.unselectAll()),
+        qgs: this.qgs?.map((qg) => qg.unselectAll()),
     } as Test;
 }
 
 export function tUnselectAnswer(this: Test, qgId: string, qId: string): Test {
     return {
         ...this,
-        qg: this.qg.map((qg) => (qg.id === qgId ? qg.unselectAnswer(qId) : qg)),
+        qgs: this.qgs?.map((qg) =>
+            qg.id === qgId ? qg.unselectAnswer(qId) : qg
+        ),
     } as Test;
 }

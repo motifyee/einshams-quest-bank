@@ -25,6 +25,7 @@
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.11.1",
         "ts-node": "^10.9.1",
+        "use-context-selector": "^1.4.1",
         "use-immer": "^0.9.0",
         "uuid": "^9.0.0"
     },
