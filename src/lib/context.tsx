@@ -154,10 +154,10 @@ const useStoreHK = (): Store => {
                     for (const q of qg.questions ?? []) {
                         questions[q.id] = q;
                     }
-                    delete qg.questions;
+                    // delete qg.questions;
                     qgs[qg.id] = qg;
                 }
-                delete test.qgs;
+                // delete test.qgs;
                 tests[test.id] = test;
             }
 

@@ -13,6 +13,7 @@ import {
     useBlurAnswers,
     useShuffleQuestions,
 } from '../lib/context';
+import { useSettingsStore } from '../lib/store';
 import Checkbox from './Checkbox';
 
 export default function Sidebar({
@@ -21,34 +22,30 @@ export default function Sidebar({
     questPanel: React.RefObject<HTMLDivElement>;
 }) {
     const tests = useGetAllTests()();
-
-    const sidebarOn = useSidebarOn(),
-        correctAnswers = useCorrectAnswers(),
-        blurAnswers = useBlurAnswers(),
-        shuffleQuestions = useShuffleQuestions(),
-        setSidebarOn = useSetSidebarOn(),
-        setCorrectAnswers = useSetCorrectAnswers(),
-        setBlurAnswers = useSetBlurAnswers(),
-        setShuffleQuestions = useSetShuffleQuestions(),
-        setTestModeOn = useSetTestModeOn(),
-        setActiveTestId = useSetActiveTestId(),
-        activeTestId = useActiveTestId(),
-        testModeOn = useTestModeOn();
+    const {
+        sidebarOn,
+        correctAnswers,
+        blurAnswers,
+        shuffleQuestions,
+        activeTestId,
+        testModeOn,
+        update,
+    } = useSettingsStore();
 
     const onClick = (action: string, value: string | boolean | number) => {
         switch (action) {
             case 'selectedSubject':
-                setActiveTestId(value as string);
+                update('activeTestId', value as string);
                 questPanel.current?.scrollTo({ top: 0, behavior: 'smooth' });
-                return setSidebarOn(false);
+                return update('sidebarOn', false);
             case 'testModeOn':
-                return setTestModeOn(value as boolean);
+                return update('testModeOn', value as boolean);
             case 'correctAnswers':
-                return setCorrectAnswers(value as boolean);
+                return update('correctAnswers', value as boolean);
             case 'blurAnswers':
-                return setBlurAnswers(value as boolean);
+                return update('blurAnswers', value as boolean);
             case 'shuffleQuestions':
-                return setShuffleQuestions(value as boolean);
+                return update('shuffleQuestions', value as boolean);
             // return dispatchQuestions(shuffleTest(value as boolean));
 
             // case 'shuffleQuestions':
@@ -131,7 +128,7 @@ export default function Sidebar({
                 onPointerMove={(e) => e.stopPropagation()}
                 onPointerDownCapture={(e) => e.stopPropagation()}
                 onPointerDown={(e) => e.stopPropagation()}
-                onClick={() => setSidebarOn(false)}
+                onClick={() => update('sidebarOn', false)}
                 className={`${sidebarOn ? '' : 'off'} sidebar-overlay`}
             />
         </div>

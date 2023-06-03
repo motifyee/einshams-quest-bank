@@ -2,19 +2,24 @@ import { useContext, useEffect } from 'react';
 import { useInit, useTestsIds, useGetQG, useGetTest } from '../lib/context';
 import MultiChoiceQ from './MultiChoiceQ';
 import tests from '../lib/tests';
-
+import { useDataStore } from '../lib/store';
 function Test({ questPanel }: { questPanel: React.RefObject<HTMLDivElement> }) {
     // const store = useTest();
+    const setData = useDataStore((s) => s.init);
+    const getTestQs = useDataStore((s) => s.getTestQs);
 
     const init = useInit(),
         testsIds = useTestsIds(),
         getQG = useGetQG(),
         getTest = useGetTest();
 
+    const tst = getTest(testsIds[0]);
+    console.log('questions: ', getTestQs(tst?.id)?.length);
+
     useEffect(() => {
         init(tests);
+        setData(tests);
     }, []);
-    const tst = getTest(testsIds[0]);
 
     function questionGroup(id: string, i: number) {
         switch (getQG(id).type) {

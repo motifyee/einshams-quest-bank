@@ -1,28 +1,20 @@
-import { useContext } from 'react';
-import { useSetQ, useTicScore } from '../lib/context';
+import { useDataStore, useSettingsStore } from '../lib/store';
 
 const vibrate = (pattern = 35): boolean => {
     if ('vibrate' in navigator) navigator.vibrate(pattern);
     return true;
 };
 
-function Answers({
-    question,
-    settings,
-}: {
-    question: Question;
-    settings: Partial<Settings>;
-}) {
-    const setQ = useSetQ(),
-        ticScore = useTicScore();
-    // const question = store[qId] as Question;
+function Answers({ question }: { question: Question }) {
+    const updateById = useDataStore((s) => s.updateById),
+        testModeOn = useSettingsStore((s) => s.testModeOn),
+        correctAnswers = useSettingsStore((s) => s.correctAnswers);
 
     const select = (answerId: string) => {
-        if (!settings.testModeOn) return console.log('testMode is off');
-        if (settings.correctAnswers && question.selectedId())
+        if (!testModeOn) return console.log('testMode is off');
+        if (correctAnswers && question.selectedId())
             return vibrate(60) && console.log('already selected');
-        setQ(question.selectAnswer(answerId) as Question);
-        ticScore();
+        updateById(question.selectAnswer(answerId) as Question);
         vibrate();
     };
 
@@ -32,10 +24,9 @@ function Answers({
         defaultColor = 'bg-slate-800';
 
     function answerStyle(answer: Answer) {
-        if (!settings.testModeOn)
-            return answer.correct ? correctColor : defaultColor;
+        if (!testModeOn) return answer.correct ? correctColor : defaultColor;
 
-        if (!settings.correctAnswers)
+        if (!correctAnswers)
             return answer.selected ? selectColor : defaultColor;
 
         if (!question.selectedId()) return defaultColor;
@@ -52,14 +43,14 @@ function Answers({
     function isShowable(answer: Answer) {
         // console.log(
         //     'isShowable',
-        //     settings.testModeOn,
+        //     testModeOn,
         //     answer.selected,
         //     answer.correct,
         //     question.type
         // );
         if (question.type === 'MATCHING_Q')
-            if (settings.testModeOn && answer.selected) return true;
-            else if (!settings.testModeOn && answer.correct) return true;
+            if (testModeOn && answer.selected) return true;
+            else if (!testModeOn && answer.correct) return true;
             else return false;
 
         if (!!answer.id) return true;

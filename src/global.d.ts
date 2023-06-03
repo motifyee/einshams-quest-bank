@@ -184,11 +184,20 @@ type Subject = {
 };
 type Subjects = Subject[];
 
+type SettingsKeys =
+    | 'activeTestId'
+    | 'unblurredQuestion'
+    | 'sidebarOn'
+    | 'testModeOn'
+    | 'correctAnswers'
+    | 'shuffleQuestions'
+    | 'blurAnswers';
 type Settings = {
-    subject: string;
-    testId: string;
-    test?: Test;
+    // subject: string;
+    // testId: string;
+    // test?: Test;
 
+    activeTestId: string;
     unblurredQuestion: string;
 
     sidebarOn: boolean;
@@ -197,8 +206,9 @@ type Settings = {
     correctAnswers: boolean;
 
     shuffleQuestions: boolean;
-    shuffleAnswers: boolean;
+    // shuffleAnswers: boolean;
     blurAnswers: boolean;
+    update: (key: SettingsKeys, value: string | boolean | function) => void;
 };
 
 type FirebaseAction = {

@@ -1,101 +1,27 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import burger from '/assets/burger.svg';
-import { StoreCtx, useStore } from '../lib/context';
-import {
-    TableClient,
-    TableEntity,
-    TableServiceClient,
-    AzureNamedKeyCredential,
-    odata,
-} from '@azure/data-tables';
-async function azureTable() {
-    let sasURL =
-        'https://icsltn2qastore.table.core.windows.net/?sv=2022-11-02&ss=t&srt=sco&sp=rwdlacu&se=2123-05-17T10:14:54Z&st=2023-05-17T02:14:54Z&spr=https&sig=D1FbXTuBcFKeEJ5lUw14FlIFRb4kl2C84uU9c90aqEA%3D';
-
-    const signinOpt = {
-        tenantId: '4ec5bf5d-75cf-44f0-b6e4-0b796570b9b8',
-        clientId: '5264e3a4-c5eb-4ebc-94aa-5cf767a307f0',
-    };
-    // const tableClient = new TableClient(
-    //     'https://icsltn2qastore.table.core.windows.net',
-    //     'questions'
-    //     // new InteractiveBrowserCredential(signinOpt)
-    // );
-    // const endpoint = 'https://icsltn2qastore.table.core.windows.net/questions';
-    // const credential = new AzureNamedKeyCredential(
-    //     'icsltn2qastore',
-    //     'W0RdN3HV9a3HnR4FCkUsIl4eVjcDPPVsJ/0TPtRthyVYILTctstwFGwUIsIZpXjhGW5zUazGkLbH+ASt+KyhPA=='
-    // );
-    // const tableService = TableServiceClient.fromConnectionString(
-    //     '<connection-string>'
-    // );
-    // const tableClient = new TableClient(endpoint, '<table-name>', credential);
-
-    let sasToken =
-            '?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-06-18T00:28:14Z&st=2023-05-17T16:28:14Z&spr=https,http&sig=%2F0%2FcHEiRTcKSwpRtQnKsy0mTf3sL%2BXuDwEc90ZL%2BpEo%3D',
-        connStr =
-            'BlobEndpoint=https://icsltn2qastore.blob.core.windows.net/;QueueEndpoint=https://icsltn2qastore.queue.core.windows.net/;FileEndpoint=https://icsltn2qastore.file.core.windows.net/;TableEndpoint=https://icsltn2qastore.table.core.windows.net/;SharedAccessSignature=sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-06-18T00:28:14Z&st=2023-05-17T16:28:14Z&spr=https,http&sig=%2F0%2FcHEiRTcKSwpRtQnKsy0mTf3sL%2BXuDwEc90ZL%2BpEo%3D',
-        tableSrvUrl =
-            'https://icsltn2qastore.table.core.windows.net/?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-06-18T00:28:14Z&st=2023-05-17T16:28:14Z&spr=https,http&sig=%2F0%2FcHEiRTcKSwpRtQnKsy0mTf3sL%2BXuDwEc90ZL%2BpEo%3D';
-
-    // const connStr = 'https://icsltn2qastore.table.core.windows.net/';
-    const resourceId =
-        '/subscriptions/37534353-84f4-4580-b3dd-177a85715a6e/resourceGroups/storage-resources/providers/Microsoft.Storage/storageAccounts/icsltn2qastore/tableServices/default';
-    const tableService = TableServiceClient.fromConnectionString(connStr, {});
-
-    await tableService.createTable('test');
-    const tableClient = new TableClient(sasURL, 'test');
-
-    // const tableService = new TableServiceClient(endpoint, credential);
-    const task = {
-        partitionKey: 'hometasks',
-        rowKey: '1',
-        description: 'take out the trash',
-        dueDate: new Date(2015, 6, 20),
-    };
-
-    let result = await tableClient.createEntity(task);
-    console.log(result);
-
-    // Entity create
-
-    // tableClient
-    //     .getEntity<TableEntity>('abc', 'def')
-    //     .then((entity) => {
-    //         console.log(entity);
-    //     })
-    //     .catch((error) => {
-    //         console.log(error);
-    //     });
-}
+import { useSettingsStore } from '../lib/store';
 
 function Header() {
-    const store = useStore(),
-        {
-            setSidebarOn,
-            setBlurAnswers,
-            setTestModeOn,
-            setCorrectAnswers,
-            setShuffleQuestions,
-        } = store,
-        title = store.getTest(store.activeTestId)?.title;
+    const update = useSettingsStore((s) => s.update),
+        title = useSettingsStore((s) => s.activeTestId);
 
     useEffect(() => {
         console.log('installed kepress listener @Header');
         // root.addEventListener('contextmenu', (e) => e.preventDefault());
         document.addEventListener('keypress', (e) => {
             // console.log('pressed code:', e.code, 'pressed key:', e.key);
-            if (e.key === 'a') setSidebarOn((v) => !v);
-            else if (e.key === 's') setShuffleQuestions((v) => !v);
-            else if (e.key === 'c') setBlurAnswers((v) => !v);
-            else if (e.key === 'q') setTestModeOn((v) => !v);
-            else if (e.key === 'w') setCorrectAnswers((v) => !v);
+            if (e.key === 'a') update('sidebarOn', (v: any) => !v);
+            else if (e.key === 's') update('shuffleQuestions', (v: any) => !v);
+            else if (e.key === 'c') update('blurAnswers', (v: any) => !v);
+            else if (e.key === 'q') update('testModeOn', (v: any) => !v);
+            else if (e.key === 'w') update('correctAnswers', (v: any) => !v);
             else if (e.code === 'Space') {
-                setSidebarOn(false);
-                setShuffleQuestions(false);
-                setBlurAnswers(false);
-                setTestModeOn(false);
-                setCorrectAnswers(false);
+                update('sidebarOn', false);
+                update('shuffleQuestions', false);
+                update('blurAnswers', false);
+                update('testModeOn', false);
+                update('correctAnswers', false);
             }
             e.preventDefault();
         });
@@ -106,18 +32,12 @@ function Header() {
                 {/* <button> */}
                 <img
                     className="cursor-pointer"
-                    onClick={() => setSidebarOn(true)}
+                    onClick={() => update('sidebarOn', true)}
                     src={burger}
                     alt="Menu"
                 />
-                {/* </button> */}
             </div>
-            <div
-                onClick={() => {
-                    // azureTable();
-                }}
-                className="text-slate-200 border-double border-b-4 text-xl cursor-pointer"
-            >
+            <div className="text-slate-200 border-double border-b-4 text-xl cursor-pointer">
                 {title}
             </div>
             <div />

@@ -1,12 +1,12 @@
-import { memo, useContext, useEffect, useRef } from 'react';
-import { useGetQ, useSetUnblurredQuestion } from '../lib/context';
-import useCaptureUpdate from '../lib/CaptureComponentUpdateHook';
+import { useEffect, useRef } from 'react';
+import { useSetUnblurredQuestion } from '../lib/context';
 import Answers from './Answers';
+import { useDataStore, useSettingsStore } from '../lib/store';
 
 function Question({
     index,
-    question,
-    // qId,
+    // question,
+    qId,
     blurred,
     unblur,
     settings,
@@ -15,8 +15,8 @@ function Question({
     setRef,
 }: {
     index: number;
-    question: Question;
-    // qId: string;
+    // question: Question;
+    qId: string;
     blurred: boolean;
     unblur: (questionId: string) => void;
     settings: Partial<Settings>;
@@ -25,7 +25,9 @@ function Question({
     setRef?: (ref: React.RefObject<HTMLElement>, q: Question) => void;
 }) {
     const setUnblurredQuestion = useSetUnblurredQuestion();
-    // let question = getQ(qId);
+    const question = useDataStore((s) => s[qId]) as Question;
+    const correctAnswers = useSettingsStore((s) => s.correctAnswers);
+
     if (!question?.id) return null;
 
     // const [isCaptured] = useCaptureUpdate(
@@ -43,7 +45,7 @@ function Question({
     const answered = !!question.selectedId(),
         correct = question.isCorrect(),
         spanClr =
-            answered && settings.correctAnswers
+            answered && correctAnswers
                 ? correct
                     ? 'correct'
                     : 'incorrect'
@@ -85,10 +87,10 @@ function Question({
                 )}
 
                 {/* Answers */}
-                <Answers settings={settings} question={question} />
+                <Answers question={question} />
             </div>
         </div>
     );
 }
 
-export default memo(Question);
+export default Question;

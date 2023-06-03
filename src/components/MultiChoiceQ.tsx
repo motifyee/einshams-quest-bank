@@ -40,8 +40,9 @@ export default function MultiSelectQG({
                 {questions?.map((qId, i) => (
                     <div key={qId}>
                         <Question
-                            question={store.getQ(qId)}
+                            // question={store.getQ(qId)}
                             index={index + i + 1}
+                            qId={qId}
                             blurred={blurred(qId)}
                             unblur={unblur}
                             settings={settingsPart}
