@@ -1,34 +1,27 @@
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import './styles/App.css';
-import QuestionsProvider, { SettingsActCtx, SettingsCtx } from './lib/context';
-import Header from './components/Header';
-import Bottombar from './components/Bottombar';
-import Test from './components/Test';
-import Sidebar from './components/Sidebar';
-import { useContext, useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { saveAction } from './actions-reg';
-import ScrollTopButton from './components/ScrollTopButton';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Home } from './pages/Home';
+import { LoaderIO } from './pages/Loaderio';
 
 // (window||globalThis||this)['l'] = console.log;
 const root = document.getElementById('root') as HTMLElement;
 
 function App() {
-    const questPanelRef = useRef(null);
     useEffect(() => {
         if (!window.location.href.includes('http://localhost')) saveAction();
     }, []);
 
     return (
-        <QuestionsProvider>
-            <Header />
-            <Sidebar questPanel={questPanelRef} />
-
-            <Test questPanel={questPanelRef} />
-            <ScrollTopButton questPanel={questPanelRef} />
-
-            <Bottombar />
-        </QuestionsProvider>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/loader.io" element={<LoaderIO />} />
+            </Routes>
+        </BrowserRouter>
     );
 }
 
